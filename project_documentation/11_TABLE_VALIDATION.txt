@@ -1,0 +1,38 @@
+11 - TABLE VALIDATION
+
+Purpose
+Document which table destinations are accepted and where invalid/missing numbers are blocked.
+
+Configuration
+The active Flask delivery checks and 3D scene support Tables 1, 2, 3, and 4. The source of the backend validation range is app.py; the 3D positions/approach coordinates are in templates\robot_3d.html. config\robot_config.json contains a generic target label "table" but does not define the live four-table range.
+
+Valid examples
+- "Deliver the water bottle to table 3."
+- "Deliver 2 pizzas to Table 1 and a burger to Table 4."
+An execution may begin only after each destination is a valid table and each order has an item.
+
+Invalid example
+"Deliver water to Table 1 and burgers to Table 8."
+The multi-order endpoint identifies Table 8 as nonexistent, returns HTTP 400 with error_code INVALID_TABLE and available tables, marks order-plan statuses, and does not instantiate/call RobotController. A regression test asserts the controller is not called.
+
+Missing destination example
+"Deliver water and pizza."
+The delivery parser creates an order without a destination; /process returns error_code MISSING_DESTINATION and "Please specify a destination table number." before controller construction. A unit test verifies rejection before execution.
+
+Validation flow
+1. Multi-order path: app.execute_delivery_orders checks all integer tables for the inclusive 1-4 range. If any destination is invalid, the whole request is rejected; none of the valid sibling table deliveries is run.
+2. It then rejects absent destinations and empty item groups.
+3. Legacy/single-intent path: app.process_instruction requires a full `table <digits>` destination for DELIVERY, NAVIGATE, or GUIDE and checks the same 1-4 range before task decomposition/controller execution.
+4. Simulator also checks that a requested table exists in TABLE_POSITIONS.
+
+Statuses and responses
+Invalid response fields include success=false, error, error_code, robot_response, parser, order_plan/orders, and overall_status. Invalid orders are labeled INVALID_TABLE; undestined orders are marked MISSING_DESTINATION; delivery_status remains NOT_STARTED.
+
+Dependencies and evidence
+Validation is connected directly to POST /process execution. tests\test_parser.py, test_robot_responses.py, and test_multi_orders.py verify nonexistent table rejection and that the robot controller is not called.
+
+Limitations
+The table range is hard-coded rather than loaded from restaurant configuration or a live layout. Table references require the word "table" and digits in common forms. There is no availability, occupancy, reservation, capacity, or accessible-route check. Do not silently substitute a valid table for an invalid request.
+
+Testing
+Use the automated suite and manually POST an invalid Table 8 command. Expected: rejection and no delivered status. See 21_API_REFERENCE.txt for a curl example.

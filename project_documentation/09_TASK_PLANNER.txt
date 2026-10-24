@@ -1,0 +1,48 @@
+09 - TASK PLANNER
+
+Purpose
+Document the conversion from parsed intent into high-level task steps and low-level controller commands.
+
+Files
+- src\task_decomposer.py: decompose_task(parsed_instruction).
+- src\action_generator.py: generate_action_sequence(decomposed_steps).
+- app.py: invokes both modules and, in the multi-order path, repeats decomposition/action generation per item unit.
+- src\robot_controller.py: receives the resulting command sequence.
+
+High-level decomposition
+The task decomposer selects a sequence by intent. Delivery creates steps for object detection, moving to object, picking, route planning, navigating to the table, placing, confirming delivery, and returning to counter. Other branches cover greeting, menu, guiding a customer, navigation, order taking, returning, and legacy pick-and-place.
+
+Action mapping
+The action generator maps task labels to controller command strings, for example:
+DETECT_OBJECT -> DETECT
+MOVE_TO_OBJECT -> MOVE
+PICK -> GRAB
+PLAN_ROUTE -> PLAN_ROUTE
+NAVIGATE_TO_TABLE -> NAVIGATE
+PLACE -> RELEASE
+CONFIRM_DELIVERY -> CONFIRM_DELIVERY
+RETURN_TO_COUNTER -> RETURN
+Only tasks present in its mapping create commands; invalid/non-dict steps are skipped.
+
+Multi-order behavior
+app.execute_delivery_orders() validates all destinations first. It then loops each order, each item, and quantity units. For every unit it constructs a one-unit delivery intent with that order's destination, calls the decomposer and action generator, and calls the controller with `target=f"table {order['table']}"`. The code does not pass all tables as one shared target, so unit execution calls remain table-specific.
+
+Example
+Input: "Deliver 2 water bottles to Table 1 and 3 burgers to Table 2."
+Planning summary:
+- two destination groups;
+- two calls for water bottle -> table 1;
+- three calls for burger -> table 2;
+- each unit gets its own generated action sequence and execution record.
+
+Failure behavior
+Unit success requires overall_status SUCCESS, at least one result, and every result status SUCCESS. Delivered counts are incremented only for those units. Failures yield item/order FAILED or PARTIALLY_DELIVERED and an overall FAILED/PARTIAL_FAILURE result. This validates software execution results, not sensor-confirmed physical delivery.
+
+Status and limitations
+The task/action planning code is implemented and covered by unit tests for per-unit table arguments, failed deliveries, and partial quantity. It is primarily a fixed delivery recipe; it does not optimize routes across multiple tables or coordinate parallel robot jobs. Multi-order server execution invokes a complete per-unit software sequence for every unit, while browser 3D replay groups items by table order and visualizes each destination once.
+
+Other modules
+src\failure_detector.py checks status values and summarizes failed actions. failure_recovery.py is a separate synthetic failure-injection/evaluation tool and is not the same as the live Flask controller path.
+
+Testing
+Run `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`. See 19_TESTING_AND_TEST_CASES.txt for coverage and gaps.

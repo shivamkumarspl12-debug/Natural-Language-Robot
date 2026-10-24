@@ -1,0 +1,31 @@
+16 - ROBOT CONTROLLER AND HARDWARE
+
+Purpose
+Clarify what the Python controller actually does and what physical integrations are absent.
+
+Files
+- src\robot_controller.py: RobotController software state and command dispatch.
+- config\robot_config.json: declarative project/robot labels and atomic actions.
+- app.py and integrated_pipeline.py: create and call the Python controller.
+- templates\robot_3d.html: separate browser animation; not a controller transport.
+
+Software controller behavior
+RobotController initializes fields such as READY, COUNTER, battery=100, current order, and table. Methods return dictionaries with SUCCESS/FAILED messages for customer greeting, menu, navigation, detect, move, grab, release, delivery confirmation, return, and stop. execute_command() dispatches commands; execute_sequence() runs them in order, retries each up to max_retries (3), stops after a failed command, and returns execution status/results.
+
+Demonstration failure
+The controller has demo_failure=True initially; the first MOVE call can fail once, after which execute_with_retry() can retry and succeed. This is simulated behavior, not a sensor-observed obstacle.
+
+Configuration versus integration
+config\robot_config.json says robot type "robotic_arm", controller "Arduino/ROS2", and simulation_mode=true. The inspected Python controller does not import ROS, Arduino serial libraries, GPIO drivers, or networking protocols. The config fields are not evidence of a connected Arduino or ROS 2 robot.
+
+Physical hardware status
+NOT IMPLEMENTED: Arduino/ESP32 firmware or ROS node; motor/servo/gripper commands; hardware communications; LiDAR/proximity/camera sensor data path; localization/SLAM; physical object grasp verification; emergency-stop circuit; watchdog; safety-rated controller; charging/battery telemetry.
+
+Safety implications
+The software accepts a controller SUCCESS dictionary as successful unit execution. It does not independently confirm a physical grasp, placement, safe path, or customer handoff. It must not be connected to hardware without hardware-specific interlocks, validated motion planning, operator supervision, emergency stop, and sensor-confirmed state.
+
+Dependencies and status
+Software state machine and retry demonstration are implemented. Tests use mocked controllers and do not validate physical motion. Browser 3D replay is a separate visualization.
+
+Commands and testing
+`.\.venv\Scripts\python.exe test_controller.py` runs the root-level controller demonstration (review its effect before using; it is not an automated unittest). For the web path, run the unit suite. No physical hardware test can be performed with the inspected integrations.

@@ -1,0 +1,85 @@
+{% extends "admin_dashboard/admin_base.html" %}
+
+{% block content %}
+<div class="analytics-update-row">
+    <p id="analyticsStatus" role="status" aria-live="polite">Loading analytics…</p>
+    <p>Last updated: <time id="analyticsUpdatedAt">No data yet</time></p>
+</div>
+<p class="analytics-error" id="analyticsError" role="alert" hidden></p>
+
+<div class="analytics-metric-grid">
+    <article class="panel analytics-metric">
+        <span>Total orders</span>
+        <strong data-analytics-metric="total_orders">Loading…</strong>
+        <small>All order records in Firestore</small>
+    </article>
+    <article class="panel analytics-metric">
+        <span>Orders today</span>
+        <strong data-analytics-metric="orders_today">Loading…</strong>
+        <small data-analytics-timezone></small>
+    </article>
+    <article class="panel analytics-metric">
+        <span>Orders this week</span>
+        <strong data-analytics-metric="orders_this_week">Loading…</strong>
+        <small>Current calendar week</small>
+    </article>
+    <article class="panel analytics-metric">
+        <span>Weekly order value</span>
+        <strong data-analytics-metric="order_value_this_week">Loading…</strong>
+        <small data-currency-note>Excludes cancelled and failed orders; payment status is not recorded.</small>
+    </article>
+</div>
+
+<div class="analytics-grid">
+    <section class="panel chart-panel">
+        <div class="panel-heading">
+            <div><h2>Daily orders</h2><p>Current week · local calendar dates</p></div>
+            <span class="chart-badge">THIS WEEK</span>
+        </div>
+        <div class="bar-chart" id="ordersChart" role="img" aria-label="Daily orders for the current week">
+            <p class="analytics-empty">Loading analytics…</p>
+        </div>
+    </section>
+    <section class="panel chart-panel">
+        <div class="panel-heading">
+            <div><h2>Daily order value</h2><p>Order totals, excluding cancelled and failed orders</p></div>
+            <span class="chart-badge" data-currency-badge>Currency not configured</span>
+        </div>
+        <div class="line-chart" id="revenueChart" role="img" aria-label="Daily order value for the current week">
+            <p class="analytics-empty">Loading analytics…</p>
+        </div>
+    </section>
+</div>
+
+<div class="analytics-grid analytics-grid--bottom">
+    <section class="panel section-panel popular-panel">
+        <div class="panel-heading">
+            <div><h2>Popular dishes</h2><p>Quantities ordered this week</p></div>
+            <span class="chart-badge">THIS WEEK</span>
+        </div>
+        <ol class="popular-list" id="popularDishes">
+            <li class="analytics-empty">Loading analytics…</li>
+        </ol>
+    </section>
+    <section class="panel section-panel completion-panel">
+        <div class="panel-heading">
+            <div><h2>Robot delivery completion</h2><p>This week · completed or failed Firestore simulation records</p></div>
+        </div>
+        <div class="completion-score" id="robotCompletion">
+            <div class="completion-ring" id="completionRing">
+                <span><strong data-completion-percent>No data yet</strong><small>COMPLETE</small></span>
+            </div>
+            <div class="completion-legend">
+                <p><i class="legend-orders"></i><span>Delivered</span><strong data-completion-delivered>—</strong></p>
+                <p><i class="legend-revenue"></i><span>Failed</span><strong data-completion-failed>—</strong></p>
+                <small data-completion-total>No data yet</small>
+            </div>
+        </div>
+        <p class="analytics-empty" id="deliveryTime">Average delivery time: No data yet</p>
+    </section>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ url_for('static', filename='js/admin_analytics.js') }}" defer></script>
+{% endblock %}

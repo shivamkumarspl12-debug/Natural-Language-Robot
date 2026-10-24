@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#174c3b">
+    <title>View My Orders | Verdant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+    <script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
+</head>
+<body data-customer-page="orders" data-table-number="{{ table_number or '' }}">
+    <div class="demo-ribbon"><span></span> SMART QR ORDERING *LIVE ORDER TRACKING</div>
+    {% set customer_page = 'orders' %}{% include "customer/_customer_header.html" %}
+    <main class="page-width customer-page">
+        <div class="page-intro"><div><p class="eyebrow">YOUR ORDER HISTORY</p><h1>My Orders<span class="heading-period">.</span></h1><p>Orders saved in this browser with their private access tokens.</p></div></div>
+        <p class="inline-message" id="myOrdersMessage" role="status" aria-live="polite" hidden></p>
+        <section class="order-list" id="myOrdersList" aria-live="polite"></section>
+        <section class="empty-panel cart-empty" id="myOrdersEmpty" hidden>
+            <span class="empty-icon" aria-hidden="true">⌁</span><h2>No saved orders yet</h2>
+            <p>Orders placed on this browser will appear here. Your order access token stays private to this browser.</p>
+            <a class="button button-dark" href="{{ url_for('customer_menu', table=table_number) }}">Browse the menu <span aria-hidden="true">→</span></a>
+        </section>
+    </main>
+    <footer class="customer-footer page-width"><span>verdant<span class="footer-leaf">.</span></span><span>Order status is refreshed from Firestore</span><a href="{{ url_for('customer_menu', table=table_number) }}">Back to menu <span aria-hidden="true">→</span></a></footer>
+    <div class="customer-toast" id="customerToast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

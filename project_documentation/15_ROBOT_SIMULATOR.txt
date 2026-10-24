@@ -1,0 +1,31 @@
+15 - ROBOT SIMULATOR
+
+Purpose
+Describe the animated restaurant scene and the meaning of its route/delivery events.
+
+Files and technology
+- templates\robot_3d.html: Three.js scene, robot/table geometry, path, route animation, food marker, telemetry, controls, and event log.
+- templates\index.html: successful order plan saved in sessionStorage; iframe refreshed to /simulation.
+- Flask app.py serves the page at GET /simulation.
+- Three.js r128 and OrbitControls r128 are external CDN scripts.
+
+Scene
+TABLE_POSITIONS and TABLE_APPROACHES define Tables 1-4. createDeliveryRoute() builds waypoints for a destination. The scene includes a restaurant/kitchen/counter, tables/chairs, a stylized robot/tray, a food marker, route line, camera controls, and log panel.
+
+Movement sequence
+For each queued destination, the simulated robot starts at the counter, follows route waypoints to the table approach, shows the delivery animation/log, returns along the route, then calls finishMission(). For a further confirmed order, it creates a new route to that table after the counter return. The final order ends with a return and MISSION COMPLETE.
+
+Order data
+loadPipelineData() reads sessionStorage["pipelineResult"]. It queues only orders whose delivery_status is DELIVERED and whose items are all DELIVERED. It does not queue backend partial/failed orders. The dashboard only stores overall SUCCESS responses for simulation replay.
+
+Verified demonstration
+In the previous browser verification, backend accepted separate orders for Tables 3 and 4. The scene log showed Table 3 reached and served, returned to counter, planned a separate route to Table 4, reached/served Table 4, then returned to the counter and finished. This verifies the browser animation for that case, not physical movement.
+
+Supported actions and status
+The scene animates navigation/delivery/return. It does not read real motors, sensors, grippers, table occupancy, or delivery confirmation sensors. The backend response feeds the visual queue; the scene does not send completion acknowledgements back to Flask.
+
+Dependencies and limitations
+Requires JavaScript/WebGL and reachable CDN scripts. If CDN loads fail or WebGL is unavailable, the 3D scene may not initialize. The visual food marker is not a physical object. The scene can visually replay success that the software controller reported; no independent physical proof is provided.
+
+Testing
+After a fully successful two-table command on the dashboard, inspect the embedded or direct /simulation view. Verify route order and counter-return log entries. Failed/partial backend orders should not be replayed as successful. See 19_TESTING_AND_TEST_CASES.txt.

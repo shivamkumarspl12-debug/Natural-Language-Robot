@@ -1,0 +1,23 @@
+{% extends "admin_dashboard/admin_base.html" %}
+
+{% block heading_actions %}<button class="button-secondary" type="button" data-toast="Customer data is loaded from Firestore and refreshes automatically.">Export list <span>↗</span></button>{% endblock %}
+
+{% block content %}
+<div class="stat-strip customer-stat-strip">
+    <div><span>Total customers</span><strong id="customerTotal">—</strong><small>Distinct identified and unmatched records</small></div>
+    <div><span>Returning guests</span><strong class="text-green" id="customerReturning">—</strong><small>Customers with more than one order</small></div>
+    <div><span>Average order spend</span><strong id="customerAverageSpend">—</strong><small>Across Firestore customer orders</small></div>
+    <div><span>New this week</span><strong class="text-blue" id="customerNewThisWeek">—</strong><small>First order in the last 7 days</small></div>
+</div>
+<section class="panel section-panel">
+    <div class="toolbar">
+        <label class="search-box"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.8" cy="8.8" r="5.8"/><path d="m13 13 4 4"/></svg><input id="customerSearch" type="search" placeholder="Search by customer name or phone..." aria-label="Search customers"></label>
+        <span class="demo-count" id="customerDataStatus" role="status" aria-live="polite">Loading Firestore customer data…</span>
+    </div>
+    <div class="table-responsive"><table class="data-table management-table" id="customersTable"><thead><tr><th>CUSTOMER</th><th>PHONE</th><th>TOTAL ORDERS</th><th>TOTAL SPENDING</th><th>LAST ORDER</th><th>ORDER HISTORY</th></tr></thead><tbody id="customerRows">
+        <tr class="empty-table-row" id="customersEmpty" hidden><td colspan="6"><div class="empty-state"><strong>No customers found</strong><span>Try searching for another name or phone number.</span></div></td></tr>
+        <tr class="empty-table-row" id="customersLoading"><td colspan="6"><div class="empty-state"><strong>Loading customers</strong><span>Reading customer orders from Firestore.</span></div></td></tr>
+    </tbody></table></div>
+</section>
+<p class="demo-banner"><strong>Firestore customer records</strong> Phone numbers are masked. Orders without a stable identity are shown separately and are not merged by name or last four digits.</p>
+{% endblock %}

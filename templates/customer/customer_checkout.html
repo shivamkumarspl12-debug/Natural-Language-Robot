@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#174c3b">
+    <title>Checkout | Verdant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+    <script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
+</head>
+<body data-customer-page="checkout" data-table-number="{{ table_number or '' }}">
+    <div class="demo-ribbon"><span></span> SMART QR ORDERING *LIVE ORDER TRACKING</div>
+    {% set customer_page = 'checkout' %}{% include "customer/_customer_header.html" %}
+    <div class="customer-table-context page-width" id="customerTableContext" hidden>Ordering at <strong id="customerTableLabel"></strong><span>Table from QR URL · Demo only</span></div>
+    <main class="page-width customer-page">
+        <div class="page-intro"><div><p class="eyebrow">ALMOST THERE</p><h1>Checkout<span class="heading-period">.</span></h1><p>Your details label this demo order.</p></div><a class="text-link" href="{{ url_for('customer_cart', table=table_number) }}"><span aria-hidden="true">←</span> Back to cart</a></div>
+        <div class="checkout-layout" id="checkoutContent" hidden>
+            <section class="checkout-form-panel">
+                <div class="form-section-title"><span class="step-number">01</span><div><h2>Your details</h2><p>Just enough to label this demo order.</p></div></div>
+                <div class="table-assignment"><span class="table-icon" aria-hidden="true">⌂</span><span><strong id="checkoutTableLabel">Table not assigned yet</strong><small>Table number is validated by Flask from this QR link.</small></span><em>DEMO</em></div>
+                <form id="checkoutForm" novalidate>
+                    <label class="form-label" for="customerName">Full name</label>
+                    <input class="customer-input" id="customerName" name="customerName" type="text" autocomplete="name" maxlength="80" placeholder="e.g. Alex Morgan" aria-describedby="nameError" required>
+                    <p class="field-error" id="nameError" role="alert" hidden></p>
+                    <label class="form-label" for="customerPhone">Mobile number</label>
+                    <input class="customer-input" id="customerPhone" name="customerPhone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" placeholder="e.g. (503) 555-0148" aria-describedby="phoneHint phoneError" required>
+                    <p class="field-hint" id="phoneHint">Enter 10–15 digits. No message or call will be sent.</p>
+                    <p class="field-error" id="phoneError" role="alert" hidden></p>
+                    <div class="demo-warning"><strong>Firestore-backed demo only</strong><span>The order is saved in Firestore and remains available after Flask restarts. It is not sent to restaurant staff or a robot.</span></div>
+                    <p class="field-error form-error" id="checkoutAvailabilityError" role="alert" hidden>Remove unavailable items before placing this order.</p>
+                    <p class="field-error form-error" id="checkoutError" role="alert" hidden></p>
+                    <button class="button button-dark button-wide" type="submit">Place demo order <span aria-hidden="true">→</span></button>
+                </form>
+            </section>
+            <aside class="summary-panel checkout-summary">
+                <p class="eyebrow">YOUR ORDER</p><h2>In the basket</h2>
+                <div class="checkout-items" id="checkoutItems"></div>
+                <div class="summary-divider"></div>
+                <div class="summary-line"><span>Subtotal</span><strong id="checkoutSubtotal">$0.00</strong></div>
+                <div class="summary-line"><span>Service</span><strong>Demo</strong></div>
+                <div class="summary-total"><span>Total</span><strong id="checkoutTotal">$0.00</strong></div>
+                <p class="summary-note">No payment is collected. Prices and table number are revalidated by Flask.</p>
+            </aside>
+        </div>
+        <section class="empty-panel cart-empty" id="checkoutEmpty" hidden>
+            <span class="empty-icon" aria-hidden="true">＋</span><h2>Your cart is empty</h2><p>Add a dish before checkout.</p><a class="button button-dark" href="{{ url_for('customer_menu', table=table_number) }}">Browse the menu <span aria-hidden="true">→</span></a>
+        </section>
+    </main>
+    <footer class="customer-footer page-width"><span>verdant<span class="footer-leaf">.</span></span><span>Orders are saved in Firestore · Not sent to restaurant staff</span><a href="{{ url_for('customer_menu', table=table_number) }}">Back to menu <span aria-hidden="true">→</span></a></footer>
+    <div class="customer-toast" id="customerToast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

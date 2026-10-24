@@ -1,0 +1,58 @@
+{
+    "project": {
+        "name": "Natural-Language-to-Robot-Action Instruction Pipeline",
+        "version": "1.0",
+        "description": "Natural language instruction to robot action execution pipeline"
+    },
+
+    "robot": {
+        "type": "robotic_arm",
+        "controller": "Arduino/ROS2",
+        "simulation_mode": true
+    },
+
+    "atomic_actions": [
+        "DETECT",
+        "MOVE",
+        "GRAB",
+        "RELEASE",
+        "ROTATE",
+        "STOP"
+    ],
+
+    "supported_objects": [
+        "block",
+        "cube",
+        "ball",
+        "bottle"
+    ],
+
+    "supported_colors": [
+        "red",
+        "green",
+        "blue",
+        "yellow"
+    ],
+
+    "supported_targets": [
+        "box",
+        "container",
+        "basket",
+        "bin",
+        "table"
+    ],
+
+    "failure_conditions": [
+        "OBJECT_NOT_DETECTED",
+        "MOVE_FAILED",
+        "GRAB_FAILED",
+        "RELEASE_FAILED",
+        "TIMEOUT",
+        "UNEXPECTED_OBSTACLE"
+    ],
+
+    "retry": {
+        "enabled": true,
+        "max_attempts": 3
+    }
+}

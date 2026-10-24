@@ -1,0 +1,29 @@
+{% extends "admin_dashboard/admin_base.html" %}
+
+{% block heading_actions %}<button class="button-primary" type="button" id="addMenuItem"><span>＋</span> Add new item</button>{% endblock %}
+
+{% block content %}
+<section class="panel section-panel">
+    <div class="toolbar">
+        <label class="search-box"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.8" cy="8.8" r="5.8"/><path d="m13 13 4 4"/></svg><input id="menuSearch" type="search" placeholder="Search menu items..." aria-label="Search menu items"></label>
+        <div class="toolbar-filters"><label class="select-label"><span class="visually-hidden">Filter menu by category</span><select id="menuCategoryFilter"><option value="all">All categories</option></select></label><span class="demo-count" id="menuCount">Loading menu...</span></div>
+    </div>
+    <p class="menu-load-message" id="menuLoadMessage" role="status" aria-live="polite" hidden></p>
+    <div class="menu-grid" id="menuGrid"></div>
+    <div class="empty-state standalone-empty" id="menuEmpty" hidden><strong>No menu items found</strong><span>Try another search or add an item.</span></div>
+</section>
+<dialog class="detail-dialog menu-dialog" id="menuDialog" aria-labelledby="menuDialogTitle">
+    <form id="menuForm">
+        <div class="dialog-heading"><div><span class="page-eyebrow">FIRESTORE MENU</span><h2 id="menuDialogTitle">Add menu item</h2></div><button class="icon-button" type="button" data-menu-close aria-label="Close dialog">&times;</button></div>
+        <label class="form-field">Item name<input id="menuItemName" name="name" required maxlength="80"></label>
+        <label class="form-field">Description<input id="menuItemDescription" name="description" maxlength="500"></label>
+        <div class="form-two-columns"><label class="form-field">Category<input id="menuItemCategory" name="category" list="menuCategoryOptions" required maxlength="40"><datalist id="menuCategoryOptions"><option value="Pizza"><option value="Burgers"><option value="Pasta"><option value="Starters"><option value="Desserts"><option value="Drinks"></datalist></label><label class="form-field">Price ($)<input id="menuItemPrice" name="price" type="number" min="0.01" max="9999" step="0.01" required></label></div>
+        <label class="form-field">Food image (JPG, JPEG, PNG, WEBP · max 5 MB)<input id="menuItemImage" name="image" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"></label>
+        <img class="menu-image-preview" id="menuItemImagePreview" alt="Selected food image preview" hidden>
+        <p class="menu-image-help" id="menuImageHelp">Images are saved in Flask's static/uploads folder with a filename based on the food name.</p>
+        <label class="remember-option form-availability"><input id="menuItemAvailable" type="checkbox" checked><span class="custom-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="m3 7 2.5 2.5L11 4"/></svg></span><span>Available to order</span></label>
+        <div class="dialog-actions"><button class="button-secondary" type="button" data-menu-close>Cancel</button><button class="button-primary" type="submit">Save item</button></div>
+    </form>
+</dialog>
+<p class="demo-banner"><strong>Firestore menu</strong> Changes are saved to Firestore and appear on customer QR menus within a few seconds.</p>
+{% endblock %}

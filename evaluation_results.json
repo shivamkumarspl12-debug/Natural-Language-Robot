@@ -1,0 +1,173 @@
+{
+    "total_test_cases": 20,
+    "successful_executions": 20,
+    "failed_executions": 0,
+    "overall_success_rate_percent": 100.0,
+    "failure_cases": 2,
+    "recovery_success_cases": 2,
+    "recovery_success_rate_percent": 100.0,
+    "average_retry_count": 0.1,
+    "average_execution_time_seconds": 2.1,
+    "test_results": [
+        {
+            "test_id": 65,
+            "instruction": "Take the green ball to the bin",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.0,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 30,
+            "instruction": "Grab the yellow cube and put it in the container",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.0,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 28,
+            "instruction": "Lift the yellow cube and place it in the basket",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.0,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 89,
+            "instruction": "Grab the yellow ball and put it in the basket",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.0,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 98,
+            "instruction": "Pick up the yellow cube and place it in the container",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.01,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 5,
+            "instruction": "Move the green cube into the bin",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.02,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 55,
+            "instruction": "Grab the yellow ball and put it in the bin",
+            "failure_mode": "MOVE_FAILED",
+            "retry_count": 1,
+            "execution_time_seconds": 2.91,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 76,
+            "instruction": "Take the blue cube to the box",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.0,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 12,
+            "instruction": "Take the blue block to the basket",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.01,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 70,
+            "instruction": "Lift the red block and place it in the basket",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.01,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 87,
+            "instruction": "Pick up the yellow ball and place it in the container",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.01,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 14,
+            "instruction": "Move the blue block into the basket",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.01,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 18,
+            "instruction": "Move the blue block into the box",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.0,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 29,
+            "instruction": "Lift the blue cube and place it in the container",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.0,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 32,
+            "instruction": "Pick up the red bottle and place it in the basket",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.01,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 36,
+            "instruction": "Move the blue cube into the bin",
+            "failure_mode": "MOVE_FAILED",
+            "retry_count": 1,
+            "execution_time_seconds": 2.91,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 95,
+            "instruction": "Take the green bottle to the bin",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.01,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 4,
+            "instruction": "Pick up the blue block and place it in the bin",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.0,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 15,
+            "instruction": "Transfer the blue block to the bin",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.01,
+            "status": "SUCCESS"
+        },
+        {
+            "test_id": 82,
+            "instruction": "Grab the blue block and put it in the basket",
+            "failure_mode": "NONE",
+            "retry_count": 0,
+            "execution_time_seconds": 2.0,
+            "status": "SUCCESS"
+        }
+    ]
+}

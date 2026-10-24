@@ -1,0 +1,8 @@
+rontend mein koi AI model directly use nahi hua. Frontend par ye libraries/APIs use kiye gaye hain:
+
+Technology	Kaam	Kahan use hui
+Three.js r128	Robot aur restaurant ka 3D simulation dikhana	templates/robot_3d.html
+Web Speech API	Browser mein voice command sunna	templates/voice_camera.html
+Camera API (getUserMedia)	Camera permission lekar live preview dikhana	templates/voice_camera.html
+HTML, CSS, JavaScript	Page ka structure, design aur interaction	static/js/script.js aur templates
+AI model: Gemini gemini-3.6-flash backend mein use hota hai, frontend mein nahi. Three.js ek 3D graphics library hai—AI model nahi.

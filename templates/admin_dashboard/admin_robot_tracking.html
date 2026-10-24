@@ -1,0 +1,141 @@
+{% extends "admin_dashboard/admin_base.html" %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/robot_tracking.css') }}">
+{% endblock %}
+
+{% block heading_actions %}
+<span class="tracking-mode"><i></i> SOFTWARE DEMO · NOT UNITY</span>
+{% endblock %}
+
+{% block content %}
+<section class="tracking-notice" role="status">
+    <strong>Demo telemetry</strong>
+    <span>This map uses the Python software controller's symbolic state. It is not live Unity, sensor, or physical robot telemetry. Map positions are schematic.</span>
+</section>
+
+<div class="tracking-layout" id="trackingDashboard" data-api-url="{{ url_for('robot_tracking_api') }}">
+    <section class="panel tracking-map-panel" aria-labelledby="floorMapTitle">
+        <div class="tracking-panel-heading">
+            <div><p class="page-eyebrow">VERDANT KITCHEN · FLOOR 01</p><h2 id="floorMapTitle">Restaurant floor map</h2></div>
+            <span class="map-refresh"><i></i> Polling every 10s</span>
+        </div>
+        <div class="floor-map-wrap">
+            <svg class="floor-map" id="floorMap" viewBox="0 0 920 560" role="img" aria-labelledby="mapTitle mapDescription">
+                <title id="mapTitle">Schematic restaurant floor map</title>
+                <desc id="mapDescription">Kitchen, entrance, six tables, and a demo robot route to its target table.</desc>
+                <defs>
+                    <pattern id="floorGrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#e9eee6" stroke-width="1"/></pattern>
+                    <marker id="routeArrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0 0L0 6L8 3Z" fill="#78964d"/></marker>
+                </defs>
+                <rect class="map-floor" x="1" y="1" width="918" height="558" rx="15"/>
+                <rect x="1" y="1" width="918" height="558" rx="15" fill="url(#floorGrid)"/>
+                <path class="map-main-aisle" d="M250 285H855M320 285V95M320 285V455M855 95V455"/>
+                <path class="map-aisle-label" d="M274 307H840"/>
+                <text class="map-small-label" x="510" y="329">MAIN SERVICE AISLE</text>
+
+                <g class="map-kitchen">
+                    <rect x="42" y="170" width="180" height="208" rx="12"/>
+                    <path d="M64 211H199M64 230H199"/>
+                    <text x="132" y="276" text-anchor="middle">KITCHEN</text>
+                    <text class="map-sub-label" x="132" y="302" text-anchor="middle">PREP &amp; SERVICE</text>
+                    <rect class="map-counter" x="202" y="270" width="36" height="35" rx="6"/>
+                    <text class="map-sub-label" x="220" y="322" text-anchor="middle">COUNTER</text>
+                </g>
+
+                <g class="map-entrance">
+                    <path d="M65 477H198V526H65Z"/>
+                    <path d="M119 477V526M147 477V526"/>
+                    <text x="132" y="510" text-anchor="middle">ENTRANCE</text>
+                </g>
+
+                <g class="map-tables" data-map-table="1" transform="translate(390 125)">
+                    <rect class="table-surface" x="-55" y="-35" width="110" height="70" rx="11"/>
+                    <text class="table-label" text-anchor="middle" y="-2">TABLE 1</text><text class="table-status" text-anchor="middle" y="17">AVAILABLE</text>
+                    <circle class="table-status-dot" cx="42" cy="-22" r="5"/>
+                </g>
+                <g class="map-tables" data-map-table="2" transform="translate(590 125)">
+                    <rect class="table-surface" x="-55" y="-35" width="110" height="70" rx="11"/>
+                    <text class="table-label" text-anchor="middle" y="-2">TABLE 2</text><text class="table-status" text-anchor="middle" y="17">OCCUPIED</text>
+                    <circle class="table-status-dot" cx="42" cy="-22" r="5"/>
+                </g>
+                <g class="map-tables" data-map-table="3" transform="translate(790 125)">
+                    <rect class="table-surface" x="-55" y="-35" width="110" height="70" rx="11"/>
+                    <text class="table-label" text-anchor="middle" y="-2">TABLE 3</text><text class="table-status" text-anchor="middle" y="17">TARGET</text>
+                    <circle class="table-status-dot" cx="42" cy="-22" r="5"/>
+                </g>
+                <g class="map-tables" data-map-table="4" transform="translate(390 420)">
+                    <rect class="table-surface" x="-55" y="-35" width="110" height="70" rx="11"/>
+                    <text class="table-label" text-anchor="middle" y="-2">TABLE 4</text><text class="table-status" text-anchor="middle" y="17">AVAILABLE</text>
+                    <circle class="table-status-dot" cx="42" cy="-22" r="5"/>
+                </g>
+                <g class="map-tables" data-map-table="5" transform="translate(590 420)">
+                    <rect class="table-surface" x="-55" y="-35" width="110" height="70" rx="11"/>
+                    <text class="table-label" text-anchor="middle" y="-2">TABLE 5</text><text class="table-status" text-anchor="middle" y="17">RESERVED</text>
+                    <circle class="table-status-dot" cx="42" cy="-22" r="5"/>
+                </g>
+                <g class="map-tables" data-map-table="6" transform="translate(790 420)">
+                    <rect class="table-surface" x="-55" y="-35" width="110" height="70" rx="11"/>
+                    <text class="table-label" text-anchor="middle" y="-2">TABLE 6</text><text class="table-status" text-anchor="middle" y="17">AVAILABLE</text>
+                    <circle class="table-status-dot" cx="42" cy="-22" r="5"/>
+                </g>
+
+                <path id="robotRoute" class="robot-route" d="M238 285H310V125H735" marker-end="url(#routeArrow)"/>
+                <g id="robotMarker" class="robot-marker" transform="translate(238 285)" aria-label="Demo robot position">
+                    <circle class="robot-marker-halo" r="21"/>
+                    <circle class="robot-marker-body" r="13"/>
+                    <path class="robot-marker-icon" d="M-5 -3H5V5H-5ZM0 -8V-3M-2 1H-1M2 1H3"/>
+                </g>
+                <text id="robotMapLabel" class="robot-map-label" x="238" y="255" text-anchor="middle">DEMO ROBOT</text>
+                <text id="destinationMapLabel" class="destination-map-label" x="790" y="78" text-anchor="middle">TARGET · TABLE 3</text>
+            </svg>
+        </div>
+        <div class="map-legend" aria-label="Map legend">
+            <span><i class="legend-dot legend-available"></i> Available</span>
+            <span><i class="legend-dot legend-occupied"></i> Occupied</span>
+            <span><i class="legend-dot legend-reserved"></i> Reserved</span>
+            <span><i class="legend-dot legend-target"></i> Delivery target</span>
+        </div>
+        <p class="map-footnote">Table availability is sample data. The floor map maps controller labels to schematic positions; it does not use localization coordinates.</p>
+    </section>
+
+    <aside class="tracking-side-column">
+        <section class="panel telemetry-panel" aria-labelledby="telemetryTitle">
+            <div class="tracking-panel-heading"><div><p class="page-eyebrow">SOFTWARE TELEMETRY</p><h2 id="telemetryTitle">Robot status</h2></div><span class="demo-status-chip" id="trackingStatusChip">READY</span></div>
+            <dl class="telemetry-list">
+                <div><dt>Current position</dt><dd id="trackingPosition">Counter</dd></div>
+                <div><dt>Destination table</dt><dd id="trackingDestination">Not assigned</dd></div>
+                <div><dt>Delivery status</dt><dd id="trackingDeliveryStatus">Waiting for a ready demo order</dd></div>
+                <div><dt>Current order ID</dt><dd class="telemetry-mono" id="trackingOrderId">No active order</dd></div>
+                <div><dt>Customer</dt><dd id="trackingCustomer">—</dd></div>
+                <div><dt>Order items</dt><dd id="trackingItems">—</dd></div>
+                <div><dt>Order total</dt><dd id="trackingTotal">—</dd></div>
+            </dl>
+            <div class="battery-display">
+                <div><span>Battery · demo controller</span><strong id="trackingBattery">100%</strong></div>
+                <div class="battery-track"><i id="trackingBatteryFill" style="width: 100%"></i></div>
+            </div>
+            <p class="telemetry-source" id="trackingSource">Sample preview · waiting for a software-controller update</p>
+            <p class="telemetry-updated" id="trackingUpdated">No controller report received in this session.</p>
+        </section>
+
+        <section class="panel tracking-tables-panel" aria-labelledby="tableStatusTitle">
+            <div class="tracking-panel-heading"><div><p class="page-eyebrow">TABLE OVERVIEW</p><h2 id="tableStatusTitle">Table status</h2></div><span class="table-count">06</span></div>
+            <div class="tracking-table-list" id="trackingTableList">
+                <div class="tracking-table-row"><span>Table 1</span><strong class="table-state is-available">Available</strong></div>
+                <div class="tracking-table-row"><span>Table 2</span><strong class="table-state is-occupied">Occupied</strong></div>
+                <div class="tracking-table-row"><span>Table 3</span><strong class="table-state is-target">Delivery target</strong></div>
+                <div class="tracking-table-row"><span>Table 4</span><strong class="table-state is-available">Available</strong></div>
+                <div class="tracking-table-row"><span>Table 5</span><strong class="table-state is-reserved">Reserved</strong></div>
+                <div class="tracking-table-row"><span>Table 6</span><strong class="table-state is-available">Available</strong></div>
+            </div>
+            <p class="table-demo-note">Table occupancy is illustrative. The highlighted delivery target comes from the persisted simulation order.</p>
+        </section>
+    </aside>
+</div>
+<p class="tracking-error" id="trackingError" role="alert" hidden></p>
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ url_for('static', filename='js/robot_tracking.js') }}" defer></script>
+{% endblock %}

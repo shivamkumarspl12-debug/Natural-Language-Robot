@@ -1,0 +1,46 @@
+02 - TECHNOLOGY STACK
+
+Purpose
+Record technologies proven by manifests and imports, separating active application dependencies from packages merely declared in requirements.txt.
+
+Runtime
+- Active project environment: Python 3.12.10, from .venv\pyvenv.cfg.
+- A second venv\pyvenv.cfg reports Python 3.14.4 and an interpreter path outside this project checkout. Treat it as a separate/stale environment; .venv is the environment used for the recorded test run.
+- Flask is pinned to 3.1.3 in requirements.txt.
+
+Backend and Python packages
+Package in requirements.txt | Evidence/purpose
+Flask==3.1.3 | Used in app.py for routes, templates, JSON requests, and responses.
+google-genai | Used by src\instruction_parser.py and test_gemini.py to call Gemini when fallback parsing is selected.
+python-dotenv | Used to load GEMINI_API_KEY from the local environment/.env.
+numpy==2.5.2 | Used by CALVIN dataset extraction scripts to load .npy annotations.
+pandas==3.0.5 | Declared; no use was found in the inspected application modules.
+scikit-learn | Declared; no use was found in the inspected application modules.
+requests | Declared; no use was found in the inspected application modules.
+firebase-admin | Initializes the trusted Flask server's Firestore client for customer QR order persistence.
+
+Other Python modules used include standard-library json, csv, os, re, sys, time, random, statistics, collections, uuid, and datetime. requirements.txt is the dependency manifest; no lockfile was found in the project root. Do not infer exact installed package versions solely from the manifest.
+
+Frontend
+- HTML templates: templates\index.html, templates\voice_camera.html, templates\robot_3d.html.
+- CSS and JavaScript are primarily inline in the HTML templates. static\css\style.css and static\js\script.js exist as standalone assets but are not referenced by index.html in the inspected page.
+- Browser camera: MediaDevices.getUserMedia.
+- Speech recognition: Web Speech API SpeechRecognition or webkitSpeechRecognition.
+- Speech output: Web Speech API speechSynthesis / SpeechSynthesisUtterance.
+- 3D: Three.js r128 and OrbitControls r128 are fetched from external CDNs by robot_3d.html.
+
+AI, NLP, and vision
+- Local rule-based regular expressions handle delivery items/quantities/tables and common restaurant intents.
+- Gemini model identifier in the code is gemini-3.6-flash through google-genai. It is a fallback parser, not the delivery-order execution engine.
+- No scikit-learn model training, TensorFlow/PyTorch model, OpenCV, MediaPipe, or browser image inference was found in the app flow.
+
+Robot/hardware and storage
+- Three.js provides a visual scene; Python RobotController simulates command outcomes.
+- config\robot_config.json contains declarative Arduino/ROS2 labels but no protocol/driver implementation was found.
+- Firestore stores customer QR orders. Other JSON files and browser sessionStorage remain limited to their documented robot demo/evaluation uses.
+
+Setup and verification
+Install declared packages with `.\.venv\Scripts\python.exe -m pip install -r requirements.txt` only if needed. Set GEMINI_API_KEY securely for optional Gemini fallback. See 23_SETUP_AND_INSTALLATION.txt.
+
+Status and limitations
+Browser API support and voice availability depend on browser, permissions, installed voices, and secure-context rules. External Three.js CDN access requires network availability. Declared-but-unused packages should not be described as active runtime components.

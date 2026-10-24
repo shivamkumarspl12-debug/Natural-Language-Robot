@@ -1,0 +1,33 @@
+14 - CAMERA AND CUSTOMER DETECTION
+
+Purpose
+Document browser camera preview and image-based person detection on the main dashboard.
+
+Files
+- templates\index.html: camera preview, frame capture, detection overlay, Detect Customer, and greeting controls.
+- app.py: POST /detect-customer decodes uploaded JPEG frames and runs the MediaPipe person detector through OpenCV DNN.
+- models\person_detection_mediapipe\: pretrained ONNX model, OpenCV Zoo inference helper, and Apache 2.0 license.
+- requirements.txt: includes OpenCV 4.11 for server-side ONNX inference.
+- tests\test_customer_detection.py: API validation, no-person image, and positive-result response tests.
+
+Camera operation
+The main dashboard requests navigator.mediaDevices.getUserMedia({video:true,audio:false}), plays the stream, and enables Detect Customer only after a video frame is available. Stop Camera stops all media tracks, clears the video, and removes the detection overlay. Browser camera access requires permission and a secure origin (localhost or HTTPS).
+
+Customer detection
+Clicking Detect Customer captures the current video frame as JPEG and sends it as multipart form field "frame" to POST /detect-customer. Flask decodes the image and runs OpenCV Zoo's pretrained MediaPipe person-detection ONNX model. Unlike HOG's upright full-pedestrian classifier, this detector can identify upper-body as well as full-body poses. The endpoint returns "Customer Detected" or "No Customer Detected", bounding boxes in source-frame pixels, and model scores from 0 to 1. The frontend maps boxes over the visible video and adds each result to Robot Conversation. A greeting is spoken only after a positive detector result; Greet Customer remains available as a manual action.
+
+The separate /voice-camera page retains its camera and voice controls but does not claim automatic detection; starting that camera alone is not a detection.
+
+APIs and permissions
+Uses browser MediaDevices/getUserMedia. The user must grant camera permission; remote hosting normally requires HTTPS, while localhost can be allowed as a secure context.
+
+Status
+Live preview: implemented in browser, subject to permissions/device.
+Person detection: implemented by OpenCV DNN with the included pretrained MediaPipe person detector model.
+Automated verification: tests\test_customer_detection.py exercises malformed/missing images, an empty scene, and the positive response schema.
+
+Errors and limits
+Missing frames, malformed images, oversized uploads, unavailable camera permission, missing OpenCV/model files, and inference failures are surfaced as errors. The endpoint limits frames to 5 MB and dimensions to 4096 by 4096 pixels. The detector is designed for person pose detection and is more suitable for seated/upper-body customers than HOG, but can still miss very small, occluded, or poorly lit people. Scores are model confidence outputs, not guarantees; verify with the actual camera position.
+
+Testing
+Run `python -m unittest tests.test_customer_detection` after installing requirements. Manually open / on localhost, allow camera permission, place a person clearly in view, click Detect Customer, and verify the box, score, conversation message, and greeting. Repeat with an empty scene and verify "No Customer Detected". A physical camera/person scenario cannot be verified by the automated test suite.

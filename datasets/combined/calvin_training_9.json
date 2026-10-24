@@ -1,0 +1,110 @@
+[
+    {
+        "id": "CALVIN_TRAIN_001",
+        "instruction": "move the light switch to turn on the yellow light",
+        "task_type": "turn_on_lightbulb",
+        "object": "",
+        "color": "yellow",
+        "target": "",
+        "actions": [
+            "MANIPULATE"
+        ],
+        "source": "CALVIN"
+    },
+    {
+        "id": "CALVIN_TRAIN_002",
+        "instruction": "sweep the pink block to the right",
+        "task_type": "push_pink_block_right",
+        "object": "block",
+        "color": "pink",
+        "target": "",
+        "actions": [
+            "MANIPULATE"
+        ],
+        "source": "CALVIN"
+    },
+    {
+        "id": "CALVIN_TRAIN_003",
+        "instruction": "place the block in the sliding cabinet",
+        "task_type": "place_in_slider",
+        "object": "block",
+        "color": "",
+        "target": "bin",
+        "actions": [
+            "RELEASE"
+        ],
+        "source": "CALVIN"
+    },
+    {
+        "id": "CALVIN_TRAIN_004",
+        "instruction": "pick up the red block from the table",
+        "task_type": "lift_red_block_table",
+        "object": "block",
+        "color": "red",
+        "target": "table",
+        "actions": [
+            "GRAB"
+        ],
+        "source": "CALVIN"
+    },
+    {
+        "id": "CALVIN_TRAIN_005",
+        "instruction": "in the slider grasp the blue block",
+        "task_type": "lift_blue_block_slider",
+        "object": "block",
+        "color": "blue",
+        "target": "slider",
+        "actions": [
+            "GRAB"
+        ],
+        "source": "CALVIN"
+    },
+    {
+        "id": "CALVIN_TRAIN_006",
+        "instruction": "slide down the switch",
+        "task_type": "turn_off_lightbulb",
+        "object": "",
+        "color": "",
+        "target": "",
+        "actions": [
+            "SLIDE_DOWN"
+        ],
+        "source": "CALVIN"
+    },
+    {
+        "id": "CALVIN_TRAIN_007",
+        "instruction": "pick up the red block on the table",
+        "task_type": "lift_red_block_table",
+        "object": "block",
+        "color": "red",
+        "target": "table",
+        "actions": [
+            "GRAB"
+        ],
+        "source": "CALVIN"
+    },
+    {
+        "id": "CALVIN_TRAIN_008",
+        "instruction": "place in slider",
+        "task_type": "place_in_slider",
+        "object": "",
+        "color": "",
+        "target": "slider",
+        "actions": [
+            "RELEASE"
+        ],
+        "source": "CALVIN"
+    },
+    {
+        "id": "CALVIN_TRAIN_009",
+        "instruction": "turn off the light bulb",
+        "task_type": "turn_off_lightbulb",
+        "object": "",
+        "color": "",
+        "target": "",
+        "actions": [
+            "MANIPULATE"
+        ],
+        "source": "CALVIN"
+    }
+]

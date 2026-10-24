@@ -1,0 +1,54 @@
+25 - CURRENT PROJECT STATUS
+
+Purpose
+Summarize implementation maturity from inspected source and reproducible tests.
+
+Completed in code
+- Flask pages and JSON instruction endpoint.
+- Local rule-based parsing for supported restaurant deliveries, quantities, and tables.
+- Optional Gemini parser fallback configured through GEMINI_API_KEY.
+- Multi-item and multi-table order plan with generated IDs and item/order statuses.
+- Validation for Tables 1-4 and missing destination/items before multi-order controller execution.
+- Fixed task decomposition/action mapping and software RobotController with retry/failure responses.
+- Browser conversation/order status updates, Web Speech API hooks, camera preview, and Three.js restaurant scene.
+- Sequential scene replay for backend-confirmed orders.
+
+Verified evidence
+- Current test command: `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`; 18 tests passed.
+- Tests cover parser outputs, per-table quantity execution calls, invalid-table rejection before controller, missing destination/items, failed/partial delivery wording, and integrated pipeline reuse.
+- A successful Table 3 then Table 4 visual route was observed in the browser during the preceding task. It showed table arrival/delivery logs, counter return between destinations, and a final return. This is visual simulation evidence only.
+
+Partial or unverified
+- Speech recognition and speech synthesis are implemented with browser APIs but actual audio/device behavior has not been covered by automated tests.
+- Camera preview requests a real browser stream, but the "customer detected" event is manually triggered or timer-based.
+- Gemini API fallback is present but live credentials/model connectivity were not tested here.
+- Existing evaluation JSON and dataset reports are saved artifacts; they are not a freshly reproduced model benchmark.
+- Root static CSS/JS exist but the main dashboard uses inline styles/scripts; the standalone JS is not referenced in the inspected index.
+
+Not implemented
+- Physical robot, Arduino/ESP32 or ROS 2 control, motor/sensor drivers, hardware E-stop, and sensor-confirmed delivery.
+- CV-based customer detection.
+- Persistent order database, account/authentication, inventory, payment, kitchen integration, or multi-user concurrency.
+- Trained ML parser/model checkpoints and deployment pipeline.
+- Production hosting/security configuration.
+
+Known consistency issues
+- README.md and classprogram.py are empty.
+- Two environment metadata directories exist; .venv is Python 3.12.10 and the other venv reports Python 3.14.4 with an external interpreter path.
+- unified_robot_dataset_117.json contains 116 records despite its filename and the verification script's 117 expectation.
+- `/health` returns static module flags, and app.py exposes Flask debug mode when started directly.
+
+Current phase
+Functional software demonstration/prototype. Not production-ready and not a physical robot implementation.
+
+Next steps by priority
+1. Keep the project safe as software-only; if hardware is intended, design and validate hardware safety architecture before connecting actuators.
+2. Add persistent order storage, idempotency, and execution audit trail if retaining orders is required.
+3. Define parser grammar, ambiguity handling, item catalog, quantity limits, and expanded tests.
+4. Test voice/camera on supported browsers and address privacy/consent.
+5. Harden server errors, secret management, authentication, production serving, and dependencies before network exposure.
+6. Resolve dataset filename/count mismatch and document dataset provenance/licensing.
+7. Remove or wire legacy duplicate static assets and populate README with actual setup/limitations.
+
+Dependencies and commands
+See 02_TECHNOLOGY_STACK.txt and 23_SETUP_AND_INSTALLATION.txt. Python tests run with the active .venv environment.

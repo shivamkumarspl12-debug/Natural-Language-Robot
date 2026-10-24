@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#173d32">
+    <title>Admin sign in | Verdant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_login.css') }}">
+</head>
+<body class="admin-login">
+    <main class="login-shell">
+        <section class="brand-panel" aria-label="Verdant restaurant management">
+            <div class="brand-panel__image" aria-hidden="true"></div>
+            <div class="brand-panel__shade" aria-hidden="true"></div>
+            <div class="brand-panel__content">
+                <a class="brand-mark" href="/" aria-label="Verdant home">
+                    <span class="brand-mark__icon" aria-hidden="true">
+                        <svg viewBox="0 0 40 40" fill="none"><path d="M20 34V17m0 8c-7.2 0-12-4.8-12-12 7.2 0 12 4.8 12 12Zm0-6c0-7.2 4.8-12 12-12 0 7.2-4.8 12-12 12Z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <span>verdant<span class="brand-mark__dot">.</span></span>
+                </a>
+                <div class="brand-story">
+                    <span class="eyebrow"><span></span> SMARTER HOSPITALITY</span>
+                    <h1>Good food.<br>Thoughtful technology.</h1>
+                    <p>Your restaurant, in rhythm. Bring service, operations, and your team together in one thoughtful space.</p>
+                </div>
+                <div class="brand-panel__footer">
+                    <div class="avatar-stack" aria-hidden="true"><span>J</span><span>M</span><span>A</span></div>
+                    <p>Made for the people<br>who make every meal.</p>
+                    <span class="footer-sparkle" aria-hidden="true">✳</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel" aria-label="Admin access">
+            <div class="form-panel__topline">
+                <span class="mobile-brand">verdant<span>.</span></span>
+                <span class="secure-label"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2m-8 0h9v7h-9V7Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> FIREBASE AUTHENTICATION</span>
+            </div>
+            <div class="auth-content">
+                <section class="auth-view" aria-labelledby="loginHeading">
+                    <div class="welcome-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 0 0-14 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                    </div>
+                    <p class="section-kicker">SECURE ADMIN PORTAL</p>
+                    <h2 id="loginHeading">Welcome back<span class="heading-period">.</span></h2>
+                    {% if local_admin_enabled %}
+                    <p class="intro-copy">Local development sign-in is enabled on this computer.</p>
+                    {% else %}
+                    <p class="intro-copy">Sign in with an authorized Firebase Authentication account.</p>
+                    {% endif %}
+
+                    {% if not auth_config_ready %}
+                    <div class="notice notice--error" role="alert">
+                        Admin sign-in needs <code>FIREBASE_API_KEY</code> and <code>FIREBASE_ADMIN_UIDS</code> in your local environment. Enable Email/Password sign-in in Firebase Authentication.
+                    </div>
+                    {% elif local_admin_enabled %}
+                    <div class="notice" role="status">
+                        Enter the local development password configured in your environment. This sign-in works only through localhost.
+                    </div>
+                    {% elif setup_error %}
+                    <div class="notice notice--error" role="alert">
+                        Admin access is not configured. Add the administrator's Firebase UID to <code>FIREBASE_ADMIN_UIDS</code>, then restart Flask.
+                    </div>
+                    {% endif %}
+
+                    <form id="loginForm" novalidate>
+                        {% if not local_admin_enabled %}
+                        <div class="field-group">
+                            <label for="adminIdentity">Admin email</label>
+                            <div class="input-wrap">
+                                <svg class="input-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 10a3.25 3.25 0 1 0 0-6.5A3.25 3.25 0 0 0 10 10Zm6 6.5a6 6 0 0 0-12 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                <input id="adminIdentity" name="email" type="email" placeholder="admin@restaurant.com" autocomplete="username" required aria-describedby="identityError">
+                            </div>
+                            <span class="field-error" id="identityError" aria-live="polite"></span>
+                        </div>
+                        {% endif %}
+                        <div class="field-group">
+                            {% if local_admin_enabled %}
+                            <label for="adminPassword">Local development password</label>
+                            {% else %}
+                            <label for="adminPassword">Password</label>
+                            {% endif %}
+                            <div class="input-wrap">
+                                <svg class="input-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 8V5.75a4.5 4.5 0 0 1 9 0V8m-10 0h11v9h-11V8Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <input id="adminPassword" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required aria-describedby="passwordError">
+                                <button class="password-toggle" id="passwordToggle" type="button" aria-label="Show password" aria-pressed="false">
+                                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.2 10s2.8-5 7.8-5 7.8 5 7.8 5-2.8 5-7.8 5-7.8-5-7.8-5Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                                </button>
+                            </div>
+                            <span class="field-error" id="passwordError" aria-live="polite"></span>
+                        </div>
+                        <div class="notice notice--error" id="loginNotice" role="alert" hidden></div>
+                        <button class="primary-button" id="loginButton" type="submit" {% if not auth_config_ready %}disabled{% endif %}>
+                            <span class="button-label">Sign in securely</span>
+                            <span class="button-spinner" aria-hidden="true"></span>
+                            <svg class="button-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                    </form>
+                    {% if local_admin_enabled %}
+                    <p class="demo-note"><span aria-hidden="true">✳</span> Local development access is restricted to this computer and expires after 12 hours.</p>
+                    {% else %}
+                    <p class="demo-note"><span aria-hidden="true">✳</span> Firebase verifies your account; access is limited to configured administrator UIDs.</p>
+                    {% endif %}
+                </section>
+            </div>
+            <footer class="form-footer">
+                <span>© 2025 Verdant Hospitality</span>
+                {% if local_admin_enabled %}
+                <span><i></i> Local development mode</span>
+                {% else %}
+                <span><i></i> Protected with Firebase Authentication</span>
+                {% endif %}
+            </footer>
+        </section>
+    </main>
+    <script>
+        window.firebaseAuthConfig = {{ firebase_auth_config | tojson }};
+        window.localAdminLoginEnabled = {{ local_admin_enabled | tojson }};
+        window.adminNextPath = {{ admin_next_path | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/admin_login.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+18 - ERROR HANDLING AND DEBUGGING
+
+Purpose
+Summarize observed validation failures, controller retry behavior, browser errors, and known development gaps.
+
+Current error handling
+- app.py returns JSON for empty/missing instruction, missing destination/items, invalid tables, parsing/action failures, and unexpected exceptions.
+- Multi-order validation occurs before controller construction. Invalid tables reject the entire multi-order command; no sibling delivery is executed.
+- Multi-order unit execution checks each result; order/item statuses express delivered, partial, or failed outcomes.
+- src\robot_controller.py retries commands up to three attempts and stops a sequence after a command remains failed.
+- src\failure_detector.py reports failed statuses and aggregates them.
+- Browser pages catch fetch/camera/speech errors and render or log user-facing status; Web Speech API absence is handled with status text or alert.
+
+Known implementation gaps
+1. app.py catches broad exceptions and returns the exception text in the JSON `error` field with HTTP 500. This can disclose internal details; production error messages should be generic and details logged server-side.
+2. `/health` returns hard-coded true flags for modules and does not check Gemini, browser voice/camera permission, or physical devices.
+3. The server is configured for Flask debug mode on localhost; debug mode is unsuitable for public hosting.
+4. Multi-order controller execution failure is normally represented in JSON while HTTP can remain 200; clients must inspect overall_status and per-item statuses.
+5. Gemini failure falls back to a local parse result, which may be incomplete; the user should not be told the command was successfully executed unless execution confirms success.
+6. Camera "customer detected" is a timer/manual UI event, not an error-free detector.
+7. No service-level structured logging/monitoring or persistence of every request is integrated.
+
+Common debugging commands (Windows PowerShell, project root)
+Start app: `.\.venv\Scripts\python.exe app.py`
+Run tests: `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`
+Check health: `Invoke-RestMethod http://127.0.0.1:5000/health`
+POST test: `Invoke-RestMethod -Uri http://127.0.0.1:5000/process -Method Post -ContentType 'application/json' -Body '{"instruction":"Deliver water to Table 2."}'`
+Stop the foreground Flask server with Ctrl+C.
+
+Debug process
+1. Check the Flask console for tracebacks and parser choice.
+2. Check browser developer console/network panel for failed /process status or missing external CDN resources.
+3. Inspect `error_code`, `overall_status`, `order_plan`, and robot_execution; HTTP 200 does not always mean delivery success.
+4. For Gemini fallback, ensure GEMINI_API_KEY is set without printing or committing its value; check service/network/model access.
+5. For browser voice/camera, check permission, secure context, device use by another app, and browser API support.
+
+Dependencies and status
+Error paths are partially covered by Flask unit tests, especially invalid table, missing destination, missing items, failed unit, and partial quantity. JavaScript device errors and external API outages are not tested by the Python suite.
+
+Known errors/unknowns
+No current reproducible backend failure is asserted in this document. Gemini availability, all browser variants, malformed request behavior, and physical robot behavior remain unverified. See 19_TESTING_AND_TEST_CASES.txt.

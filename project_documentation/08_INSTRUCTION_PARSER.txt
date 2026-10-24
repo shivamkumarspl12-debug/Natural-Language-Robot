@@ -1,0 +1,40 @@
+08 - INSTRUCTION PARSER
+
+Purpose
+Explain how free-form text is transformed into intent, item, quantity, destination, and order groups.
+
+Implementation
+src\instruction_parser.py contains:
+- parse_delivery_orders(): local regex parser for delivery commands with one or more items/tables.
+- rule_based_parser(): local intent/entity parser for legacy pick-and-place and common restaurant intents.
+- gemini_parser(): external Gemini JSON parser fallback.
+- validate_result(): basic output shape and legacy intent/object checks.
+- parse_instruction(): chooses delivery rules first, then valid local rules, then Gemini; catches fallback errors and returns the local rule result.
+
+Recognized multi-order delivery triggers
+Delivery parser recognizes the verbs deliver, bring, serve, send, and take, except the "take me to" guidance phrase. Item patterns are ordered to match longer names first:
+plate of food, water bottle, cold drink, burger, pizza, pasta, coffee, water, menu, food, plate, glass, drink.
+Quantity accepts digits and a/an/one through ten; omitted quantity defaults to one. A numeric sample:
+"Deliver 2 water bottles and 3 plates of food to Table 2."
+produces one destination order with item records for 2 water bottles and 3 plates of food.
+
+Destination association and output
+Table references match "table 3" or "table number 3" case-insensitively. Items are assigned to a destination using their text position relative to table mentions and grouped by table number. Items with no identifiable destination form an order with table=None. Each order receives a random ORD-... identifier.
+Parser output also has top-level `intent`, `actions`, `item`, `quantity`, `target`, `original_instruction`, and an `orders` array. Each item includes name, quantity, status, delivery_status, and delivered_quantity.
+
+Other intents
+rule_based_parser/detect_restaurant_intent recognize basic greetings, menu, guidance, navigation, delivery, order, and return phrases; legacy pick-and-place parsing handles red/green/blue/yellow block/cube/ball/bottle and box/container/basket/bin/table targets. This is keyword/rule logic, not a multilingual dialog model.
+
+Gemini
+src\instruction_parser.py loads GEMINI_API_KEY from environment/.env and calls google-genai model gemini-3.6-flash. This path is used only when the local parser does not accept the instruction. API connectivity and model availability require external configuration and were not established by the unit tests. Exceptions fall back to the local result.
+
+Known limits
+- English patterns and listed food terms only; synonyms, spelling errors, negation, dietary constraints, and complex references are not generally understood.
+- The multi-order parser associates items by string positions, not a full grammar; ambiguous wording should be clarified.
+- Quantity words are limited to 1-10; digit quantities have no stated business cap.
+- Parser order IDs are ephemeral and are not stored in a database.
+- Gemini fallback output is only basic schema/intent validated and must not be treated as safety validation.
+- Traditional non-delivery parser fallback and Gemini are separate from the multi-order rule parser.
+
+Dependencies, status, and tests
+Depends on Python re/json/uuid and optionally python-dotenv/google-genai. Parser tests cover basic local parsing, word/digit quantities, table grouping, and missing destination. Run `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`.

@@ -1,0 +1,47 @@
+24 - USER GUIDE
+
+Purpose
+Explain the local dashboard flow for entering, speaking, and reviewing robot instructions.
+
+1. Open the dashboard
+Start Flask using 23_SETUP_AND_INSTALLATION.txt and open http://127.0.0.1:5000/.
+The separate voice/camera page is http://127.0.0.1:5000/voice-camera.
+
+2. Type an instruction
+Enter a command in the natural-language textarea and click Execute AI Instruction. The browser sends it to Flask. Wait for the button to re-enable and inspect the Robot Conversation, order plan, result, status, and simulation status.
+
+3. Use voice input
+Click Voice Command/Start Talking and grant microphone permission. Speak a short English command, for example "Deliver two water bottles to Table 2." The browser transcribes speech; the transcript is processed through the normal instruction endpoint. If recognition is unavailable, type the command instead.
+
+4. Multi-item and multi-table orders
+Examples:
+- "Deliver 2 water bottles and 3 plates of food to Table 2."
+- "Deliver 2 water bottles to Table 1 and 3 burgers to Table 2."
+Check each generated order ID, destination, item quantity, and status. Items for separate table orders should remain assigned to their own destination.
+
+5. Table validation
+Tables 1-4 are configured. A Table 8 command should be rejected with an available-table explanation. A delivery command without a destination should ask for a destination table number. Do not rephrase an invalid table as a different table unless the customer confirms the change.
+
+6. Interpret status
+VALIDATED: parsed and passed initial checks.
+IN_PROGRESS: backend is attempting units.
+DELIVERED: every item unit in that order received SUCCESS from the software controller.
+PARTIALLY_DELIVERED: some, not all, requested units succeeded.
+FAILED: no delivery unit succeeded.
+INVALID_TABLE / MISSING_DESTINATION: rejected before robot execution.
+Backend success is a software simulation result, not physical delivery confirmation.
+
+7. Speech controls
+Use Mute/Unmute Voice to control automatic speech; Stop Speaking cancels the current utterance. Written responses remain visible. Browser voices and language support depend on the device.
+
+8. Camera and customer detection
+Click Start Camera and grant permission to see the live preview. Stop Camera stops the stream. The manual/timed "customer detected" message is only a demo placeholder; it does not detect a real person in the image.
+
+9. 3D simulation
+After a fully successful response, the dashboard refreshes the simulation with confirmed orders. Start the simulation and use its event log to follow each destination and counter return. Failed/partial requests should not be shown as successful delivery tasks.
+
+Dependencies and troubleshooting
+Flask must be running. Camera/microphone need permissions. Speech APIs can be unsupported. Three.js is loaded from CDNs. See 18_ERROR_HANDLING_AND_DEBUGGING.txt and 19_TESTING_AND_TEST_CASES.txt.
+
+Status
+This guide reflects current demo controls; it does not promise physical delivery, actual computer-vision customer detection, persistent order history, or production safety.

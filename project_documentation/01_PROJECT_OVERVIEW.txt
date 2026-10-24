@@ -1,0 +1,48 @@
+01 - PROJECT OVERVIEW
+AI Restaurant Service Robot
+
+Purpose
+Describe the existing student/demo project that turns English restaurant or object-manipulation instructions into parsed data, a task/action plan, software-controller calls, and browser feedback.
+
+Problem statement
+Restaurant-service commands are natural language, while a robot-style program needs structured actions and a destination. The project demonstrates a web interface that parses instructions and presents simulated execution and status information.
+
+Objectives
+1. Accept typed instructions and browser-recognized speech.
+2. Identify restaurant delivery items, quantities, and table numbers.
+3. Split a command into destination-specific orders and validate the table range.
+4. Decompose tasks, map them to commands, simulate controller results, and report failures.
+5. Present conversation, order status, and a Three.js restaurant scene.
+
+Proposed solution and flow
+Browser page -> Flask POST /process -> src\instruction_parser.py -> app.py validation -> src\task_decomposer.py / src\action_generator.py -> src\robot_controller.py -> JSON response -> browser conversation/status. Confirmed delivery plans can also be loaded into templates\robot_3d.html from sessionStorage.
+
+Main features
+- Flask dashboard and separate voice-camera page.
+- Rule-based recognition of supported delivery items and quantities; optional Gemini parser fallback.
+- Multiple items per destination and separate orders per table.
+- Tables 1 through 4 are accepted; invalid/missing destinations stop delivery execution.
+- Per-item/per-order delivery outcomes and failure responses.
+- Browser SpeechRecognition / speechSynthesis support where available.
+- Camera preview via getUserMedia; customer detection is currently a demonstration trigger, not computer vision.
+- Three.js scene with four configured tables and sequential replay of backend-confirmed table orders.
+
+Target users
+Students, instructors, and evaluators demonstrating a restaurant-robot software pipeline. The current system is not a production restaurant deployment or a connected physical robot.
+
+Scope and limitations
+- The live web app uses a deterministic Python software controller; the scene is a browser animation.
+- No ROS 2, Arduino, ESP32, motor, sensor, or emergency-stop connection was found.
+- No persistent order database was found.
+- Natural-language handling is chiefly rule-based and English-oriented; it is not an open-ended trained restaurant model.
+- The browser camera stream is not analyzed by a CV model.
+- A backend "DELIVERED" result is a software-controller result, not independent physical proof.
+
+Dependencies
+See 02_TECHNOLOGY_STACK.txt for actual/declared libraries and 03_PROJECT_STRUCTURE.txt for files.
+
+Implementation status
+The web demo, parser, task planning, mock controller, table validation, multi-order response, and 3D replay exist. The current automated suite was run with `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: 18 tests passed. Browser-based sequential Table 3 then Table 4 replay was observed during the preceding task; this does not establish physical delivery or all browser/device behavior.
+
+Testing
+Run the unittest command above from the project root. For a browser walkthrough, see 19_TESTING_AND_TEST_CASES.txt and 24_USER_GUIDE.txt.

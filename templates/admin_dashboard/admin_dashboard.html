@@ -1,0 +1,113 @@
+{% extends "admin_dashboard/admin_base.html" %}
+
+{% block heading_actions %}
+<button class="button-secondary date-button" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M6 2.5v3M14 2.5v3M3 8h14"/></svg> Today <span>⌄</span></button>
+{% endblock %}
+
+{% block content %}
+<section class="dashboard-launchers" aria-label="Restaurant tools">
+    <article class="dashboard-launch-card">
+        <span class="dashboard-launch-card__icon dashboard-launch-card__icon--website" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3a14 14 0 0 1 0 18m0-18a14 14 0 0 0 0 18"/></svg>
+        </span>
+        <div class="dashboard-launch-card__body">
+            <p class="dashboard-launch-card__eyebrow">CUSTOMER EXPERIENCE</p>
+            <h2>Main Website</h2>
+            <p>Preview the restaurant website customers see before they order.</p>
+        </div>
+        <a class="dashboard-launch-card__link" href="{{ url_for('home') }}">Open Main Website <span aria-hidden="true">↗</span></a>
+    </article>
+    <article class="dashboard-launch-card">
+        <span class="dashboard-launch-card__icon dashboard-launch-card__icon--simulation" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="13" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01M9 17h6M3 11v4m18-4v4"/></svg>
+        </span>
+        <div class="dashboard-launch-card__body">
+            <p class="dashboard-launch-card__eyebrow">ROBOT EXPERIENCE</p>
+            <h2>3D Robot Simulation</h2>
+            <p>Explore the interactive restaurant and robot simulation.</p>
+        </div>
+        <a class="dashboard-launch-card__link" href="{{ url_for('simulation') }}">Open 3D Simulation <span aria-hidden="true">↗</span></a>
+    </article>
+    <article class="dashboard-launch-card">
+        <span class="dashboard-launch-card__icon dashboard-launch-card__icon--camera" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3v12H4z"/><circle cx="12" cy="13" r="4"/><path d="m10.5 13 1 1 2-2"/></svg>
+        </span>
+        <div class="dashboard-launch-card__body">
+            <p class="dashboard-launch-card__eyebrow">VOICE & VISION</p>
+            <h2>Voice + Camera</h2>
+            <p>Open the voice assistant and camera tools for your team.</p>
+        </div>
+        <a class="dashboard-launch-card__link" href="{{ url_for('voice_camera') }}">Open Voice + Camera <span aria-hidden="true">↗</span></a>
+    </article>
+</section>
+
+<section class="stat-grid" aria-label="Restaurant performance demo metrics">
+    <article class="stat-card"><div class="stat-card__top"><span>Total orders</span><span class="stat-icon green"><svg viewBox="0 0 24 24"><path d="M6 4h12l1 16H5L6 4Zm3 4h6m-6 4h6"/></svg></span></div><strong class="stat-value">128</strong><div class="stat-foot"><span class="trend-up">↗ 12.8%</span><span>vs. yesterday</span></div><span class="mini-sparkline spark-green">⌁</span></article>
+    <article class="stat-card"><div class="stat-card__top"><span>Pending orders</span><span class="stat-icon amber"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></span></div><strong class="stat-value">08</strong><div class="stat-foot"><span class="trend-neutral">Needs attention</span></div><span class="mini-sparkline spark-amber">⌁</span></article>
+    <article class="stat-card"><div class="stat-card__top"><span>Preparing</span><span class="stat-icon blue"><svg viewBox="0 0 24 24"><path d="M5 19V9m7 10V5m7 14v-7"/></svg></span></div><strong class="stat-value">12</strong><div class="stat-foot"><span class="trend-neutral">In the kitchen</span></div><span class="mini-sparkline spark-blue">⌁</span></article>
+    <article class="stat-card"><div class="stat-card__top"><span>Ready</span><span class="stat-icon violet"><svg viewBox="0 0 24 24"><path d="M4 12h16m-8-8 8 8-8 8"/></svg></span></div><strong class="stat-value">06</strong><div class="stat-foot"><span class="trend-up">On track</span></div><span class="mini-sparkline spark-violet">⌁</span></article>
+    <article class="stat-card"><div class="stat-card__top"><span>Completed</span><span class="stat-icon green"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg></span></div><strong class="stat-value">102</strong><div class="stat-foot"><span class="trend-up">↗ 8.4%</span><span>vs. yesterday</span></div><span class="mini-sparkline spark-green">⌁</span></article>
+    <article class="stat-card"><div class="stat-card__top"><span>Estimated revenue</span><span class="stat-icon green"><svg viewBox="0 0 24 24"><path d="M12 3v18m5-14c0-2-2-3-5-3s-5 1-5 3 2 3 5 3 5 1 5 3-2 4-5 4-5-2-5-4"/></svg></span></div><strong class="stat-value">$4,280</strong><div class="stat-foot"><span class="trend-up">↗ 10.2%</span><span>vs. yesterday</span></div><span class="mini-sparkline spark-green">⌁</span></article>
+    <article class="stat-card"><div class="stat-card__top"><span>Active tables</span><span class="stat-icon amber"><svg viewBox="0 0 24 24"><path d="M4 8h16M6 8v12m12-12v12M4 12h16M8 4h8"/></svg></span></div><strong class="stat-value">14<span class="stat-denom"> / 20</span></strong><div class="stat-foot"><span class="status-dot occupied"></span><span>70% occupancy</span></div></article>
+    <article class="stat-card"><div class="stat-card__top"><span>Available robots</span><span class="stat-icon green"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M12 3v4m-4 6h.01M16 13h.01M8 17h8"/></svg></span></div><strong class="stat-value">03<span class="stat-denom"> / 04</span></strong><div class="stat-foot"><span class="status-dot online"></span><span>Fleet status: healthy</span></div></article>
+</section>
+
+<div class="overview-grid">
+    <section class="panel chart-panel">
+        <div class="panel-heading"><div><h2>Orders & revenue</h2><p>Today's demo performance by hour</p></div><div class="chart-legend"><span><i class="legend-orders"></i> Orders</span><span><i class="legend-revenue"></i> Revenue</span></div></div>
+        <div class="chart-area">
+            <div class="chart-y-labels"><span>$800</span><span>$600</span><span>$400</span><span>$200</span><span>$0</span></div>
+            <div class="chart-plot">
+                <div class="chart-grid-lines"><i></i><i></i><i></i><i></i><i></i></div>
+                <svg class="performance-chart" viewBox="0 0 700 220" preserveAspectRatio="none" role="img" aria-label="Demo chart of orders and revenue through the day">
+                    <defs><linearGradient id="revenueFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#b8d875" stop-opacity=".3"/><stop offset="1" stop-color="#b8d875" stop-opacity="0"/></linearGradient></defs>
+                    <path d="M0 175 C35 163 55 159 80 166 S130 143 160 151 S208 108 240 127 S295 92 320 105 S370 72 400 93 S450 58 480 75 S530 45 560 62 S615 27 640 49 S680 18 700 32 L700 220 L0 220Z" fill="url(#revenueFill)"/>
+                    <path d="M0 175 C35 163 55 159 80 166 S130 143 160 151 S208 108 240 127 S295 92 320 105 S370 72 400 93 S450 58 480 75 S530 45 560 62 S615 27 640 49 S680 18 700 32" fill="none" stroke="#8eae52" stroke-width="3"/>
+                    <path d="M0 194 C38 192 52 183 80 188 S130 170 160 177 S210 151 240 160 S290 140 320 146 S365 124 400 134 S450 109 480 119 S530 96 560 106 S610 80 640 89 S680 64 700 72" fill="none" stroke="#315b4a" stroke-width="2.5" stroke-dasharray="5 5"/>
+                    <circle cx="480" cy="75" r="5" fill="#fff" stroke="#8eae52" stroke-width="3"/><circle cx="480" cy="119" r="4" fill="#fff" stroke="#315b4a" stroke-width="2.5"/>
+                </svg>
+                <div class="chart-x-labels"><span>8 AM</span><span>10 AM</span><span>12 PM</span><span>2 PM</span><span>4 PM</span><span>6 PM</span><span>8 PM</span></div>
+            </div>
+        </div>
+    </section>
+    <section class="panel restaurant-panel">
+        <div class="panel-heading"><div><h2>Restaurant status</h2><p>Service availability</p></div><span class="status-chip status-open"><i></i> Open</span></div>
+        <div class="status-feature"><div class="status-feature__icon"><svg viewBox="0 0 24 24"><path d="M4 10h16l-1 10H5L4 10Zm-1 0 2-6h14l2 6M8 13v4m4-4v4m4-4v4"/></svg></div><div><strong>Open for service</strong><small>Since 09:00 AM · Demo status</small></div><label class="switch"><input type="checkbox" checked data-restaurant-toggle aria-label="Toggle restaurant open status"><span></span></label></div>
+        <div class="hours-row"><span>Today's hours</span><strong>9:00 AM – 10:00 PM</strong></div>
+        <div class="hours-row"><span>Next closing</span><strong>In 5h 42m</strong></div>
+        <a class="panel-link" href="{{ url_for('admin_settings') }}">Manage restaurant settings <span>→</span></a>
+        <p class="demo-inline-note">Status toggle is local to this page preview.</p>
+    </section>
+</div>
+
+<div class="overview-grid overview-grid--bottom">
+    <section class="panel recent-orders">
+        <div class="panel-heading"><div><h2>Recent orders</h2><p>A quick look at the latest demo orders</p></div><a class="panel-link panel-link--top" href="{{ url_for('admin_orders') }}">View all <span>→</span></a></div>
+        <div class="table-responsive"><table class="data-table"><thead><tr><th>ORDER</th><th>CUSTOMER</th><th>ITEMS</th><th>AMOUNT</th><th>STATUS</th></tr></thead>
+        <tbody>
+            <tr><td><strong>#VD-2048</strong><small>12:42 PM</small></td><td>Olivia Bennett<small>Table 08</small></td><td>Truffle pasta <span class="item-count">+2</span></td><td><strong>$42.50</strong></td><td><span class="status-chip status-preparing">Preparing</span></td></tr>
+            <tr><td><strong>#VD-2047</strong><small>12:38 PM</small></td><td>Ethan Brooks<small>Table 03</small></td><td>Garden salad <span class="item-count">+1</span></td><td><strong>$28.00</strong></td><td><span class="status-chip status-ready">Ready</span></td></tr>
+            <tr><td><strong>#VD-2046</strong><small>12:35 PM</small></td><td>Sophia Chen<small>Table 12</small></td><td>Grilled salmon</td><td><strong>$36.75</strong></td><td><span class="status-chip status-pending">Pending</span></td></tr>
+            <tr><td><strong>#VD-2045</strong><small>12:29 PM</small></td><td>Noah Williams<small>Table 05</small></td><td>Wild mushroom risotto <span class="item-count">+1</span></td><td><strong>$31.00</strong></td><td><span class="status-chip status-completed">Completed</span></td></tr>
+        </tbody></table></div>
+    </section>
+    <section class="panel robot-summary">
+        <div class="panel-heading"><div><h2>Robot fleet</h2><p>Demo status overview</p></div><a class="panel-link panel-link--top" href="{{ url_for('admin_robot') }}">Manage <span>→</span></a></div>
+        <div class="robot-summary-list">
+            <div class="robot-summary-item"><span class="robot-avatar">R1</span><span class="robot-summary-name"><strong>Sprout 01</strong><small><i class="status-dot online"></i> Delivering order</small></span><span class="battery-mini"><i style="width:86%"></i></span><strong class="battery-value">86%</strong></div>
+            <div class="robot-summary-item"><span class="robot-avatar robot-avatar--lime">R2</span><span class="robot-summary-name"><strong>Sprout 02</strong><small><i class="status-dot online"></i> Idle and available</small></span><span class="battery-mini"><i style="width:72%"></i></span><strong class="battery-value">72%</strong></div>
+            <div class="robot-summary-item"><span class="robot-avatar robot-avatar--gold">R3</span><span class="robot-summary-name"><strong>Sprout 03</strong><small><i class="status-dot charging"></i> Charging</small></span><span class="battery-mini"><i style="width:34%"></i></span><strong class="battery-value">34%</strong></div>
+        </div>
+        <a class="panel-link robot-bottom-link" href="{{ url_for('admin_robot') }}">View robot management <span>→</span></a>
+    </section>
+</div>
+
+<section class="quick-actions">
+    <div><span class="quick-actions-kicker">KEEP THINGS MOVING</span><h2>Quick actions</h2></div>
+    <a href="{{ url_for('admin_orders') }}"><span class="quick-action-icon"><svg viewBox="0 0 24 24"><path d="M6 4h12l1 16H5L6 4Zm3 4h6"/></svg></span><span><strong>View orders</strong><small>Stay on top of service</small></span><b>↗</b></a>
+    <a href="{{ url_for('admin_menu') }}"><span class="quick-action-icon"><svg viewBox="0 0 24 24"><path d="M4 4v7m0-7v7m3-7v7m-3-3h3m-1.5 3v9M14 4v16m0-16c3 2 4 5 4 9h-4"/></svg></span><span><strong>Manage menu</strong><small>Update your offerings</small></span><b>↗</b></a>
+    <a href="{{ url_for('admin_tables') }}"><span class="quick-action-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 5v14m8-14v14M4 10h16"/></svg></span><span><strong>View tables</strong><small>Check table availability</small></span><b>↗</b></a>
+    <a href="{{ url_for('admin_robot') }}"><span class="quick-action-icon"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M12 3v4m-4 6h.01M16 13h.01"/></svg></span><span><strong>View robots</strong><small>Review fleet status</small></span><b>↗</b></a>
+</section>
+<p class="demo-banner"><strong>Demo workspace</strong> All orders, totals, robot statuses and actions on this dashboard are sample data for UI preview only.</p>
+{% endblock %}

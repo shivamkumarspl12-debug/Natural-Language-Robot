@@ -1,0 +1,33 @@
+17 - DATABASE AND STORAGE
+
+Purpose
+Record how instructions, orders, logs, evaluation results, and UI simulation data are stored.
+
+Database status
+Customer QR orders are persisted in the Firestore `customer_orders` collection through the Firebase Admin SDK. Firestore initialization is lazy and reused once per Flask process. The service-account JSON path is configurable with `FIREBASE_CREDENTIALS_PATH`, defaulting to `config\firebase-service-account.json`. The Admin SDK accesses Firestore only on the trusted server; browser code never receives credentials.
+
+Current storage paths
+- templates\index.html and templates\voice_camera.html use browser sessionStorage key `pipelineResult` to pass a successful response to the simulation page. It is client-side and temporary.
+- integrated_pipeline.py writes a non-multi pipeline result to project-root pipeline_result.json. Its multi-order branch delegates to app.execute_delivery_orders() and returns before this save block.
+- execution_logger.py defines save_execution_log() for project-root execution_logs.json, a JSON array with timestamp, instruction, actions, failure, retry_count, execution_time_seconds, and status.
+- failure_recovery.py has a separate save_log() path using the same relative execution_logs.json name.
+- batch_evaluation.py writes evaluation_results.json.
+- Dataset scripts read/write root JSON/CSV and datasets\combined files.
+- Current project contains existing pipeline_result.json, execution_logs.json, evaluation_results.json, and dataset artifacts. These are snapshots; their presence alone does not prove current runtime state.
+
+Order persistence
+Customer QR checkout validates the table, customer name, phone, menu item IDs, availability, and quantity before writing an order. Item prices and totals are computed on the server. Orders are written with a Firestore server timestamp, use unique IDs, and support the `Idempotency-Key` request header to avoid duplicate writes on retries. The admin QR orders panel and `/api/customer/orders/<order_id>` read from Firestore, so orders remain available after a Flask restart. Only the phone's final four digits are retained in the order record.
+
+Robot `/process` delivery plans and statuses are still generated per request and returned to the browser; they are not customer QR orders and are not persisted as Firestore orders. Browser sessionStorage remains a UI convenience, not the source of truth for customer order status.
+
+Data validation and consistency
+CSV/JSON utilities read whole files and write outputs. Several dataset tools create new named files, while other utility paths can overwrite their configured output. Back up data before rerunning dataset-generation/merge commands. No database constraints or concurrent write locking are present for JSON logs.
+
+Dependencies and status
+Python standard library json/csv/os/time/datetime plus browser sessionStorage. Persistent operational logging is a utility function, not automatically connected to every web request.
+
+Limitations and future direction
+For production deployment, configure Firestore IAM and backups, define retention and access policies, and decide whether staff-facing order updates and robot task execution should be persisted. Firestore Admin SDK access uses server credentials; do not expose the service-account file or weaken Firestore security rules.
+
+Testing
+Automated persistence tests use an in-memory Firestore fake. A deployment smoke test can place a test order and retrieve it after restarting Flask; avoid using real production customer data for that check.

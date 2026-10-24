@@ -1,0 +1,46 @@
+26 - FUTURE IMPROVEMENTS
+
+Purpose
+List extensions that address observed project limits, in a practical priority order.
+
+1. Safety and hardware boundary
+- Keep current controller in simulation mode unless a separately reviewed hardware plan exists.
+- For real hardware, define a ROS 2/serial adapter, validated motion stack, sensor-confirmed state, safety-rated emergency stop, collision/human detection, watchdog, manual override, and supervised trials.
+- Distinguish command accepted, action in progress, physical confirmation, and failed/unknown outcomes.
+
+2. Parser and NLP
+- Replace implicit text-position association with a tested grammar/structured intent schema.
+- Ask a clarification question for uncertain item/table grouping, negation, conflicts, and incomplete commands.
+- Add clear quantity upper bounds, aliases/catalog data, normalization, locale support, and adversarial/parser regression cases.
+- Treat Gemini as an optional parser candidate; validate structured output and destination/item policy independently.
+
+3. Planning and multi-order service
+- Add route optimization subject to safe navigation, table occupancy, task priority, and battery constraints.
+- Model an order as persistent state with idempotent unit tasks, retries, cancellation, compensation, and event history.
+- Define whether separate mentions of the same table merge into one order and how ambiguous items inherit destinations.
+- Add inventory/kitchen readiness checks and report per-item execution state.
+
+4. Database and operations
+- Choose and implement a durable database with migrations, constraints, indexes, transactions, backup, retention, and access policy.
+- Add operator/customer identities, authorization, request idempotency, structured logs, metrics, and health probes.
+
+5. Voice and camera
+- Test browser support and voice selection; provide typed fallback, permission guidance, locale controls, and audio accessibility.
+- Add consent/retention policy before any camera analytics.
+- If customer detection is required, integrate and evaluate an actual CV detector with privacy safeguards; do not label timer logic as detection.
+
+6. Testing and engineering
+- Add browser automation for microphone/camera mocks, speech event handling, responsive layouts, and multi-order simulation.
+- Add malformed payload, boundary quantity, repeated table, contradictory table, timeout, and network failure tests.
+- Add type checks, linting, pinned dependency lock, CI, and reproducible dataset tooling.
+- Fix the dataset count mismatch and record data provenance/rights.
+
+7. Deployment
+- Disable debug mode, use production WSGI/HTTPS, apply authentication, CSRF protection, limits, safe error responses, security headers, secret rotation, dependency scanning, and monitoring.
+- Document supported browsers, Python version, offline behavior, and restore steps.
+
+Status
+These are recommendations, not currently implemented features. Prioritize safe system boundaries and persistent execution records before adding more autonomous behavior.
+
+Dependencies
+Changes depend on user requirements and the intended deployment/hardware, neither of which is implemented by this documentation-only task. See 22_SECURITY_AND_SAFETY.txt.

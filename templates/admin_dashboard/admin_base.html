@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#173d32">
+    <title>{{ page_title }} | Verdant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+    {% block page_styles %}{% endblock %}
+</head>
+<body class="admin-app">
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <a class="sidebar-brand" href="{{ url_for('admin_overview') }}" aria-label="Verdant dashboard">
+                <span class="sidebar-brand__icon" aria-hidden="true">
+                    <svg viewBox="0 0 40 40" fill="none"><path d="M20 34V17m0 8c-7.2 0-12-4.8-12-12 7.2 0 12 4.8 12 12Zm0-6c0-7.2 4.8-12 12-12 0 7.2-4.8 12-12 12Z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span>verdant<span class="brand-dot">.</span><small>RESTAURANT OS</small></span>
+            </a>
+
+            <div class="sidebar-caption">WORKSPACE</div>
+            <nav class="sidebar-nav" aria-label="Admin dashboard navigation">
+                <a class="nav-item{% if active_page == 'dashboard' %} active{% endif %}" href="{{ url_for('admin_overview') }}" {% if active_page == 'dashboard' %}aria-current="page"{% endif %}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="4" rx="1.5"/><rect x="13.5" y="10.5" width="7" height="10" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span>
+                </a>
+                <a class="nav-item{% if active_page == 'orders' %} active{% endif %}" href="{{ url_for('admin_orders') }}" {% if active_page == 'orders' %}aria-current="page"{% endif %}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12l1 16H5L6 4Z"/><path d="M9 8h6m-6 4h6m-6 4h3"/></svg><span>Orders</span><span class="nav-count">8</span>
+                </a>
+                <a class="nav-item{% if active_page == 'robot' %} active{% endif %}" href="{{ url_for('admin_robot') }}" {% if active_page == 'robot' %}aria-current="page"{% endif %}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M12 3v4m-4 6h.01M16 13h.01M8 17h8M2 12v3m20-3v3"/></svg><span>Robot management</span>
+                </a>
+                <a class="nav-item{% if active_page == 'tracking' %} active{% endif %}" href="{{ url_for('robot_tracking') }}" {% if active_page == 'tracking' %}aria-current="page"{% endif %}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h2a4 4 0 0 0 4-4v-4a4 4 0 0 1 4-4"/></svg><span>Robot tracking</span>
+                </a>
+                <a class="nav-item{% if active_page == 'menu' %} active{% endif %}" href="{{ url_for('admin_menu') }}" {% if active_page == 'menu' %}aria-current="page"{% endif %}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v7m0-7v7m3-7v7m-3-3h3m-1.5 3v9M14 4v16m0-16c3 2 4 5 4 9h-4"/></svg><span>Menu management</span>
+                </a>
+                <a class="nav-item{% if active_page == 'tables' %} active{% endif %}" href="{{ url_for('admin_tables') }}" {% if active_page == 'tables' %}aria-current="page"{% endif %}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM8 5v14m8-14v14M4 10h16m-16 4h16"/></svg><span>Tables & QR codes</span>
+                </a>
+                <a class="nav-item{% if active_page == 'customers' %} active{% endif %}" href="{{ url_for('admin_customers') }}" {% if active_page == 'customers' %}aria-current="page"{% endif %}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0m1-15.5a3.5 3.5 0 0 1 0 7m2 3.5a5.5 5.5 0 0 1 3 5"/></svg><span>Customers</span>
+                </a>
+                <a class="nav-item{% if active_page == 'analytics' %} active{% endif %}" href="{{ url_for('admin_analytics') }}" {% if active_page == 'analytics' %}aria-current="page"{% endif %}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h17M7 15l4-4 3 2 6-7"/><path d="M16 6h4v4"/></svg><span>Analytics & reports</span>
+                </a>
+                <a class="nav-item{% if active_page == 'settings' %} active{% endif %}" href="{{ url_for('admin_settings') }}" {% if active_page == 'settings' %}aria-current="page"{% endif %}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.5.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.5-.9l-1.7.6-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.8l-1.4-1.1 1.4-2.4 1.7.6a8 8 0 0 1 1.5-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.5.9l1.7-.6 1.4 2.4-1.4 1.1a7 7 0 0 1 0 1.8Z"/></svg><span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-tip">
+                    <span class="tip-mark" aria-hidden="true">✳</span>
+                    <strong>A little greener</strong>
+                    <p>Keep your service running smoothly, one thoughtful choice at a time.</p>
+                </div>
+                <a class="nav-item logout-link" href="{{ url_for('admin_login_page') }}" data-admin-logout>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H5v16h5m4-4 4-4-4-4m4 4H9"/></svg><span>Logout</span>
+                </a>
+                <div class="profile-mini">
+                    <span class="profile-avatar">A</span>
+                    <span><strong>Alex Morgan</strong><small>Restaurant admin · Demo</small></span>
+                    <span class="profile-dots" aria-hidden="true">···</span>
+                </div>
+            </div>
+        </aside>
+
+        <div class="main-column">
+            <header class="topbar">
+                <button class="icon-button sidebar-toggle" id="sidebarToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+                <div class="breadcrumb"><span>Workspace</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg><strong>{{ page_title }}</strong></div>
+                <div class="topbar-actions">
+                    <span class="demo-pill"><i></i> {% if active_page == 'customers' %}FIRESTORE ORDERS{% elif active_page == 'menu' %}FIRESTORE MENU{% elif active_page == 'analytics' %}FIRESTORE ANALYTICS{% else %}DEMO ENVIRONMENT{% endif %}</span>
+                    <button class="icon-button notification-button" type="button" aria-label="Notifications">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9m-8 12h4"/></svg><i></i>
+                    </button>
+                </div>
+            </header>
+
+            <main class="page-content">
+                <div class="page-heading">
+                    <div><p class="page-eyebrow">{% if active_page == 'customers' %}CUSTOMER ACTIVITY <span>·</span> FIRESTORE{% elif active_page == 'menu' %}MENU MANAGEMENT <span>·</span> FIRESTORE{% elif active_page == 'analytics' %}ANALYTICS <span>·</span> LIVE FIRESTORE DATA{% else %}TUESDAY, OCTOBER 20, 2026 <span>·</span> LIVE PREVIEW{% endif %}</p><h1>{{ page_heading }}</h1><p class="page-subtitle">{{ page_subtitle }}</p></div>
+                    <div class="heading-actions">{% block heading_actions %}{% endblock %}</div>
+                </div>
+                <div class="toast-message" id="toastMessage" role="status" aria-live="polite"></div>
+                {% block content %}{% endblock %}
+                <footer class="page-footer"><span>© 2026 Verdant Hospitality</span><span><i></i> {% if active_page == 'customers' %}Firestore-derived customer data · refreshes automatically{% elif active_page == 'menu' %}Firestore menu · Customer pages refresh automatically{% elif active_page == 'analytics' %}Firestore analytics · updates every 7 seconds{% else %}Demo data · Changes are not permanently saved{% endif %}</span></footer>
+            </main>
+        </div>
+    </div>
+    <dialog class="detail-dialog" id="detailDialog" aria-labelledby="dialogTitle">
+        <div class="dialog-heading"><div><span class="page-eyebrow">{% if active_page == 'analytics' %}FIRESTORE ANALYTICS{% else %}DEMO PREVIEW{% endif %}</span><h2 id="dialogTitle">Details</h2></div><button class="icon-button dialog-close" type="button" aria-label="Close dialog">&times;</button></div>
+        <div class="dialog-body" id="dialogBody"></div>
+        <div class="dialog-actions"><button class="button-secondary dialog-close" type="button">Close</button></div>
+    </dialog>
+    <script src="{{ url_for('static', filename='js/admin_dashboard.js') }}" defer></script>
+    {% block page_scripts %}{% endblock %}
+</body>
+</html>

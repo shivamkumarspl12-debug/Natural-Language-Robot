@@ -1,0 +1,29 @@
+13 - TEXT TO SPEECH
+
+Purpose
+Describe the automatic spoken robot responses and browser controls.
+
+Files
+- templates\index.html: speak(), robotReply(), toggleVoiceMute(), stopSpeaking().
+- templates\voice_camera.html: equivalent speech functions.
+- Speech support is client-side; Flask returns text in robot_response.
+
+How it works
+The page checks for window.speechSynthesis and SpeechSynthesisUtterance, cancels queued/current speech, respects the local voiceMuted flag, and creates a new utterance. It selects an available English voice preferring en-IN, en-US, or en-GB, then any English voice. If none is returned, it uses en-IN as the requested language. Rate is set near 0.95 and pitch to 1. Speech events update voiceStatus; an unavailable API or speech error leaves the written response visible.
+
+Response routing
+Typed dashboard command -> backend response -> robotReply(robot_response) -> conversation + one utterance. Dashboard speech recognition inserts the transcript and invokes the same executeInstruction() path. On voice-camera page, robot command results return from /process and are spoken through robotReply(). Local greetings/menu/thanks may be handled locally and spoken without calling Flask.
+
+Controls
+- Mute/Unmute toggles voiceMuted and cancels speech when muting.
+- Stop Speaking cancels the current utterance without changing the mute preference.
+- Starting a later reply cancels the previous utterance to prevent overlap.
+
+Dependencies and status
+Uses built-in browser Web Speech synthesis only; no cloud TTS vendor or audio files were found. Controls and fallback messaging are implemented in both pages. Automated backend tests validate response text, not audible playback or selected system voice.
+
+Limitations
+Available voice names/languages depend on the operating system and browser. Browser policy may require user interaction before sound. No voice selection menu, saved preference, pronunciation dictionary, or server-side TTS fallback exists. English is selected by the code; synthesized accent/quality is not guaranteed. Camera page's simulated welcome can also speak after camera start.
+
+Manual test
+In a browser, submit a valid and invalid command, toggle mute, use Stop Speaking mid-utterance, and repeat through voice input. Confirm visible text remains when speech is muted/unavailable. Audio behavior is unverified until tested with actual browser audio output.

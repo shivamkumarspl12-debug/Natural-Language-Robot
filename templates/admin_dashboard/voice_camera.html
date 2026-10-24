@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Restaurant Robot - Voice & Camera</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b1020;
+            color: white;
+        }
+
+        header {
+            padding: 18px 25px;
+            background: #111827;
+            border-bottom: 1px solid #374151;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header p {
+            margin: 6px 0 0;
+            color: #9ca3af;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #374151;
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        video {
+            width: 100%;
+            height: 350px;
+            background: #020617;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .status {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #172033;
+        }
+
+        .conversation {
+            height: 360px;
+            overflow-y: auto;
+            background: #080d18;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .message {
+            padding: 10px 12px;
+            margin: 8px 0;
+            border-radius: 9px;
+            line-height: 1.4;
+        }
+        
+        .robot {
+            background: #172554;
+            text-align: left;
+        }
+
+        .customer {
+            background: #14532d;
+            text-align: right;
+        }
+
+        .system {
+            background: #3f3f46;
+            text-align: center;
+            color: #d1d5db;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            resize: vertical;
+            border-radius: 9px;
+            border: 1px solid #4b5563;
+            background: #030712;
+            color: white;
+            padding: 12px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+        }
+
+        button:hover {
+            opacity: .85;
+        }
+
+        .stop {
+            background: #dc2626;
+        }
+
+        .green {
+            background: #16a34a;
+        }
+
+        .gray {
+            background: #374151;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            background: #1f2937;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .voice-controls button {
+            width: auto;
+            margin-top: 0;
+        }
+
+        .menu-item:hover {
+            background: #374151;
+        }
+
+        .pipeline {
+            margin-top: 15px;
+            background: #020617;
+            border-radius: 10px;
+            padding: 12px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 350px;
+            overflow-y: auto;
+            font-size: 13px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        @media(max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🤖 AI Restaurant Service Robot</h1>
+    <p>Camera • Voice Conversation • Natural Language • Order Management</p>
+</header>
+
+<div class="container">
+
+    <!-- CAMERA -->
+
+    <div class="card">
+
+        <h2>📷 Customer Detection</h2>
+
+        <video id="camera" autoplay muted playsinline></video> <!-- Video element for camera feed -->
+
+        <div class="status" id="cameraStatus">
+            Camera not started
+        </div>
+
+        <button onclick="startCamera()" class="green">
+            📷 START CAMERA
+        </button>
+
+        <button onclick="stopCamera()" class="stop">
+            ⛔ STOP CAMERA
+        </button>
+
+    </div>
+
+    <!-- VOICE -->
+
+    <div class="card">
+
+        <h2>🎙️ Voice Conversation</h2>
+
+        <div class="conversation" id="conversation">
+
+            <div class="message system">
+                Robot is ready.
+            </div>
+
+            <div class="message robot">
+                🤖 Welcome to our restaurant! How may I help you?
+            </div>
+
+        </div>
+
+        <button onclick="startListening()" class="green">
+            🎙️ START TALKING
+        </button>
+
+        <button onclick="stopListening()" class="stop">
+            ⛔ STOP LISTENING
+        </button>
+
+        <div class="voice-controls">
+            <button
+                onclick="toggleVoiceMute()"
+                id="muteVoiceButton"
+                class="dark">
+                🔇 MUTE VOICE
+            </button>
+
+            <button
+                onclick="stopSpeaking()"
+                class="stop">
+                ⏹ STOP SPEAKING
+            </button>
+        </div>
+
+        <textarea
+            id="textInput"
+            placeholder="Or type your question here...">
+        </textarea>
+
+        <button onclick="sendText()">
+            💬 SEND MESSAGE
+        </button>
+
+        <p id="voiceStatus">
+            Voice system ready.
+        </p>
+
+    </div>
+
+    <!-- MENU -->
+
+    <div class="card">
+
+        <h2>🍽️ Digital Menu</h2>
+
+        <div class="menu" id="menu">
+
+            <div class="menu-item" onclick="selectItem('Margherita Pizza')">
+                🍕 Margherita Pizza ₹199
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Cheese Pizza')">
+                🍕 Cheese Pizza ₹249
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Veg Burger')">
+                🍔 Veg Burger ₹129
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Cheese Burger')">
+                🍔 Cheese Burger ₹159
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Paneer Burger')">
+                🍔 Paneer Burger ₹179
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Veg Biryani')">
+                🍚 Veg Biryani ₹179
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Paneer Butter Masala')">
+                🍛 Paneer Butter Masala ₹229
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Masala Dosa')">
+                🥞 Masala Dosa ₹99
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Veg Noodles')">
+                🍜 Veg Noodles ₹149
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Fried Rice')">
+                🍚 Fried Rice ₹149
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Cold Drink')">
+                🥤 Cold Drink ₹60
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Cold Coffee')">
+                ☕ Cold Coffee ₹110
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Hot Coffee')">
+                ☕ Hot Coffee ₹90
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Water Bottle')">
+                💧 Water Bottle ₹30
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Chocolate Cake')">
+                🍰 Chocolate Cake ₹129
+            </div>
+
+            <div class="menu-item" onclick="selectItem('Ice Cream')">
+                🍨 Ice Cream ₹99
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ROBOT STATUS -->
+
+    <div class="card">
+
+        <h2>🤖 Robot Status</h2>
+
+        <div class="status">
+            Status:
+            <strong id="robotStatus">READY</strong>
+        </div>
+
+        <div class="status">
+            Location:
+            <strong id="robotLocation">COUNTER</strong>
+        </div>
+
+        <div class="status">
+            Battery:
+            <strong id="battery">100%</strong>
+        </div>
+
+        <div class="status">
+            Current Order:
+            <strong id="currentOrder">NONE</strong>
+        </div>
+
+        <button onclick="testDelivery()">
+            🚗 TEST FOOD DELIVERY
+        </button>
+
+        <button onclick="open3D()" class="gray">
+            🌐 OPEN 3D SIMULATION
+        </button>
+
+    </div>
+
+    <!-- PIPELINE -->
+
+    <div class="card full">
+
+        <h2>🧠 AI Robot Pipeline</h2>
+
+        <div class="pipeline" id="pipeline">
+Waiting for customer instruction...
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    /* =====================================================
+       GLOBAL VARIABLES
+    ===================================================== */
+
+    let cameraStream = null;
+
+    let recognition = null;
+
+    let listening = false;
+
+    let lastPipelineResult = null;
+
+    let voiceMuted = false;
+
+
+    function speak(text) {
+
+        if (
+            !("speechSynthesis" in window) ||
+            typeof SpeechSynthesisUtterance === "undefined"
+        ) {
+
+            document.getElementById(
+                "voiceStatus"
+            ).innerText =
+                "Voice output is unavailable in this browser. Response is shown in the conversation.";
+
+            return;
+
+        }
+
+        const synthesis =
+            window.speechSynthesis;
+
+        synthesis.cancel();
+
+        if (voiceMuted) {
+            return;
+        }
+
+        const utterance =
+            new SpeechSynthesisUtterance(text);
+
+        const voices =
+            synthesis.getVoices();
+
+        const englishVoice =
+            voices.find(voice =>
+                /^en(-|_)?(IN|US|GB)\b/i.test(voice.lang)
+            ) ||
+            voices.find(voice =>
+                /^en\b/i.test(voice.lang)
+            );
+
+        if (englishVoice) {
+            utterance.voice = englishVoice;
+            utterance.lang = englishVoice.lang;
+        }
+        else {
+            utterance.lang = "en-IN";
+        }
+
+        utterance.rate = 0.95;
+        utterance.pitch = 1;
+
+        const status = document.getElementById("voiceStatus");
+        utterance.onstart = function() {
+            status.innerText = "Robot is speaking...";
+        };
+        utterance.onend = function() {
+            status.innerText = voiceMuted
+                ? "Voice output muted."
+                : "Voice system ready.";
+        };
+        utterance.onerror = function() {
+            status.innerText =
+                "Voice output failed. Response is shown in the conversation.";
+        };
+
+        try {
+            synthesis.speak(utterance);
+        }
+        catch(error) {
+            console.error("Speech synthesis error:", error);
+            status.innerText =
+                "Voice output failed. Response is shown in the conversation.";
+        }
+    }
+
+
+    function toggleVoiceMute() {
+
+        voiceMuted = !voiceMuted;
+
+        if (voiceMuted && "speechSynthesis" in window) {
+            window.speechSynthesis.cancel();
+        }
+
+        document.getElementById(
+            "muteVoiceButton"
+        ).innerText =
+            voiceMuted
+                ? "🔊 UNMUTE VOICE"
+                : "🔇 MUTE VOICE";
+
+        document.getElementById(
+            "voiceStatus"
+        ).innerText =
+            voiceMuted
+                ? "Voice output muted."
+                : "Voice system ready.";
+    }
+
+
+    function stopSpeaking() {
+
+        if ("speechSynthesis" in window) {
+            window.speechSynthesis.cancel();
+        }
+
+        document.getElementById(
+            "voiceStatus"
+        ).innerText =
+            "Speech stopped.";
+    }
+
+
+    function robotReply(text) {
+
+        addMessage(
+            "robot",
+            "🤖 " + text
+        );
+
+        speak(text);
+    }
+
+        /* =====================================================
+           CAMERA
+        ===================================================== */
+
+    async function startCamera() {
+
+        try {
+
+            cameraStream =
+                await navigator.mediaDevices
+                    .getUserMedia({
+                        video: true,
+                        audio: false
+                    });
+
+            document.getElementById(
+                "camera"
+            ).srcObject =
+                cameraStream;
+
+            document.getElementById(
+                "cameraStatus"
+            ).innerText =
+                "🟢 Camera active";
+
+            addMessage(
+                "system",
+                "📷 Camera started. This page does not run automatic customer detection."
+            );
+
+        }
+        catch(error) {
+
+            console.error(error);
+
+            document.getElementById(
+                "cameraStatus"
+            ).innerText =
+                "❌ Camera permission denied or unavailable.";
+
+        }
+
+    }
+
+    function stopCamera() {
+
+        if(cameraStream) {
+
+            cameraStream
+                .getTracks()
+                .forEach(
+                    track => track.stop()
+                );
+
+            cameraStream = null;
+
+        }
+
+        document.getElementById(
+            "camera"
+        ).srcObject = null;
+
+        document.getElementById(
+            "cameraStatus"
+        ).innerText =
+            "Camera stopped.";
+
+    }
+
+    /* =====================================================
+       SPEECH RECOGNITION
+    ===================================================== */
+
+    function setupRecognition() {
+
+        const SpeechRecognition =
+            window.SpeechRecognition ||
+            window.webkitSpeechRecognition;
+
+        if(!SpeechRecognition) {
+
+            addMessage(
+                "system",
+                "❌ Speech recognition is not supported in this browser. Use Chrome."
+            );
+
+            return null;
+
+        }
+
+        const rec =
+            new SpeechRecognition();
+
+        rec.lang = "en-IN";
+
+        rec.continuous = false;
+
+        rec.interimResults = false;
+
+        rec.onstart = function() {
+
+            listening = true;
+
+            addMessage(
+                "system",
+                "🎙️ Listening..."
+            );
+
+        };
+
+        rec.onresult = function(event) {
+
+            const text =
+                event.results[0][0].transcript;
+
+            processUserMessage(text);
+
+        };
+
+        rec.onerror = function(event) {
+
+            console.error(
+                "Speech error:",
+                event.error
+            );
+
+            addMessage(
+                "system",
+                "⚠️ Voice recognition error: " +
+                event.error
+            );
+
+        };
+
+        rec.onend = function() {
+
+            listening = false;
+
+        };
+
+        return rec;
+
+    }
+
+    recognition =
+        setupRecognition();
+
+    function startListening() {
+
+        if(!recognition) {
+
+            recognition =
+                setupRecognition();
+
+        }
+
+        if(!recognition) {
+            return;
+        }
+
+        try {
+
+            recognition.start();
+
+        }
+        catch(error) {
+
+            console.log(
+                "Recognition already active."
+            );
+
+        }
+
+    }
+
+    function stopListening() {
+
+        if(
+            recognition &&
+            listening
+        ) {
+
+            recognition.stop();
+
+        }
+
+    }
+
+    /* =====================================================
+       TEXT INPUT
+    ===================================================== */
+
+    function sendText() {
+
+        const input =
+            document.getElementById(
+                "textInput"
+            );
+
+        const text =
+            input.value.trim();
+
+        if(!text) {
+            return;
+        }
+
+        input.value = "";
+
+        processUserMessage(text);
+
+    }
+
+    /* =====================================================
+       PROCESS USER MESSAGE
+    ===================================================== */
+
+    async function processUserMessage(text) {
+
+        addMessage(
+            "customer",
+            "👤 " + text
+        );
+
+        const response =
+            createRobotResponse(text);
+
+        /*
+           Restaurant information
+        */
+
+        if(response.type === "INFO") {
+
+            robotReply(response.message);
+
+            return;
+
+        }
+
+        /*
+           Order
+        */
+
+        if(response.type === "ORDER") {
+
+            await sendToBackend(
+                text
+            );
+
+            return;
+
+        }
+
+        /*
+           Delivery / robot command
+        */
+
+        if(response.type === "COMMAND") {
+
+            await sendToBackend(
+                text
+            );
+
+            return;
+
+        }
+
+    }
+
+    /* =====================================================
+       ROBOT RESPONSE
+    ===================================================== */
+
+    function createRobotResponse(text) {
+
+        const lower =
+            text.toLowerCase();
+
+        /* Greeting */
+
+        if(
+            lower.includes("hello") ||
+            lower.includes("hi") ||
+            lower.includes("hey")
+        ) {
+
+            return {
+                type: "INFO",
+                message:
+                    "Hello! Welcome to our restaurant. How can I help you?"
+            };
+
+        }
+
+        /* Menu */
+
+        if(
+            lower.includes("menu") ||
+            lower.includes("food") ||
+            lower.includes("what do you have")
+        ) {
+
+            return {
+                type: "INFO",
+                message:
+                    "We have pizza, burgers, biryani, noodles, dosa, coffee, cold drinks, desserts and many more items. You can also see our digital menu."
+            };
+
+        }
+
+        /* Price */
+
+        if(
+            lower.includes("price") ||
+            lower.includes("cost")
+        ) {
+
+            return {
+                type: "INFO",
+                message:
+                    "Please select an item from the digital menu to see its price."
+            };
+
+        }
+
+        /* Thanks */
+
+        if(
+            lower.includes("thank") ||
+            lower.includes("thanks")
+        ) {
+
+            return {
+                type: "INFO",
+                message:
+                    "You're welcome! Enjoy your meal."
+            };
+
+        }
+
+        /* Pizza */
+
+        if(
+            lower.includes("pizza")
+        ) {
+
+            return {
+                type: "ORDER",
+                message:
+                    "Sure! I can take your pizza order. Please tell me the quantity and type of pizza."
+            };
+
+        }
+
+        /* Burger */
+
+        if(
+            lower.includes("burger")
+        ) {
+
+            return {
+                type: "ORDER",
+                message:
+                    "Sure! Which burger would you like and how many?"
+            };
+
+        }
+
+        /* Delivery */
+
+        if(
+            lower.includes("deliver") ||
+            lower.includes("take") ||
+            lower.includes("bring") ||
+            lower.includes("give")
+        ) {
+
+            return {
+                type: "COMMAND",
+                message:
+                    "Sure. I will process the delivery instruction and prepare the robot."
+            };
+
+        }
+
+        /* Table */
+
+        if(
+            lower.includes("table")
+        ) {
+
+            return {
+                type: "COMMAND",
+                message:
+                    "Okay. I understand the table instruction. I will process it."
+            };
+
+        }
+
+        return {
+            type: "COMMAND",
+            message:
+                "I understand your request. Let me process it through the AI robot system."
+        };
+
+    }
+
+    /* =====================================================
+       SEND TO FLASK
+    ===================================================== */
+
+    async function sendToBackend(
+        instruction
+    ) {
+
+        updateRobotStatus(
+            "PROCESSING",
+            "AI SYSTEM"
+        );
+
+        document.getElementById(
+            "pipeline"
+        ).innerText =
+            "🧠 Sending instruction to AI pipeline...\n\n" +
+            instruction;
+
+        try {
+
+            const response =
+                await fetch(
+                    "/process",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+                                instruction:
+                                    instruction
+                            })
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if(!response.ok) {
+
+                appendOrderStatuses(data.order_plan || []);
+
+                updateRobotStatus(
+                    data.error_code === "INVALID_TABLE"
+                        ? "INVALID DESTINATION"
+                        : "ERROR",
+                    "COUNTER"
+                );
+
+                document.getElementById(
+                    "pipeline"
+                ).innerText =
+                    "❌ " +
+                    (data.error || "Instruction failed.");
+
+                robotReply(
+                    data.robot_response ||
+                    "Sorry, I could not process your instruction. Please try again."
+                );
+
+                return;
+
+            }
+
+            lastPipelineResult =
+                data;
+
+            if (data.overall_status === "SUCCESS") {
+                sessionStorage.setItem(
+                    "pipelineResult",
+                    JSON.stringify(data)
+                );
+            }
+            else {
+                sessionStorage.removeItem("pipelineResult");
+            }
+
+            displayPipeline(
+                data
+            );
+
+            appendOrderStatuses(data.order_plan || []);
+
+            updateRobotStatus(
+                data.overall_status || "SUCCESS",
+                data.orders?.length > 1
+                    ? "MULTI-TABLE"
+                    : data.parser?.target || "COUNTER"
+            );
+
+            const item = data.orders?.length
+                ? data.orders.map(order =>
+                    (order.items || []).map(orderItem =>
+                        `${orderItem.quantity} ${orderItem.name} → Table ${order.table}`
+                    ).join(", ")
+                ).join("; ")
+                : data.parser?.item ||
+                    data.parser?.object ||
+                    "food";
+
+            document.getElementById(
+                "currentOrder"
+            ).innerText =
+                item;
+
+            robotReply(
+                data.robot_response ||
+                "Your instruction was completed successfully."
+            );
+
+        }
+        catch(error) {
+
+            console.error(error);
+
+            document.getElementById(
+                "pipeline"
+            ).innerText =
+                "❌ " +
+                error.message;
+
+            updateRobotStatus(
+                "ERROR",
+                "COUNTER"
+            );
+
+            robotReply(
+                "Sorry, I could not process your instruction. Please try again."
+            );
+
+        }
+
+    }
+
+    /* =====================================================
+       DISPLAY PIPELINE
+    ===================================================== */
+
+    function displayPipeline(data) {
+
+        const parser =
+            data.parser || {};
+
+        const steps =
+            data.task_decomposition || [];
+
+        const commands =
+            data.robot_commands || [];
+
+        let output = "";
+
+        output +=
+            "========== AI PIPELINE ==========\n\n";
+
+        output +=
+            "Instruction:\n" +
+            data.instruction +
+            "\n\n";
+
+        output +=
+            "Intent:\n" +
+            (parser.intent || "N/A") +
+            "\n\n";
+
+        output +=
+            "Item:\n" +
+            (parser.item ||
+             parser.object ||
+             "N/A") +
+            "\n\n";
+
+        output +=
+            "Target:\n" +
+            (parser.target || "N/A") +
+            "\n\n";
+
+        if (Array.isArray(data.order_plan)) {
+            output += "Order Plan and Delivery Status:\n";
+            data.order_plan.forEach(order => {
+                output +=
+                    `${order.order_id} — Table ${order.table}: ` +
+                    `${(order.items || []).map(item =>
+                        `${item.quantity} ${item.name} (${item.delivery_status || item.status})`
+                    ).join(", ")} — ${order.status}\n`;
+            });
+            output += "\n";
+        }
+
+        output +=
+            "Task Decomposition:\n";
+
+        steps.forEach(
+            (step, index) => {
+
+                output +=
+                    (index + 1) +
+                    ". " +
+                    step +
+                    "\n";
+
+            }
+        );
+
+        output +=
+            "\nAction Sequence:\n";
+
+        commands.forEach(
+            (command, index) => {
+
+                output +=
+                    (index + 1) +
+                    ". " +
+                    command +
+                    "\n";
+
+            }
+        );
+
+        output +=
+            "\nOverall Status:\n" +
+            (data.overall_status ||
+             "N/A");
+
+        document.getElementById(
+            "pipeline"
+        ).innerText =
+            output;
+
+    }
+
+    function appendOrderStatuses(orderPlan) {
+        orderPlan.forEach(order => {
+            const itemSummary = (order.items || []).map(item =>
+                `${item.quantity} ${item.name}`
+            ).join(", ");
+            const table = order.table
+                ? `Table ${order.table}`
+                : "destination unspecified";
+            addMessage(
+                "system",
+                `${order.order_id}: ${itemSummary || "Items unspecified"} → ${table} — ${order.status || "VALIDATED"} / ${order.delivery_status || "PENDING"}`
+            );
+        });
+    }
+
+    /* =====================================================
+       MENU
+    ===================================================== */
+
+    function selectItem(item) {
+
+        const message =
+            "I would like to order " +
+            item;
+
+        processUserMessage(
+            message
+        );
+
+    }
+
+    /* =====================================================
+       TEST DELIVERY
+    ===================================================== */
+
+    function testDelivery() {
+
+        const command =
+            "Deliver the water bottle to table 3.";
+
+        processUserMessage(
+            command
+        );
+
+    }
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    function updateRobotStatus(
+        status,
+        location
+    ) {
+
+        document.getElementById(
+            "robotStatus"
+        ).innerText =
+            status;
+
+        document.getElementById(
+            "robotLocation"
+        ).innerText =
+            location;
+
+    }
+
+    /* =====================================================
+       CONVERSATION
+    ===================================================== */
+
+    function addMessage(
+        type,
+        text
+    ) {
+
+        const conversation =
+            document.getElementById(
+                "conversation"
+            );
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className =
+            "message " + type;
+
+        div.innerText =
+            text;
+
+        conversation.appendChild(
+            div
+        );
+
+        conversation.scrollTop =
+            conversation.scrollHeight;
+
+    }
+
+    /* =====================================================
+       3D
+    ===================================================== */
+
+    function open3D() {
+
+        window.open(
+            "/simulation",
+            "_blank"
+        );
+
+    }
+
+    /* =====================================================
+       ENTER KEY
+    ===================================================== */
+
+    document
+        .getElementById("textInput")
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if(
+                    event.key === "Enter" &&
+                    !event.shiftKey
+                ) {
+
+                    event.preventDefault();
+
+                    sendText();
+
+                }
+
+            }
+        );
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+28 - CHANGELOG AND HISTORY EVIDENCE
+
+Purpose
+Record changes only where reliable history exists and avoid inventing dates or commits.
+
+Repository history inspection
+The active project root is not a Git repository, so there is no root application commit log, branch history, or commit-derived changelog available to verify source changes and dates. A nested .git directory exists inside datasets\calvin\calvin; that is the vendored CALVIN project and does not establish the history of the restaurant robot application.
+
+Known current implementation (source inspection, not historical attribution)
+- Flask application routes are in app.py.
+- Parser, task decomposer, action generator, controller, and failure detector are in src\.
+- Main dashboard, voice-camera page, and 3D scene are in templates\.
+- Multi-order implementation and tests are present in app.py, src\instruction_parser.py, integrated_pipeline.py, templates\index.html, templates\voice_camera.html, templates\robot_3d.html, and tests\test_multi_orders.py.
+- Current backend unit suite result during this documentation task: 18 tests passed.
+- A sequential Table 3 then Table 4 visualization was observed in the preceding browser validation; it is a software simulation and not physical execution evidence.
+
+What cannot be dated
+Without root Git history or another verified release log, the dates/authors of parser additions, voice/camera work, fixes, dataset generation, and existing JSON snapshots cannot be reliably assigned. Existing timestamps inside execution logs are application data, not a source-code change record.
+
+Documentation work in this deliverable
+This documentation folder is being created as the requested documentation output. No application Python, HTML, CSS, JavaScript, configuration, dataset, or secret file was changed for this documentation task.
+
+Dependencies and status
+The documentation depends on current source/test inspection and prior available browser-validation results. It does not infer historical authorship from filenames or generated artifacts.
+
+Future changelog practice
+Initialize/retain Git history for the application and record future entries with commit/release identifiers, verified dates, changed paths, and test evidence. Do not retroactively fabricate entries.

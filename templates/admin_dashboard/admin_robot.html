@@ -1,0 +1,45 @@
+{% extends "admin_dashboard/admin_base.html" %}
+
+{% block heading_actions %}<span class="status-chip status-open"><i></i> 3 of 4 online</span>{% endblock %}
+
+{% block content %}
+<div class="demo-banner"><strong>Simulation only</strong> These controls update this page's demo state; they do not communicate with Unity or physical robots.</div>
+<div class="robot-grid">
+    <article class="panel robot-card" data-robot-card data-robot-name="Sprout 01" data-robot-status="Delivering">
+        <div class="robot-card__top"><span class="robot-avatar robot-avatar--large">R1</span><span class="status-chip status-open"><i></i> Online</span><button class="more-button" type="button" aria-label="Sprout 01 options">···</button></div>
+        <div class="robot-card__title"><div><h2>Sprout 01</h2><p>Robot ID · VRT-001</p></div><span class="robot-state state-delivering">Delivering</span></div>
+        <div class="battery-row"><div><span>Battery level</span><strong>86%</strong></div><div class="battery-track"><i style="width:86%"></i></div></div>
+        <div class="robot-details"><div><span>Current task</span><strong data-current-task>Delivering order</strong></div><div><span>Assigned order</span><strong data-assigned-order>#VD-2048</strong></div><div><span>Destination</span><strong>Table 08</strong></div><div><span>Last activity</span><strong>2 min ago</strong></div></div>
+        <div class="robot-actions"><button class="button-secondary" type="button" data-robot-action="pause">Pause</button><button class="button-primary" type="button" data-robot-action="history">Task history</button></div>
+    </article>
+    <article class="panel robot-card" data-robot-card data-robot-name="Sprout 02" data-robot-status="Idle">
+        <div class="robot-card__top"><span class="robot-avatar robot-avatar--large robot-avatar--lime">R2</span><span class="status-chip status-open"><i></i> Online</span><button class="more-button" type="button" aria-label="Sprout 02 options">···</button></div>
+        <div class="robot-card__title"><div><h2>Sprout 02</h2><p>Robot ID · VRT-002</p></div><span class="robot-state state-idle">Idle & available</span></div>
+        <div class="battery-row"><div><span>Battery level</span><strong>72%</strong></div><div class="battery-track"><i style="width:72%"></i></div></div>
+        <div class="robot-details"><div><span>Current task</span><strong data-current-task>Waiting for assignment</strong></div><div><span>Assigned order</span><strong data-assigned-order>None</strong></div><div><span>Destination</span><strong>—</strong></div><div><span>Last activity</span><strong>5 min ago</strong></div></div>
+        <div class="robot-actions"><button class="button-secondary" type="button" data-robot-action="pause">Pause</button><button class="button-primary" type="button" data-robot-action="assign">Assign order</button><button class="button-tertiary" type="button" data-robot-action="history">History</button></div>
+    </article>
+    <article class="panel robot-card" data-robot-card data-robot-name="Sprout 03" data-robot-status="Charging">
+        <div class="robot-card__top"><span class="robot-avatar robot-avatar--large robot-avatar--gold">R3</span><span class="status-chip status-open"><i></i> Online</span><button class="more-button" type="button" aria-label="Sprout 03 options">···</button></div>
+        <div class="robot-card__title"><div><h2>Sprout 03</h2><p>Robot ID · VRT-003</p></div><span class="robot-state state-charging">Charging</span></div>
+        <div class="battery-row"><div><span>Battery level</span><strong>34%</strong></div><div class="battery-track"><i class="battery-low" style="width:34%"></i></div></div>
+        <div class="robot-details"><div><span>Current task</span><strong data-current-task>Returning to dock</strong></div><div><span>Assigned order</span><strong data-assigned-order>None</strong></div><div><span>Destination</span><strong>Charging station</strong></div><div><span>Last activity</span><strong>Charging · 18 min</strong></div></div>
+        <div class="robot-actions"><button class="button-secondary" type="button" data-robot-action="pause">Pause</button><button class="button-primary" type="button" data-robot-action="charge">Return to charge</button><button class="button-tertiary" type="button" data-robot-action="history">History</button></div>
+    </article>
+    <article class="panel robot-card robot-card--offline" data-robot-card data-robot-name="Sprout 04" data-robot-status="Offline">
+        <div class="robot-card__top"><span class="robot-avatar robot-avatar--large robot-avatar--gray">R4</span><span class="status-chip status-offline"><i></i> Offline</span><button class="more-button" type="button" aria-label="Sprout 04 options">···</button></div>
+        <div class="robot-card__title"><div><h2>Sprout 04</h2><p>Robot ID · VRT-004</p></div><span class="robot-state state-offline">Offline</span></div>
+        <div class="battery-row"><div><span>Battery level</span><strong>—</strong></div><div class="battery-track"><i style="width:0%"></i></div></div>
+        <div class="robot-details"><div><span>Current task</span><strong data-current-task>Not connected</strong></div><div><span>Assigned order</span><strong data-assigned-order>None</strong></div><div><span>Destination</span><strong>—</strong></div><div><span>Last activity</span><strong>Yesterday, 10:14 PM</strong></div></div>
+        <div class="robot-actions"><button class="button-secondary" type="button" disabled>Unavailable</button><button class="button-tertiary" type="button" data-robot-action="history">History</button></div>
+    </article>
+</div>
+<section class="panel section-panel task-history-panel">
+    <div class="panel-heading"><div><h2>Recent fleet activity</h2><p>Sample robot task history</p></div><a href="#task-history" class="panel-link" data-history-all>View full history →</a></div>
+    <div class="table-responsive"><table class="data-table"><thead><tr><th>ROBOT</th><th>TASK</th><th>ORDER</th><th>DESTINATION</th><th>COMPLETED</th><th>RESULT</th></tr></thead><tbody>
+        <tr><td>Sprout 01</td><td>Order delivery</td><td>#VD-2045</td><td>Table 05</td><td>12:29 PM</td><td><span class="status-chip status-completed">Completed</span></td></tr>
+        <tr><td>Sprout 02</td><td>Order delivery</td><td>#VD-2043</td><td>Table 02</td><td>12:20 PM</td><td><span class="status-chip status-completed">Completed</span></td></tr>
+        <tr><td>Sprout 03</td><td>Return to dock</td><td>—</td><td>Charging station</td><td>12:12 PM</td><td><span class="status-chip status-ready">Charging</span></td></tr>
+    </tbody></table></div>
+</section>
+{% endblock %}

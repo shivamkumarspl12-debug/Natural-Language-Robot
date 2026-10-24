@@ -1,0 +1,42 @@
+19 - TESTING AND TEST CASES
+
+Purpose
+List the automated evidence and a reproducible manual checklist for parser, API, simulation, and browser-only behavior.
+
+Automated test files
+- tests\test_parser.py: local parser selection, navigation, Gemini fallback mock, invalid table rejection.
+- tests\test_robot_responses.py: invalid/missing destinations, success response after execution, failed execution does not announce success.
+- tests\test_multi_orders.py: multiple items/quantities/tables, unassigned destination, per-unit destination arguments, invalid/missing inputs, execution failure, partial quantities, integrated pipeline routing.
+- Root scripts test_controller.py and test_gemini.py are manual demos/connectivity checks, not unittest-discovered modules. test_gemini.py may make an external API call if run with a key.
+
+Current automated result
+Command: `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`
+Result during documentation inspection: 18 tests ran, all passed.
+The tests use Flask's test client and mocked/fake robot or Gemini implementations. They do not prove physical robot, camera, microphone, speech audio, or live Gemini service behavior.
+
+Covered examples
+1. "Deliver 2 water bottles and 3 plates of food to Table 2." -> one Table 2 order with two quantities; asserted by parser test.
+2. "Take one burger, two pizzas, and three cold drinks to Table 4." -> item names and quantities asserted.
+3. "Deliver 2 water bottles to Table 1 and 3 burgers to Table 2." -> distinct tables and item groups; fake controller receives two Table 1 calls and three Table 2 calls.
+4. "Deliver water to Table 1 and burgers to Table 8." -> HTTP 400 INVALID_TABLE; controller is not called.
+5. "Deliver water and pizza." -> missing destination response; controller is not called.
+6. "Deliver 3 water bottles to Table 1." with one mocked failed unit -> delivered_quantity 2, PARTIALLY_DELIVERED; no full-delivery claim.
+7. A failed Table 2 delivery is reported with the affected item/table and is not described as delivered.
+8. Integrated pipeline multi-order path uses shared executor.
+
+Manual test checklist
+- Start Flask and POST or type a valid one-table command; inspect order_plan and per-item status.
+- Run a multi-item, multi-table command; confirm each table gets its own item group and delivery.
+- Try Table 8 and a command without a table; verify clear validation response and no execution status.
+- Simulate a failing controller in a controlled test; verify FAILED/PARTIALLY_DELIVERED is not spoken as completed.
+- In a browser, verify sequence to Table 3, return to counter, route to Table 4, second delivery, final counter return. This exact two-table browser sequence was observed in the preceding task.
+- With an available mic/speaker, check transcript, one robot reply, mute/unmute, Stop Speaking, permission-denied behavior.
+- Start/stop camera and confirm a preview; separately note that the customer greeting is manual/timed and not actual image detection.
+
+Expected versus verified
+Backend parsing/validation/mocked execution: automated tests pass.
+Table 3 then Table 4 scene replay: observed in browser during prior task; visualization only.
+Live audio output, microphone transcription quality, webcam permissions on other browsers, live Gemini API, physical hardware: not established by these tests.
+
+Dependencies and command
+Use the active `.venv` environment. Run the unittest command from the project root. The VS Code test-runner integration did not discover these unittest files in one attempt; direct unittest discovery is the verified command.

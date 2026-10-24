@@ -1,0 +1,34 @@
+12 - VOICE RECOGNITION
+
+Purpose
+Describe microphone command input through browser-native speech recognition.
+
+Files
+- templates\index.html: createRecognition(), startListening(commandMode), and voice transcript handoff.
+- templates\voice_camera.html: setupRecognition(), startListening(), processUserMessage().
+- No server-side speech-to-text service or audio upload endpoint was found.
+
+How it works
+1. JavaScript checks window.SpeechRecognition, then window.webkitSpeechRecognition.
+2. It constructs a browser recognizer with lang="en-IN", continuous=false, interimResults=false.
+3. On result, the first transcript is read.
+4. The dashboard puts it into #instruction and calls executeInstruction(); the voice-camera page passes it to processUserMessage(). Robot commands then follow the same Flask /process path as typed commands.
+5. Stop Listening invokes recognition.stop() while recognition is active. Recognition errors are written to console/conversation/status.
+
+Permissions and support
+The browser prompts for microphone permission when recognition starts. API availability is browser-specific; the template tells users to use Chrome when SpeechRecognition is not exposed. Localhost is generally a secure context, but remote deployments need a secure origin and user permission.
+
+Supported language
+The code sets the recognition locale to English (India), en-IN. This does not demonstrate Hindi, multilingual recognition, or guaranteed recognition quality for accents/noisy rooms.
+
+Dependencies and status
+Depends on browser-provided Web Speech API, microphone hardware, and permission. Typed and voice command paths converge before backend execution, which avoids a separate speech-only executor. The Python tests do not exercise microphone input.
+
+Limitations and errors
+- No interim transcript, confidence threshold, push-to-talk streaming, server fallback, retry strategy, or recognition of multiple speakers is implemented.
+- Unsupported browser and permission/device errors need manual verification.
+- Browser recognition can rely on browser/vendor services; no privacy or offline guarantee is provided by this project.
+- Recognized words still pass through the limited English parser. Recognition is not proof that a command was understood correctly.
+
+Manual test
+Run the app on localhost in a browser with microphone permission; choose Voice Command, say "Deliver water to Table 2", then verify the transcript and backend response. Try deny permission and use a browser without the API; verify the UI leaves a usable text-entry path. Do not claim this test passed unless performed on the target browser/device.

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#08131d">
+    <title>Robot delivery tracking | Verdant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customer_robot_tracking.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="{{ url_for('static', filename='js/customer_robot_tracking.js') }}" defer></script>
+</head>
+<body data-table-number="{{ table_number or '' }}">
+    <header class="tracking-header">
+        <a class="tracking-brand" href="{{ url_for('customer_menu', table=table_number) }}">verdant<span>.</span></a>
+        <a class="tracking-orders-link" href="{{ url_for('customer_my_orders', table=table_number) }}">My orders</a>
+    </header>
+    <main class="tracking-main">
+        <section class="tracking-copy" aria-live="polite">
+            <p class="tracking-kicker">SIMULATED DELIVERY</p>
+            <h1>Your delivery robot</h1>
+            <p class="tracking-message" id="trackingMessage">Connecting to your order…</p>
+            <p class="tracking-order-status" id="trackingOrderStatus">Order status: loading</p>
+            <p class="tracking-disclaimer">This is a software simulation, not a physical robot.</p>
+            <p class="tracking-error" id="trackingError" role="status" hidden></p>
+            <a class="tracking-button" href="{{ url_for('customer_my_orders', table=table_number) }}">Choose an order</a>
+        </section>
+        <section class="tracking-scene" aria-label="Three-dimensional simulated restaurant robot">
+            <div id="robotScene" class="robot-scene"></div>
+            <p class="scene-caption" id="sceneCaption">Waiting for a delivery mission.</p>
+            <span class="scene-badge">LIVE SIMULATED POSITION</span>
+        </section>
+    </main>
+</body>
+</html>

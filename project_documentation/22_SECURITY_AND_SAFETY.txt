@@ -1,0 +1,46 @@
+22 - SECURITY AND SAFETY
+
+Purpose
+Document the checks that exist and the limits that prevent treating this demo as a safely deployed robot system.
+
+Input and destination validation
+- /process requires an instruction string.
+- Delivery tables are restricted in code to integers 1 through 4.
+- Multi-order destinations are checked before controller creation; tests verify invalid Table 8 prevents execution.
+- Missing destinations/items return validation responses.
+- Gemini output has basic schema checks, but parser validation is not a hardware safety boundary.
+
+Credential handling
+src\instruction_parser.py reads GEMINI_API_KEY from environment/.env via python-dotenv. A .env file exists, but its values were deliberately not read or copied into this documentation. Do not commit API keys, print them in logs, or send them to the browser. Use a locally protected environment variable or a properly ignored secret file, rotate any exposed key, and apply provider quotas.
+
+Firebase Admin SDK reads the service-account JSON on the Flask server only. The expected file path is ignored by .gitignore; do not serve the file from static assets, expose it to browser JavaScript, or weaken Firestore rules. Set FIREBASE_CREDENTIALS_PATH when using a different local path.
+
+Current security gaps
+- No authentication/authorization, CSRF protection for state-changing operations, rate limiting, or user/session model was found.
+- Flask debug=True is configured for the local development server. Do not expose it publicly.
+- Unexpected exception details are included in the API `error` field and console output.
+- No deployment TLS/proxy/security-header configuration is present.
+- No audit policy, data retention, or privacy notice is wired for customer speech/camera use.
+- Customer QR orders use the Firestore Admin SDK on the trusted server. Admin SDK access bypasses client Firestore rules, so protect the service account and configure server IAM carefully.
+
+Browser permissions and external services
+Camera and microphone access require explicit browser permissions. Web Speech recognition may rely on browser services; the code does not provide a privacy/offline guarantee. Three.js and controls are loaded from external CDNs, so the simulation depends on third-party network resources.
+
+Physical safety
+No physical actuation is wired, and no physical emergency stop, collision sensor, safe speed envelope, motor interlock, human-presence zone, or hardware watchdog exists in this code. Software checks and a simulated STOP command are not safety-rated protections. Never attach a real robot based solely on this demo.
+
+Delivery truthfulness
+Backend DELIVERED statuses mean the software controller returned success for each unit. The 3D scene visualizes that response and is not a sensor confirmation. Production hardware must confirm grasp, route, placement, and handoff using appropriate sensors and fail safely.
+
+Status and dependencies
+Input/table validation is implemented and unit-tested. Security controls and physical safety integrations are incomplete/not implemented. See 11_TABLE_VALIDATION.txt, 16_ROBOT_CONTROLLER_AND_HARDWARE.txt, and 21_API_REFERENCE.txt.
+
+Recommended actions before deployment
+1. Disable Flask debug mode and run behind a supported production server.
+2. Add authentication, authorization, CSRF protections, request limits, validation, secure headers, and generic public errors.
+3. Securely manage/rotate secrets; verify dependency provenance and pin/lock dependencies.
+4. Add safety-engineered hardware control, E-stop, sensor feedback, human supervision, and hazard testing.
+5. Define camera/audio consent, retention, access, and deletion policies.
+
+Testing
+Security testing has not been conducted as part of this documentation task. Backend unit tests are not a penetration test or functional-safety certification.

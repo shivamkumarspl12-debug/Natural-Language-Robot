@@ -1,0 +1,4058 @@
+[
+    {
+        "id": 1,
+        "instruction": "Move the yellow bottle into the basket",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.44,
+                "y": 0.14,
+                "z": 0.03
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.16,
+                "y": 0.1,
+                "z": 0.06
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.94,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 2,
+        "instruction": "Pick up the yellow bottle and place it in the box",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.25,
+                "y": 0.17,
+                "z": 0.07
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.3,
+                "y": 0.17,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.87,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 3,
+        "instruction": "Lift the yellow bottle and place it in the basket",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.67,
+                "y": 0.33,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.57,
+                "y": 0.46,
+                "z": 0.1
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.45,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 4,
+        "instruction": "Pick up the blue block and place it in the bin",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.43,
+                "y": 0.23,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.26,
+                "y": 0.26,
+                "z": 0.11
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.89,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 5,
+        "instruction": "Move the green cube into the bin",
+        "object": {
+            "name": "cube",
+            "color": "green",
+            "position": {
+                "x": 0.56,
+                "y": 0.28,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.2,
+                "y": 0.12,
+                "z": 0.08
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.27,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 6,
+        "instruction": "Move the yellow ball into the box",
+        "object": {
+            "name": "ball",
+            "color": "yellow",
+            "position": {
+                "x": 0.26,
+                "y": 0.11,
+                "z": 0.04
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.56,
+                "y": 0.5,
+                "z": 0.05
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.13,
+            "failure": "OBJECT_NOT_DETECTED",
+            "retry_count": 1,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 7,
+        "instruction": "Lift the red cube and place it in the basket",
+        "object": {
+            "name": "cube",
+            "color": "red",
+            "position": {
+                "x": 0.61,
+                "y": 0.16,
+                "z": 0.12
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.65,
+                "y": 0.4,
+                "z": 0.09
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.32,
+            "failure": "UNEXPECTED_OBSTACLE",
+            "retry_count": 2,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 8,
+        "instruction": "Take the blue cube to the container",
+        "object": {
+            "name": "cube",
+            "color": "blue",
+            "position": {
+                "x": 0.23,
+                "y": 0.36,
+                "z": 0.11
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.15,
+                "y": 0.29,
+                "z": 0.07
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.63,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 9,
+        "instruction": "Grab the green cube and put it in the box",
+        "object": {
+            "name": "cube",
+            "color": "green",
+            "position": {
+                "x": 0.11,
+                "y": 0.41,
+                "z": 0.04
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.14,
+                "y": 0.38,
+                "z": 0.13
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.87,
+            "failure": "OBJECT_NOT_DETECTED",
+            "retry_count": 1,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 10,
+        "instruction": "Grab the yellow bottle and put it in the bin",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.19,
+                "y": 0.22,
+                "z": 0.09
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.68,
+                "y": 0.33,
+                "z": 0.1
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.22,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 11,
+        "instruction": "Take the red block to the bin",
+        "object": {
+            "name": "block",
+            "color": "red",
+            "position": {
+                "x": 0.67,
+                "y": 0.35,
+                "z": 0.08
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.43,
+                "y": 0.29,
+                "z": 0.07
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.2,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 12,
+        "instruction": "Take the blue block to the basket",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.3,
+                "y": 0.27,
+                "z": 0.14
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.58,
+                "y": 0.42,
+                "z": 0.13
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.69,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 13,
+        "instruction": "Move the green cube into the container",
+        "object": {
+            "name": "cube",
+            "color": "green",
+            "position": {
+                "x": 0.24,
+                "y": 0.4,
+                "z": 0.09
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.63,
+                "y": 0.47,
+                "z": 0.14
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.81,
+            "failure": "UNEXPECTED_OBSTACLE",
+            "retry_count": 2,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 14,
+        "instruction": "Move the blue block into the basket",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.21,
+                "y": 0.36,
+                "z": 0.04
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.15,
+                "y": 0.17,
+                "z": 0.09
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.94,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 15,
+        "instruction": "Transfer the blue block to the bin",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.46,
+                "y": 0.43,
+                "z": 0.12
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.63,
+                "y": 0.12,
+                "z": 0.06
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.37,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 16,
+        "instruction": "Grab the red cube and put it in the basket",
+        "object": {
+            "name": "cube",
+            "color": "red",
+            "position": {
+                "x": 0.42,
+                "y": 0.43,
+                "z": 0.03
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.63,
+                "y": 0.36,
+                "z": 0.06
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.21,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 17,
+        "instruction": "Move the yellow bottle into the box",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.2,
+                "y": 0.12,
+                "z": 0.15
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.22,
+                "y": 0.13,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.27,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 18,
+        "instruction": "Move the blue block into the box",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.47,
+                "y": 0.15,
+                "z": 0.12
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.7,
+                "y": 0.11,
+                "z": 0.08
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.75,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 19,
+        "instruction": "Move the yellow ball into the basket",
+        "object": {
+            "name": "ball",
+            "color": "yellow",
+            "position": {
+                "x": 0.66,
+                "y": 0.22,
+                "z": 0.14
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.63,
+                "y": 0.38,
+                "z": 0.1
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.25,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 20,
+        "instruction": "Move the blue block into the box",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.19,
+                "y": 0.12,
+                "z": 0.14
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.34,
+                "y": 0.48,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.25,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 21,
+        "instruction": "Move the red ball into the container",
+        "object": {
+            "name": "ball",
+            "color": "red",
+            "position": {
+                "x": 0.11,
+                "y": 0.27,
+                "z": 0.08
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.14,
+                "y": 0.35,
+                "z": 0.15
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.53,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 22,
+        "instruction": "Grab the red block and put it in the basket",
+        "object": {
+            "name": "block",
+            "color": "red",
+            "position": {
+                "x": 0.59,
+                "y": 0.41,
+                "z": 0.06
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.21,
+                "y": 0.23,
+                "z": 0.09
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.98,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 23,
+        "instruction": "Lift the green bottle and place it in the bin",
+        "object": {
+            "name": "bottle",
+            "color": "green",
+            "position": {
+                "x": 0.1,
+                "y": 0.18,
+                "z": 0.06
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.32,
+                "y": 0.11,
+                "z": 0.11
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.59,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 24,
+        "instruction": "Move the green ball into the container",
+        "object": {
+            "name": "ball",
+            "color": "green",
+            "position": {
+                "x": 0.52,
+                "y": 0.42,
+                "z": 0.07
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.24,
+                "y": 0.48,
+                "z": 0.12
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.34,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 25,
+        "instruction": "Move the red bottle into the box",
+        "object": {
+            "name": "bottle",
+            "color": "red",
+            "position": {
+                "x": 0.31,
+                "y": 0.2,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.63,
+                "y": 0.36,
+                "z": 0.07
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.46,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 26,
+        "instruction": "Pick up the blue cube and place it in the basket",
+        "object": {
+            "name": "cube",
+            "color": "blue",
+            "position": {
+                "x": 0.12,
+                "y": 0.44,
+                "z": 0.11
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.43,
+                "y": 0.28,
+                "z": 0.03
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.46,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 27,
+        "instruction": "Lift the yellow block and place it in the bin",
+        "object": {
+            "name": "block",
+            "color": "yellow",
+            "position": {
+                "x": 0.11,
+                "y": 0.28,
+                "z": 0.07
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.47,
+                "y": 0.22,
+                "z": 0.08
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.57,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 28,
+        "instruction": "Lift the yellow cube and place it in the basket",
+        "object": {
+            "name": "cube",
+            "color": "yellow",
+            "position": {
+                "x": 0.52,
+                "y": 0.47,
+                "z": 0.15
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.23,
+                "y": 0.15,
+                "z": 0.13
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.27,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 29,
+        "instruction": "Lift the blue cube and place it in the container",
+        "object": {
+            "name": "cube",
+            "color": "blue",
+            "position": {
+                "x": 0.65,
+                "y": 0.32,
+                "z": 0.13
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.31,
+                "y": 0.39,
+                "z": 0.14
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.61,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 30,
+        "instruction": "Grab the yellow cube and put it in the container",
+        "object": {
+            "name": "cube",
+            "color": "yellow",
+            "position": {
+                "x": 0.69,
+                "y": 0.26,
+                "z": 0.04
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.47,
+                "y": 0.32,
+                "z": 0.05
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.42,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 31,
+        "instruction": "Transfer the green cube to the basket",
+        "object": {
+            "name": "cube",
+            "color": "green",
+            "position": {
+                "x": 0.19,
+                "y": 0.39,
+                "z": 0.06
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.1,
+                "y": 0.28,
+                "z": 0.1
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.66,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 32,
+        "instruction": "Pick up the red bottle and place it in the basket",
+        "object": {
+            "name": "bottle",
+            "color": "red",
+            "position": {
+                "x": 0.18,
+                "y": 0.33,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.43,
+                "y": 0.15,
+                "z": 0.02
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.43,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 33,
+        "instruction": "Move the blue ball into the box",
+        "object": {
+            "name": "ball",
+            "color": "blue",
+            "position": {
+                "x": 0.4,
+                "y": 0.2,
+                "z": 0.11
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.11,
+                "y": 0.28,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.37,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 34,
+        "instruction": "Move the yellow block into the box",
+        "object": {
+            "name": "block",
+            "color": "yellow",
+            "position": {
+                "x": 0.37,
+                "y": 0.43,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.51,
+                "y": 0.49,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.12,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 35,
+        "instruction": "Lift the blue block and place it in the basket",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.47,
+                "y": 0.15,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.27,
+                "y": 0.21,
+                "z": 0.08
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.96,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 36,
+        "instruction": "Move the blue cube into the bin",
+        "object": {
+            "name": "cube",
+            "color": "blue",
+            "position": {
+                "x": 0.66,
+                "y": 0.27,
+                "z": 0.03
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.35,
+                "y": 0.11,
+                "z": 0.09
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.0,
+            "failure": "MOVE_FAILED",
+            "retry_count": 1,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 37,
+        "instruction": "Grab the red ball and put it in the basket",
+        "object": {
+            "name": "ball",
+            "color": "red",
+            "position": {
+                "x": 0.61,
+                "y": 0.4,
+                "z": 0.02
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.54,
+                "y": 0.32,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.71,
+            "failure": "UNEXPECTED_OBSTACLE",
+            "retry_count": 3,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 38,
+        "instruction": "Grab the red bottle and put it in the basket",
+        "object": {
+            "name": "bottle",
+            "color": "red",
+            "position": {
+                "x": 0.42,
+                "y": 0.3,
+                "z": 0.11
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.37,
+                "y": 0.43,
+                "z": 0.02
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.47,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 39,
+        "instruction": "Move the green bottle into the container",
+        "object": {
+            "name": "bottle",
+            "color": "green",
+            "position": {
+                "x": 0.6,
+                "y": 0.26,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.41,
+                "y": 0.19,
+                "z": 0.12
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.12,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 40,
+        "instruction": "Take the yellow bottle to the box",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.47,
+                "y": 0.39,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.58,
+                "y": 0.17,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.96,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 41,
+        "instruction": "Grab the yellow bottle and put it in the container",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.11,
+                "y": 0.25,
+                "z": 0.04
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.28,
+                "y": 0.46,
+                "z": 0.02
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.82,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 42,
+        "instruction": "Lift the yellow bottle and place it in the basket",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.37,
+                "y": 0.32,
+                "z": 0.02
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.4,
+                "y": 0.38,
+                "z": 0.13
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.49,
+            "failure": "MOVE_FAILED",
+            "retry_count": 2,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 43,
+        "instruction": "Pick up the green block and place it in the box",
+        "object": {
+            "name": "block",
+            "color": "green",
+            "position": {
+                "x": 0.49,
+                "y": 0.27,
+                "z": 0.12
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.68,
+                "y": 0.18,
+                "z": 0.12
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.07,
+            "failure": "TIMEOUT",
+            "retry_count": 2,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 44,
+        "instruction": "Lift the green ball and place it in the container",
+        "object": {
+            "name": "ball",
+            "color": "green",
+            "position": {
+                "x": 0.22,
+                "y": 0.14,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.38,
+                "y": 0.18,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.12,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 45,
+        "instruction": "Move the blue ball into the container",
+        "object": {
+            "name": "ball",
+            "color": "blue",
+            "position": {
+                "x": 0.66,
+                "y": 0.42,
+                "z": 0.09
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.62,
+                "y": 0.36,
+                "z": 0.08
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.37,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 46,
+        "instruction": "Take the red bottle to the container",
+        "object": {
+            "name": "bottle",
+            "color": "red",
+            "position": {
+                "x": 0.52,
+                "y": 0.39,
+                "z": 0.07
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.43,
+                "y": 0.33,
+                "z": 0.1
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.73,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 47,
+        "instruction": "Transfer the red block to the basket",
+        "object": {
+            "name": "block",
+            "color": "red",
+            "position": {
+                "x": 0.46,
+                "y": 0.44,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.42,
+                "y": 0.42,
+                "z": 0.14
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.62,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 48,
+        "instruction": "Pick up the red block and place it in the box",
+        "object": {
+            "name": "block",
+            "color": "red",
+            "position": {
+                "x": 0.28,
+                "y": 0.41,
+                "z": 0.06
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.21,
+                "y": 0.25,
+                "z": 0.09
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.08,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 49,
+        "instruction": "Grab the green cube and put it in the container",
+        "object": {
+            "name": "cube",
+            "color": "green",
+            "position": {
+                "x": 0.26,
+                "y": 0.3,
+                "z": 0.02
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.42,
+                "y": 0.15,
+                "z": 0.07
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.62,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 50,
+        "instruction": "Lift the yellow cube and place it in the box",
+        "object": {
+            "name": "cube",
+            "color": "yellow",
+            "position": {
+                "x": 0.51,
+                "y": 0.37,
+                "z": 0.13
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.21,
+                "y": 0.13,
+                "z": 0.13
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.85,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 51,
+        "instruction": "Lift the green bottle and place it in the box",
+        "object": {
+            "name": "bottle",
+            "color": "green",
+            "position": {
+                "x": 0.51,
+                "y": 0.17,
+                "z": 0.08
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.28,
+                "y": 0.11,
+                "z": 0.02
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.87,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 52,
+        "instruction": "Move the yellow ball into the box",
+        "object": {
+            "name": "ball",
+            "color": "yellow",
+            "position": {
+                "x": 0.21,
+                "y": 0.39,
+                "z": 0.03
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.44,
+                "y": 0.43,
+                "z": 0.02
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.67,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 53,
+        "instruction": "Grab the green bottle and put it in the bin",
+        "object": {
+            "name": "bottle",
+            "color": "green",
+            "position": {
+                "x": 0.16,
+                "y": 0.4,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.11,
+                "y": 0.38,
+                "z": 0.06
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.65,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 54,
+        "instruction": "Lift the red ball and place it in the box",
+        "object": {
+            "name": "ball",
+            "color": "red",
+            "position": {
+                "x": 0.43,
+                "y": 0.13,
+                "z": 0.13
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.34,
+                "y": 0.16,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.32,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 55,
+        "instruction": "Grab the yellow ball and put it in the bin",
+        "object": {
+            "name": "ball",
+            "color": "yellow",
+            "position": {
+                "x": 0.68,
+                "y": 0.46,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.56,
+                "y": 0.16,
+                "z": 0.14
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.83,
+            "failure": "MOVE_FAILED",
+            "retry_count": 3,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 56,
+        "instruction": "Move the green cube into the box",
+        "object": {
+            "name": "cube",
+            "color": "green",
+            "position": {
+                "x": 0.29,
+                "y": 0.44,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.62,
+                "y": 0.16,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.34,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 57,
+        "instruction": "Lift the blue bottle and place it in the bin",
+        "object": {
+            "name": "bottle",
+            "color": "blue",
+            "position": {
+                "x": 0.68,
+                "y": 0.15,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.2,
+                "y": 0.15,
+                "z": 0.15
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.48,
+            "failure": "RELEASE_FAILED",
+            "retry_count": 2,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 58,
+        "instruction": "Transfer the red cube to the basket",
+        "object": {
+            "name": "cube",
+            "color": "red",
+            "position": {
+                "x": 0.49,
+                "y": 0.35,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.18,
+                "y": 0.12,
+                "z": 0.05
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.35,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 59,
+        "instruction": "Take the blue bottle to the basket",
+        "object": {
+            "name": "bottle",
+            "color": "blue",
+            "position": {
+                "x": 0.21,
+                "y": 0.22,
+                "z": 0.08
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.11,
+                "y": 0.35,
+                "z": 0.13
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.22,
+            "failure": "TIMEOUT",
+            "retry_count": 2,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 60,
+        "instruction": "Transfer the yellow block to the basket",
+        "object": {
+            "name": "block",
+            "color": "yellow",
+            "position": {
+                "x": 0.25,
+                "y": 0.26,
+                "z": 0.08
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.43,
+                "y": 0.5,
+                "z": 0.14
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.27,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 61,
+        "instruction": "Take the red ball to the container",
+        "object": {
+            "name": "ball",
+            "color": "red",
+            "position": {
+                "x": 0.49,
+                "y": 0.15,
+                "z": 0.08
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.63,
+                "y": 0.47,
+                "z": 0.03
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.24,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 62,
+        "instruction": "Transfer the blue bottle to the bin",
+        "object": {
+            "name": "bottle",
+            "color": "blue",
+            "position": {
+                "x": 0.14,
+                "y": 0.23,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.58,
+                "y": 0.47,
+                "z": 0.07
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.38,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 63,
+        "instruction": "Grab the yellow block and put it in the container",
+        "object": {
+            "name": "block",
+            "color": "yellow",
+            "position": {
+                "x": 0.43,
+                "y": 0.38,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.4,
+                "y": 0.46,
+                "z": 0.06
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.91,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 64,
+        "instruction": "Pick up the yellow cube and place it in the box",
+        "object": {
+            "name": "cube",
+            "color": "yellow",
+            "position": {
+                "x": 0.24,
+                "y": 0.22,
+                "z": 0.14
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.41,
+                "y": 0.29,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.81,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 65,
+        "instruction": "Take the green ball to the bin",
+        "object": {
+            "name": "ball",
+            "color": "green",
+            "position": {
+                "x": 0.22,
+                "y": 0.25,
+                "z": 0.08
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.29,
+                "y": 0.28,
+                "z": 0.11
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.94,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 66,
+        "instruction": "Move the yellow cube into the bin",
+        "object": {
+            "name": "cube",
+            "color": "yellow",
+            "position": {
+                "x": 0.17,
+                "y": 0.26,
+                "z": 0.13
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.68,
+                "y": 0.17,
+                "z": 0.03
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.46,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 67,
+        "instruction": "Take the yellow cube to the basket",
+        "object": {
+            "name": "cube",
+            "color": "yellow",
+            "position": {
+                "x": 0.48,
+                "y": 0.35,
+                "z": 0.14
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.15,
+                "y": 0.47,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.77,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 68,
+        "instruction": "Lift the blue block and place it in the bin",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.51,
+                "y": 0.39,
+                "z": 0.14
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.31,
+                "y": 0.33,
+                "z": 0.05
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.28,
+            "failure": "UNEXPECTED_OBSTACLE",
+            "retry_count": 1,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 69,
+        "instruction": "Grab the red ball and put it in the bin",
+        "object": {
+            "name": "ball",
+            "color": "red",
+            "position": {
+                "x": 0.69,
+                "y": 0.27,
+                "z": 0.09
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.51,
+                "y": 0.27,
+                "z": 0.11
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.26,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 70,
+        "instruction": "Lift the red block and place it in the basket",
+        "object": {
+            "name": "block",
+            "color": "red",
+            "position": {
+                "x": 0.41,
+                "y": 0.27,
+                "z": 0.13
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.47,
+                "y": 0.44,
+                "z": 0.12
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.5,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 71,
+        "instruction": "Transfer the blue block to the bin",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.26,
+                "y": 0.48,
+                "z": 0.04
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.46,
+                "y": 0.32,
+                "z": 0.02
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.84,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 72,
+        "instruction": "Move the green block into the bin",
+        "object": {
+            "name": "block",
+            "color": "green",
+            "position": {
+                "x": 0.46,
+                "y": 0.43,
+                "z": 0.03
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.43,
+                "y": 0.45,
+                "z": 0.06
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.44,
+            "failure": "MOVE_FAILED",
+            "retry_count": 2,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 73,
+        "instruction": "Grab the yellow bottle and put it in the basket",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.59,
+                "y": 0.19,
+                "z": 0.11
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.17,
+                "y": 0.41,
+                "z": 0.15
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.53,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 74,
+        "instruction": "Take the blue ball to the container",
+        "object": {
+            "name": "ball",
+            "color": "blue",
+            "position": {
+                "x": 0.11,
+                "y": 0.29,
+                "z": 0.08
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.51,
+                "y": 0.15,
+                "z": 0.07
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.82,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 75,
+        "instruction": "Pick up the yellow block and place it in the bin",
+        "object": {
+            "name": "block",
+            "color": "yellow",
+            "position": {
+                "x": 0.52,
+                "y": 0.22,
+                "z": 0.14
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.66,
+                "y": 0.15,
+                "z": 0.09
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.45,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 76,
+        "instruction": "Take the blue cube to the box",
+        "object": {
+            "name": "cube",
+            "color": "blue",
+            "position": {
+                "x": 0.49,
+                "y": 0.37,
+                "z": 0.06
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.35,
+                "y": 0.14,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.45,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 77,
+        "instruction": "Transfer the red cube to the bin",
+        "object": {
+            "name": "cube",
+            "color": "red",
+            "position": {
+                "x": 0.29,
+                "y": 0.5,
+                "z": 0.03
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.11,
+                "y": 0.4,
+                "z": 0.15
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.05,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 78,
+        "instruction": "Move the red bottle into the container",
+        "object": {
+            "name": "bottle",
+            "color": "red",
+            "position": {
+                "x": 0.14,
+                "y": 0.12,
+                "z": 0.04
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.48,
+                "y": 0.12,
+                "z": 0.13
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.36,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 79,
+        "instruction": "Lift the blue ball and place it in the basket",
+        "object": {
+            "name": "ball",
+            "color": "blue",
+            "position": {
+                "x": 0.37,
+                "y": 0.14,
+                "z": 0.13
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.7,
+                "y": 0.48,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.7,
+            "failure": "OBJECT_NOT_DETECTED",
+            "retry_count": 1,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 80,
+        "instruction": "Move the yellow block into the basket",
+        "object": {
+            "name": "block",
+            "color": "yellow",
+            "position": {
+                "x": 0.46,
+                "y": 0.21,
+                "z": 0.12
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.14,
+                "y": 0.22,
+                "z": 0.02
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.34,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 81,
+        "instruction": "Pick up the yellow bottle and place it in the container",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.34,
+                "y": 0.18,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.16,
+                "y": 0.11,
+                "z": 0.05
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.85,
+            "failure": "UNEXPECTED_OBSTACLE",
+            "retry_count": 1,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 82,
+        "instruction": "Grab the blue block and put it in the basket",
+        "object": {
+            "name": "block",
+            "color": "blue",
+            "position": {
+                "x": 0.44,
+                "y": 0.26,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.25,
+                "y": 0.3,
+                "z": 0.11
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.75,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 83,
+        "instruction": "Pick up the yellow block and place it in the box",
+        "object": {
+            "name": "block",
+            "color": "yellow",
+            "position": {
+                "x": 0.51,
+                "y": 0.37,
+                "z": 0.09
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.7,
+                "y": 0.15,
+                "z": 0.04
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.06,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 84,
+        "instruction": "Pick up the red block and place it in the box",
+        "object": {
+            "name": "block",
+            "color": "red",
+            "position": {
+                "x": 0.48,
+                "y": 0.48,
+                "z": 0.06
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.61,
+                "y": 0.47,
+                "z": 0.03
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.33,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 85,
+        "instruction": "Pick up the blue bottle and place it in the box",
+        "object": {
+            "name": "bottle",
+            "color": "blue",
+            "position": {
+                "x": 0.44,
+                "y": 0.26,
+                "z": 0.04
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.4,
+                "y": 0.23,
+                "z": 0.14
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.68,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 86,
+        "instruction": "Grab the green ball and put it in the box",
+        "object": {
+            "name": "ball",
+            "color": "green",
+            "position": {
+                "x": 0.65,
+                "y": 0.38,
+                "z": 0.07
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.13,
+                "y": 0.46,
+                "z": 0.06
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.25,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 87,
+        "instruction": "Pick up the yellow ball and place it in the container",
+        "object": {
+            "name": "ball",
+            "color": "yellow",
+            "position": {
+                "x": 0.11,
+                "y": 0.17,
+                "z": 0.12
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.63,
+                "y": 0.44,
+                "z": 0.1
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.57,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 88,
+        "instruction": "Take the yellow bottle to the container",
+        "object": {
+            "name": "bottle",
+            "color": "yellow",
+            "position": {
+                "x": 0.15,
+                "y": 0.28,
+                "z": 0.12
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.41,
+                "y": 0.17,
+                "z": 0.09
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.82,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 89,
+        "instruction": "Grab the yellow ball and put it in the basket",
+        "object": {
+            "name": "ball",
+            "color": "yellow",
+            "position": {
+                "x": 0.11,
+                "y": 0.36,
+                "z": 0.12
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.38,
+                "y": 0.31,
+                "z": 0.14
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.49,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 90,
+        "instruction": "Move the green bottle into the container",
+        "object": {
+            "name": "bottle",
+            "color": "green",
+            "position": {
+                "x": 0.62,
+                "y": 0.45,
+                "z": 0.02
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.4,
+                "y": 0.16,
+                "z": 0.03
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 6.84,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 91,
+        "instruction": "Grab the yellow ball and put it in the bin",
+        "object": {
+            "name": "ball",
+            "color": "yellow",
+            "position": {
+                "x": 0.17,
+                "y": 0.29,
+                "z": 0.11
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.24,
+                "y": 0.47,
+                "z": 0.07
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.21,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 92,
+        "instruction": "Move the blue ball into the basket",
+        "object": {
+            "name": "ball",
+            "color": "blue",
+            "position": {
+                "x": 0.34,
+                "y": 0.33,
+                "z": 0.04
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.29,
+                "y": 0.47,
+                "z": 0.03
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.98,
+            "failure": "NONE",
+            "retry_count": 1,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 93,
+        "instruction": "Grab the red cube and put it in the container",
+        "object": {
+            "name": "cube",
+            "color": "red",
+            "position": {
+                "x": 0.33,
+                "y": 0.27,
+                "z": 0.03
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.62,
+                "y": 0.44,
+                "z": 0.07
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.62,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 94,
+        "instruction": "Move the blue ball into the container",
+        "object": {
+            "name": "ball",
+            "color": "blue",
+            "position": {
+                "x": 0.23,
+                "y": 0.27,
+                "z": 0.03
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.2,
+                "y": 0.28,
+                "z": 0.08
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.74,
+            "failure": "MOVE_FAILED",
+            "retry_count": 3,
+            "status": "FAILED"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 95,
+        "instruction": "Take the green bottle to the bin",
+        "object": {
+            "name": "bottle",
+            "color": "green",
+            "position": {
+                "x": 0.28,
+                "y": 0.12,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "bin",
+            "position": {
+                "x": 0.41,
+                "y": 0.17,
+                "z": 0.03
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 7.79,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 96,
+        "instruction": "Transfer the yellow block to the basket",
+        "object": {
+            "name": "block",
+            "color": "yellow",
+            "position": {
+                "x": 0.62,
+                "y": 0.23,
+                "z": 0.1
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.47,
+                "y": 0.34,
+                "z": 0.11
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.85,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 97,
+        "instruction": "Move the green ball into the box",
+        "object": {
+            "name": "ball",
+            "color": "green",
+            "position": {
+                "x": 0.68,
+                "y": 0.48,
+                "z": 0.15
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.14,
+                "y": 0.47,
+                "z": 0.1
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.93,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 98,
+        "instruction": "Pick up the yellow cube and place it in the container",
+        "object": {
+            "name": "cube",
+            "color": "yellow",
+            "position": {
+                "x": 0.37,
+                "y": 0.16,
+                "z": 0.09
+            }
+        },
+        "target": {
+            "name": "container",
+            "position": {
+                "x": 0.54,
+                "y": 0.29,
+                "z": 0.09
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 5.13,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 99,
+        "instruction": "Lift the green ball and place it in the basket",
+        "object": {
+            "name": "ball",
+            "color": "green",
+            "position": {
+                "x": 0.26,
+                "y": 0.39,
+                "z": 0.05
+            }
+        },
+        "target": {
+            "name": "basket",
+            "position": {
+                "x": 0.28,
+                "y": 0.34,
+                "z": 0.14
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 4.84,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 100,
+        "instruction": "Lift the blue cube and place it in the box",
+        "object": {
+            "name": "cube",
+            "color": "blue",
+            "position": {
+                "x": 0.57,
+                "y": 0.28,
+                "z": 0.03
+            }
+        },
+        "target": {
+            "name": "box",
+            "position": {
+                "x": 0.38,
+                "y": 0.19,
+                "z": 0.03
+            }
+        },
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "gripper": {
+            "initial": "OPEN",
+            "after_grab": "CLOSED",
+            "final": "OPEN"
+        },
+        "execution": {
+            "time_seconds": 3.99,
+            "failure": "NONE",
+            "retry_count": 0,
+            "status": "SUCCESS"
+        },
+        "source": "CUSTOM"
+    },
+    {
+        "id": 1,
+        "source": "CALVIN",
+        "instruction": "lift the red block from the table",
+        "object": "block",
+        "color": "red",
+        "action_type": "LIFT"
+    },
+    {
+        "id": 3,
+        "source": "CALVIN",
+        "instruction": "in the slider pick up the blue block",
+        "object": "block",
+        "color": "blue",
+        "action_type": "GRAB"
+    },
+    {
+        "id": 4,
+        "source": "CALVIN",
+        "instruction": "in the cabinet grasp the blue block",
+        "object": "block",
+        "color": "blue",
+        "action_type": "GRAB"
+    },
+    {
+        "id": 5,
+        "source": "CALVIN",
+        "instruction": "slide down the switch",
+        "object": "switch",
+        "color": null,
+        "action_type": "SLIDE"
+    },
+    {
+        "id": 6,
+        "source": "CALVIN",
+        "instruction": "put it in the slider",
+        "object": null,
+        "color": null,
+        "action_type": "PLACE"
+    },
+    {
+        "id": 7,
+        "source": "CALVIN",
+        "instruction": "slide right the pink block",
+        "object": "block",
+        "color": "pink",
+        "action_type": "SLIDE"
+    },
+    {
+        "id": 8,
+        "source": "CALVIN",
+        "instruction": "in the slider grasp the blue block",
+        "object": "block",
+        "color": "blue",
+        "action_type": "GRAB"
+    }
+]

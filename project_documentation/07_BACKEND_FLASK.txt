@@ -1,0 +1,53 @@
+07 - BACKEND FLASK
+
+Purpose
+Describe the web server, route handlers, validation, and the boundary between backend logic and browser UI.
+
+Main file and dependencies
+app.py creates a Flask application. It imports parser, decomposer, action generator, software RobotController, and failure detector from src\. Flask serves templates from templates\ and its default static directory is static\.
+
+Routes
+- GET / -> templates\index.html.
+- GET /simulation -> templates\robot_3d.html.
+- GET /voice-camera -> templates\voice_camera.html.
+- GET /health -> a JSON health summary.
+- POST /process -> parses and executes one customer instruction.
+- POST /detect-customer -> decodes an uploaded camera frame and runs the bundled MediaPipe person detector through OpenCV DNN.
+See 21_API_REFERENCE.txt for examples and response formats.
+
+POST /process processing
+1. Read the JSON body and trim its instruction property.
+2. Parse the natural language.
+3. For parser results containing delivery `orders`, call execute_delivery_orders().
+4. Check all multi-order destinations (1-4), missing destinations, and missing items before making a RobotController.
+5. For supported single-intent paths, validate required table destination and range, decompose, map actions, execute, and analyze result statuses.
+6. Return JSON including parser output, task decomposition, actions, execution, failure analysis, and overall status.
+
+Multi-order execution
+execute_delivery_orders() loops orders -> items -> each requested unit. For each unit it builds a one-item delivery instruction, decomposes and maps it, calls RobotController.execute_sequence() with that unit's own table, and increments delivered_quantity only when returned execution status and every result indicate SUCCESS. Order/item statuses become DELIVERED, PARTIALLY_DELIVERED, or FAILED. Any invalid table blocks the whole multi-order instruction before controller creation.
+
+Error handling
+- Validation errors use JSON error/error_code/robot_response fields and usually HTTP 400.
+- Unexpected exceptions in /process are printed and returned as a 500 JSON error. The exception text is included as `error`; this is a development-oriented behavior and should be reviewed before deployment.
+- Non-multi controller failures can still return HTTP 200 with overall_status FAILED and a generic spoken failure response.
+- Multi-order partial/failed execution is returned with HTTP 200 and overall_status PARTIAL_FAILURE or FAILED; inspect response status fields, not HTTP status alone.
+
+Request and response example
+Request:
+POST /process
+Content-Type: application/json
+{"instruction":"Deliver 2 water bottles to Table 1 and 3 burgers to Table 2."}
+
+Successful response includes:
+{"success":true,"robot_response":"I have received two orders. ...","order_plan":[{"order_id":"ORD-...","table":1,"items":[{"name":"water bottle","quantity":2,"delivered_quantity":2,"status":"DELIVERED","delivery_status":"DELIVERED"}],"status":"DELIVERED","delivery_status":"DELIVERED"}],"overall_status":"SUCCESS"}
+The ID and full detail are generated per request; the abbreviated JSON above illustrates the shape, not a fixed literal response.
+
+Configuration
+app.py starts the development server on 127.0.0.1:5000 with debug=True when run directly. Do not expose this configuration as a production server.
+
+Dependencies and status
+Customer detection uses the OpenCV 4.11 DNN backend and the included MediaPipe person-detection ONNX model under models\person_detection_mediapipe\. The model and its OpenCV Zoo Apache 2.0 license are included locally; inference does not download model files at runtime.
+Automated Flask test client coverage exists in tests\test_customer_detection.py, test_multi_orders.py, test_parser.py, and test_robot_responses.py. Current full test run: 23 passed.
+
+Limitations
+No authentication, order database, production WSGI configuration, or hardware transport is wired. /health returns constant module flags rather than probing downstream services. See 18 and 22.

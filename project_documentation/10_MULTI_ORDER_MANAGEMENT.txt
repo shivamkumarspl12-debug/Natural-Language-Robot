@@ -1,0 +1,53 @@
+10 - MULTI-ORDER MANAGEMENT
+
+Purpose
+Describe the current per-table order plan and the execution-derived statuses.
+
+Files
+- src\instruction_parser.py: parse_delivery_orders() extracts destination groups and items.
+- app.py: execute_delivery_orders() validates, runs each quantity unit, and updates statuses.
+- templates\index.html and templates\voice_camera.html: render order plan/statuses.
+- templates\robot_3d.html: visualizes confirmed orders as a table queue.
+- tests\test_multi_orders.py: parser, routing, quantity, failure, and pipeline coverage.
+
+Order shape
+Each parser order contains:
+order_id: generated ORD-<random hex>-<sequence> identifier.
+table: integer destination, or null when missing.
+items: array of name, quantity, item status, delivery_status, and delivered_quantity.
+status / delivery_status: initially VALIDATED/PENDING, then updated during execution.
+
+Example plan
+Instruction: "Deliver 2 water bottles to Table 1 and 3 burgers to Table 2."
+Conceptual pre-execution plan:
+{
+  "orders": [
+    {"table": 1, "items": [{"name": "water bottle", "quantity": 2}], "status": "VALIDATED"},
+    {"table": 2, "items": [{"name": "burger", "quantity": 3}], "status": "VALIDATED"}
+  ]
+}
+The real parser response includes random IDs, item delivery fields, and additional top-level parser fields.
+
+Execution and status rules
+1. Validate all destinations before constructing the controller.
+2. For each item quantity, call the decomposer/action generator/controller separately for that destination.
+3. delivered_quantity increases only when controller overall status is SUCCESS and all returned action results are SUCCESS.
+4. Full quantity delivered -> item DELIVERED. Some units delivered -> PARTIALLY_DELIVERED. None delivered -> FAILED.
+5. An order is DELIVERED only if every item is delivered; an order with any delivered quantity but incomplete items is PARTIALLY_DELIVERED; otherwise it is FAILED.
+6. All complete orders -> overall SUCCESS; some progress with failures -> PARTIAL_FAILURE; no progress -> FAILED.
+7. Invalid/missing destination or item rejects the instruction before robot execution.
+
+Example
+Two water bottles ordered for Table 1 produce two unit execution calls with target "table 1". Three burgers for Table 2 produce three calls with target "table 2". Tests assert those exact target counts using a recording fake controller.
+
+Speech and conversation
+The browser speaks the final backend robot_response once and renders each order/status. The 3D scene filters orders to those with order and item delivery_status DELIVERED. This scene replays the confirmed response; it does not update backend order records.
+
+Persistence
+Order IDs/statuses are generated for a request and returned to the browser. There is no order table or durable order service. sessionStorage is temporary browser-tab/session state. See 17_DATABASE_AND_STORAGE.txt.
+
+Status and limitations
+Backend multi-order grouping and execution-status logic are tested (including a partial quantity failure). No grouping/aggregation across customer sessions, inventory checks, payments, kitchen tickets, persistent audit, route optimization, or hardware confirmation exists. Item grouping relies on text position near table references, so ambiguous phrasing should be clarified.
+
+Test
+Run `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`; see test_multi_orders.py.

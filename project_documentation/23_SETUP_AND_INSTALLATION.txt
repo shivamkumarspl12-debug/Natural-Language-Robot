@@ -1,0 +1,75 @@
+23 - SETUP AND INSTALLATION
+
+Purpose
+Provide Windows commands to install dependencies, start the local Flask demo, and run tests.
+
+Prerequisites
+- Windows PowerShell.
+- Python 3.12.10 is the version recorded by the active .venv\pyvenv.cfg. Use the existing .venv if present.
+- Internet is needed to install packages, call Gemini fallback, and load Three.js CDN resources.
+- Browser with JavaScript/WebGL. Camera and microphone need working devices and permission.
+
+Environment setup
+From the project root:
+1. If .venv already exists, activate it:
+   `.\.venv\Scripts\Activate.ps1`
+2. If creating a new virtual environment, choose Python 3.12 and run:
+   `py -3.12 -m venv .venv`
+3. Install manifest dependencies:
+   `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`
+The project also contains a separate venv directory with a different interpreter path/version. Prefer .venv for this checkout; do not assume the second environment is portable.
+
+Optional Gemini configuration
+Set GEMINI_API_KEY in the process environment or a locally protected .env at the project root. The parser uses it only when local parsing does not handle an instruction. Never paste the secret into source, documentation, screenshots, or Git.
+
+Firebase admin authentication and customer identity
+1. In Firebase Console, enable Authentication > Sign-in method > Email/Password and create the administrator account. Add its Firebase Authentication UID (not its email or password) to FIREBASE_ADMIN_UIDS in the project-root .env.
+2. Copy the Firebase Web API key from Project settings > General > Your apps into FIREBASE_API_KEY. This web API key is public Firebase configuration; never put the service-account JSON or its private key in browser settings.
+3. Use the existing service-account file only on the Flask server. Admin ID tokens are verified with Firebase Admin SDK, then exchanged for an HttpOnly session cookie. The backend checks the configured UID allowlist on every /admin page, the robot-tracking page, and their admin data APIs.
+4. To link future orders without storing a full phone number, generate a separate HMAC key locally and append it to .env:
+   `$identityKey = & .\.venv\Scripts\python.exe -c "import secrets; print(secrets.token_hex(32))"`
+   `Add-Content .env "CUSTOMER_ID_HMAC_KEY=$identityKey"`
+   Keep this key private and stable across restarts and deployments. Do not regenerate it after orders have been saved, or new orders will no longer match earlier identities.
+5. Restart Flask and open http://127.0.0.1:5000/admin-login. Use the Firebase admin email and password. Local HTTP admin access is restricted to localhost on this computer; access from another device requires HTTPS. Session cookies are marked Secure automatically when Flask receives an HTTPS request.
+
+Orders written before CUSTOMER_ID_HMAC_KEY was configured only have phone last-four digits. Those historical records cannot be safely matched to one another; the customer page keeps them as separate unmatched records. New orders are linked by an HMAC of normalized phone digits; full phone numbers are not stored or returned in the customer dashboard API.
+
+Start server
+Run from the project root:
+`.\.venv\Scripts\python.exe app.py`
+By default, Flask listens at http://127.0.0.1:5000 with debug enabled for local development.
+
+Phone-accessible table QR codes on a trusted local Wi-Fi
+1. Use the HTTPS launcher in `MOBILE_ORDER_TESTING.md` to generate a trusted local certificate and start Flask bound only to the current Wi-Fi address. Do not set `FLASK_HOST=0.0.0.0` or use plain HTTP for phone access.
+2. Trust the generated public mkcert CA on the phone as described in `MOBILE_ORDER_TESTING.md`, then open `https://<your-computer-IPv4>:5000/admin/tables`. The launcher sets `CUSTOMER_QR_BASE_URL` to the HTTPS address for that run.
+3. If Windows Firewall blocks the connection, create a narrow inbound rule in an elevated PowerShell window, using the actual port:
+   `New-NetFirewallRule -DisplayName "Restaurant Flask local Wi-Fi" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 5000 -Profile Private -RemoteAddress LocalSubnet`
+   Do not turn Windows Firewall off. Remove the rule when it is no longer needed with `Remove-NetFirewallRule -DisplayName "Restaurant Flask local Wi-Fi"`.
+
+Confirm the computer and phone share the same trusted network and that router/client isolation is disabled. Access from outside the local network requires a properly secured HTTPS deployment or trusted HTTPS tunnel; do not publish a private LAN address or expose the Flask development server directly to the internet.
+
+Pages
+- Dashboard: http://127.0.0.1:5000/
+- Admin sign-in: http://127.0.0.1:5000/admin-login (Firebase Auth configuration required)
+- Admin customers: http://127.0.0.1:5000/admin/customers (requires an authorized Firebase admin session)
+- 3D scene: http://127.0.0.1:5000/simulation
+- Voice/camera: http://127.0.0.1:5000/voice-camera
+- Health summary: http://127.0.0.1:5000/health
+- Tables and real customer QR codes: http://127.0.0.1:5000/admin/tables (configure a phone-reachable URL before printing)
+
+Run tests
+In a separate PowerShell window from the root:
+`.\.venv\Scripts\python.exe -m unittest discover -s tests -v`
+The QR-code route and image generation tests use local fixtures and do not create production Firestore orders.
+
+Stop/restart
+Press Ctrl+C in the terminal running Flask. To restart, rerun the app command. Firestore is a remote service; the Firebase Admin SDK connects when an order operation needs Firestore.
+
+Common setup problems
+- Missing package: install from requirements.txt into .venv, not a different interpreter.
+- Gemini fallback error: verify key and network/service access without printing the key; basic local rules may still handle known phrases.
+- No camera/microphone: allow browser permission and use localhost or HTTPS.
+- Blank simulation: check browser console/network for Three.js CDN access and WebGL support.
+
+Status and limitations
+These commands describe the inspected local development setup, not a hardened production deployment. requirements.txt includes packages not shown as used by the running app; install only from the project manifest when needed and review it for production.

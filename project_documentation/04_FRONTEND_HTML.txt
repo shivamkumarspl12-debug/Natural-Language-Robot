@@ -1,0 +1,50 @@
+04 - FRONTEND HTML
+
+Purpose
+Document the pages and markup that present the restaurant robot demo and connect its controls to Flask and browser APIs.
+
+Files and framework
+- templates\index.html: main dashboard. Flask serves it from GET /.
+- templates\voice_camera.html: alternate voice, camera, menu, and status page. Flask serves it from GET /voice-camera.
+- templates\robot_3d.html: standalone 3D simulation page. Flask serves it from GET /simulation.
+- Flask render_template supplies each HTML file. CSS and JavaScript are mainly embedded within each template; see 05 and 06.
+
+Dashboard structure (index.html)
+1. Header and system badge.
+2. Four status cards for robot status, location, battery, and order count.
+3. Camera video area, camera status, start/stop buttons, and a manual Detect Customer button.
+4. Robot Conversation panel and voice controls.
+5. Natural-language instruction textarea and Execute, Voice Command, and Clear buttons.
+6. Menu display, 3D simulation iframe, simulation status, and pipeline/result cards.
+
+Voice-camera page structure
+- Live video and camera status; explicit Start Camera and Stop Camera controls.
+- Conversation area with Start Talking and Stop Listening buttons, mute/unmute, and Stop Speaking.
+- Text input and Send Message control.
+- A selectable digital menu, robot status/location/battery/current-order fields, test-delivery and open-simulation controls, and pipeline display.
+- UI menu choices are frontend prompts; the code does not persist menu selections to a restaurant database.
+
+Simulation page
+templates\robot_3d.html contains its own scene markup, controls, loading/status areas, telemetry, delivery details, and event log. Three.js and OrbitControls scripts load from external CDNs.
+
+Interaction examples
+- Typed dashboard instruction: textarea#instruction -> Execute AI Instruction -> JavaScript POST /process.
+- Voice command: Start Listening -> browser transcript inserted into the instruction field -> same execution function.
+- Voice-camera page: text and voice both pass through processUserMessage; recognized restaurant information can be answered locally while robot commands/orders are sent to /process.
+- Table 3D view: dashboard iframe points to /simulation; after successful backend response, the data is stored in sessionStorage and the frame is refreshed.
+
+Example instruction
+Deliver 2 water bottles to Table 1 and 3 burgers to Table 2.
+The conversation UI can show separate order IDs and statuses returned by the backend. The JSON response is the source of those values.
+
+Dependencies and status
+HTML pages are implemented and served by Flask. Dashboard/API behavior has automated tests; the previous task also exercised a successful Table 3-to-Table 4 sequence in the browser. Voice, camera permission, and compatibility behavior are device/browser dependent and not covered by the Python unit tests.
+
+Limitations
+- Camera/customer-detection headings are stronger than the actual detector: the pages display a stream, but use a timer or manual function to simulate detection.
+- GET /health reports camera/voice as enabled without probing browser support or permissions.
+- Order records shown in a browser session are not durable across server/browser storage loss.
+- Inline markup mixes structure, CSS, and JavaScript; static assets are not linked by the inspected index template.
+
+Testing
+Start Flask and open http://127.0.0.1:5000/ or /voice-camera. Inspect the response and order statuses; open /simulation for the scene. See 19_TESTING_AND_TEST_CASES.txt.

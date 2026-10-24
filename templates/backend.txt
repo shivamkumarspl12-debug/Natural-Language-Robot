@@ -1,0 +1,14 @@
+Backend mein use hui libraries
+Main third-party libraries:
+
+Flask — web server, routes aur API requests handle karta hai. Use: app.py
+google-genai — Gemini model ko instruction bhejne ke liye.
+python-dotenv — .env se GEMINI_API_KEY load karne ke liye.
+Python ke built-in modules:
+
+os — environment variables aur file paths
+json — JSON data ko process karna
+re — instruction text mein patterns dhoondhna
+time — execution ka time measure karna
+csv — dataset files padhna/likhna
+random — dataset shuffle karna

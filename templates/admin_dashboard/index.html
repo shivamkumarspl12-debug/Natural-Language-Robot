@@ -1,0 +1,2699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Restaurant Service Robot</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .header {
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1e3a8a
+                );
+
+            color: white;
+            padding: 25px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #dbeafe;
+        }
+
+        .header-badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.12);
+            font-size: 13px;
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================== */
+
+        .container {
+            max-width: 1450px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        /* =========================
+           STATUS
+        ========================== */
+
+        .status-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.08);
+        }
+
+        .status-card h3 {
+            margin: 0 0 8px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .status-value {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .status-ready {
+            color: #16a34a;
+        }
+
+        /* =========================
+           CAMERA + CONVERSATION
+        ========================== */
+
+        .interaction-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 24px;
+
+            box-shadow:
+
+
+
+            
+                0 4px 15px
+                rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .camera-container {
+            position: relative;
+            width: 100%;
+            height: 330px;
+            background: #111827;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .detection-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #camera {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .camera-overlay {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+
+            padding: 8px 12px;
+
+            background: rgba(0,0,0,0.65);
+            color: white;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+        }
+
+        .camera-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================== */
+
+        .button {
+            border: none;
+            border-radius: 9px;
+
+            padding: 12px 18px;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-1px);
+        }
+
+        .button:disabled {
+            cursor: wait;
+            opacity: 0.6;
+            transform: none;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #1d4ed8;
+        }
+
+        .green {
+            background: #16a34a;
+            color: white;
+        }
+
+        .green:hover {
+            background: #15803d;
+        }
+
+        .orange {
+            background: #ea580c;
+            color: white;
+        }
+
+        .dark {
+            background: #111827;
+            color: white;
+        }
+
+        .red {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* =========================
+           CONVERSATION
+        ========================== */
+
+        .conversation-box {
+            height: 330px;
+            background: #f8fafc;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            padding: 15px;
+
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 12px;
+            padding: 11px 14px;
+
+            border-radius: 10px;
+
+            max-width: 90%;
+
+            line-height: 1.5;
+        }
+
+        .robot-message {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+
+        .user-message {
+            background: #dcfce7;
+            color: #166534;
+            margin-left: auto;
+        }
+
+        .system-message {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        /* =========================
+           COMMAND
+        ========================== */
+
+        .command-card {
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+
+            min-height: 120px;
+
+            padding: 15px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .command-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        /* =========================
+           MENU
+        ========================== */
+
+        .menu-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+        .menu-item {
+            padding: 15px;
+
+            background: #f8fafc;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 10px;
+        }
+
+        .menu-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .price {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .category {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* =========================
+           TABLES
+        ========================== */
+
+        .table-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+        .restaurant-table {
+            padding: 18px;
+            text-align: center;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+        }
+
+        .available {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .occupied {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* =========================
+           ORDERS
+        ========================== */
+
+        .order {
+            border:
+                1px solid #e5e7eb;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 10px;
+        }
+
+        .order-status {
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        /* =========================
+           3D SIMULATION
+        ========================== */
+
+        .simulation-card {
+            margin-top: 25px;
+        }
+
+        .simulation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 15px;
+        }
+
+        .simulation-header h2 {
+            margin: 0;
+        }
+
+        .simulation-frame {
+            width: 100%;
+            height: 650px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background: #111827;
+        }
+
+        .simulation-status {
+            padding: 12px;
+
+            margin-bottom: 12px;
+
+            background: #eff6ff;
+
+            color: #1e40af;
+
+            border-radius: 8px;
+        }
+
+        /* =========================
+           PIPELINE RESULT
+        ========================== */
+
+        #result {
+            margin-top: 25px;
+        }
+
+        .result-card {
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            margin-bottom: 15px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.08);
+        }
+
+        .success-box {
+            background: #dcfce7;
+            color: #166534;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+        }
+
+        .failure-box {
+            background: #fee2e2;
+            color: #991b1b;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+        }
+
+        pre {
+            background: #111827;
+
+            color: #e5e7eb;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            overflow-x: auto;
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           FEATURES
+        ========================== */
+
+        .feature-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+        .feature {
+            background: #f8fafc;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid #e5e7eb;
+        }
+
+        .feature strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1000px) {
+
+            .status-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .interaction-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .feature-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 12px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .simulation-frame {
+                height: 500px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="header">
+
+    <h1>
+        🤖 AI Restaurant Service Robot
+    </h1>
+
+    <p>
+        Gemini-powered Natural Language Restaurant Automation System
+    </p>
+
+    <div class="header-badge">
+        🟢 AI Robot System Online
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- =====================================================
+     ROBOT STATUS
+====================================================== -->
+
+<section class="status-grid">
+
+    <div class="status-card">
+
+        <h3>🤖 Robot Status</h3>
+
+        <div
+            class="status-value status-ready"
+            id="robotStatus">
+
+            READY
+
+        </div>
+
+    </div>
+
+    
+    
+
+
+    <div class="status-card">
+
+        <h3>📍 Robot Location</h3>
+
+        <div
+            class="status-value"
+            id="robotLocation">
+
+            Counter
+
+        </div>
+
+    </div>
+
+
+    <div class="status-card">
+
+        <h3>🔋 Battery</h3>
+
+        <div
+            class="status-value"
+            id="battery">
+
+            87%
+
+        </div>
+
+    </div>
+
+
+    <div class="status-card">
+
+        <h3>🍽️ Orders</h3>
+
+        <div
+            class="status-value"
+            id="orderCount">
+
+            0
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CAMERA + CONVERSATION
+====================================================== -->
+
+<section class="interaction-grid">
+
+
+    <!-- CAMERA -->
+
+    <div class="card">
+
+        <h2>
+            📷 Customer Detection Camera
+        </h2>
+
+        <div class="camera-container">
+            <video
+                id="camera"
+                autoplay
+                muted
+                playsinline>
+            </video>
+
+            <canvas
+                id="detectionOverlay"
+                class="detection-overlay"
+                aria-hidden="true">
+            </canvas>
+
+            <div
+                class="camera-overlay"
+                id="cameraStatus">
+
+                🔴 Camera Off
+
+            </div>
+
+        </div>
+
+
+        <div class="camera-controls">
+
+            <button
+                class="button primary"
+                onclick="startCamera()">
+
+                📷 Start Camera
+
+            </button>
+
+
+            <button
+                class="button dark"
+                onclick="stopCamera()">
+
+                ⛔ Stop Camera
+
+            </button>
+
+
+            <button
+                class="button green"
+                id="detectCustomerButton"
+                disabled
+                onclick="detectCustomer()">
+
+                👤 Detect Customer
+
+            </button>
+
+        </div>
+
+        <p id="customerStatus" aria-live="polite">
+            Start the camera to enable customer detection.
+        </p>
+
+    </div>
+
+
+    
+
+
+    <!-- CONVERSATION -->
+
+    <div class="card">
+
+        <h2>
+            🗣️ Robot Conversation
+        </h2>
+
+        <div
+            class="conversation-box"
+            id="conversationBox">
+
+            <div class="message system-message">
+
+                System:
+                Robot is waiting for a customer.
+
+            </div>
+
+        </div>
+
+
+        <div class="voice-controls">
+
+            <button
+                class="button primary"
+                id="voiceButton"
+                onclick="startListening()">
+
+                🎤 Start Talking
+
+            </button>
+
+
+            <button
+                class="button orange"
+                onclick="greetCustomer()">
+
+                👋 Greet Customer
+
+            </button>
+
+            <button
+                class="button dark"
+                id="muteVoiceButton"
+                onclick="toggleVoiceMute()">
+
+                🔇 Mute Voice
+
+            </button>
+
+            <button
+                class="button red"
+                onclick="stopSpeaking()">
+
+                ⏹ Stop Speaking
+
+            </button>
+
+        </div>
+
+        <p id="voiceStatus">
+            Voice system ready.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     NATURAL LANGUAGE COMMAND
+====================================================== -->
+
+<section class="card command-card">
+
+    <h2>
+        🧠 Natural Language Robot Command
+    </h2>
+
+    <p>
+        Type or speak a command for the restaurant robot.
+    </p>
+
+
+    <textarea
+        id="instruction"
+        placeholder="Example: Deliver the pizza to table 3."
+    >Deliver the water bottle to table 3.</textarea>
+
+
+    <div class="command-buttons">
+
+        <button
+            class="button primary"
+            id="executeBtn"
+            onclick="executeInstruction()">
+
+            🧠 Execute AI Instruction
+
+        </button>
+
+
+        <button
+            class="button red"
+            onclick="startListening(true)">
+
+            🎤 Voice Command
+
+        </button>
+
+
+        <button
+            class="button dark"
+            onclick="clearCommand()">
+
+            🗑️ Clear
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RESTAURANT MENU
+====================================================== -->
+
+<section class="card">
+
+    <h2>
+        🍽️ Restaurant Menu
+    </h2>
+
+    <div class="menu-grid">
+
+
+        <div class="menu-item">
+            <strong>🍕 Margherita Pizza</strong>
+            <span class="category">Pizza</span><br>
+            <span class="price">₹199</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍕 Cheese Pizza</strong>
+            <span class="category">Pizza</span><br>
+            <span class="price">₹249</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍕 Veggie Pizza</strong>
+            <span class="category">Pizza</span><br>
+            <span class="price">₹229</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍔 Classic Burger</strong>
+            <span class="category">Burger</span><br>
+            <span class="price">₹149</span>
+        </div>
+        
+
+
+        <div class="menu-item">
+            <strong>🍔 Cheese Burger</strong>
+            <span class="category">Burger</span><br>
+            <span class="price">₹179</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍔 Veg Burger</strong>
+            <span class="category">Burger</span><br>
+            <span class="price">₹129</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍝 White Sauce Pasta</strong>
+            <span class="category">Pasta</span><br>
+            <span class="price">₹179</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍝 Red Sauce Pasta</strong>
+            <span class="category">Pasta</span><br>
+            <span class="price">₹169</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍝 Masala Pasta</strong>
+            <span class="category">Pasta</span><br>
+            <span class="price">₹159</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍟 French Fries</strong>
+            <span class="category">Snacks</span><br>
+            <span class="price">₹99</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🌯 Veg Wrap</strong>
+            <span class="category">Snacks</span><br>
+            <span class="price">₹129</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🥪 Sandwich</strong>
+            <span class="category">Snacks</span><br>
+            <span class="price">₹119</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍚 Veg Fried Rice</strong>
+            <span class="category">Main Course</span><br>
+            <span class="price">₹169</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍜 Noodles</strong>
+            <span class="category">Main Course</span><br>
+            <span class="price">₹159</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🥗 Green Salad</strong>
+            <span class="category">Healthy</span><br>
+            <span class="price">₹99</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🥤 Cold Drink</strong>
+            <span class="category">Drinks</span><br>
+            <span class="price">₹60</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🥤 Fresh Lime Soda</strong>
+            <span class="category">Drinks</span><br>
+            <span class="price">₹70</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>💧 Mineral Water</strong>
+            <span class="category">Drinks</span><br>
+            <span class="price">₹30</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>☕ Coffee</strong>
+            <span class="category">Hot Drinks</span><br>
+            <span class="price">₹80</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍵 Tea</strong>
+            <span class="category">Hot Drinks</span><br>
+            <span class="price">₹50</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🥛 Cold Coffee</strong>
+            <span class="category">Drinks</span><br>
+            <span class="price">₹110</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍦 Vanilla Ice Cream</strong>
+            <span class="category">Dessert</span><br>
+            <span class="price">₹90</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍫 Chocolate Ice Cream</strong>
+            <span class="category">Dessert</span><br>
+            <span class="price">₹100</span>
+        </div>
+
+
+        <div class="menu-item">
+            <strong>🍰 Chocolate Cake</strong>
+            <span class="category">Dessert</span><br>
+            <span class="price">₹120</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     TABLES
+====================================================== -->
+
+<section class="card command-card">
+
+    <h2>
+        🪑 Restaurant Tables
+    </h2>
+
+    <div class="table-grid">
+
+        <div class="restaurant-table available">
+            Table 1
+            <br>
+            🟢 Available
+        </div>
+
+        <div class="restaurant-table occupied">
+            Table 2
+            <br>
+            🔴 Occupied
+        </div>
+
+        <div class="restaurant-table available">
+            Table 3
+            <br>
+            🟢 Available
+        </div>
+
+        <div class="restaurant-table available">
+            Table 4
+            <br>
+            🟢 Available
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ORDERS
+====================================================== -->
+
+<section class="card">
+
+    <h2>
+        📋 Active Orders
+    </h2>
+
+    <div id="orders">
+
+        <div class="order">
+            No active orders.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     3D SIMULATION
+====================================================== -->
+
+<section class="card simulation-card">
+
+    <div class="simulation-header">
+
+        <h2>
+            🤖 3D Restaurant Robot Simulation
+        </h2>
+
+        <button
+            class="button green"
+            onclick="reloadSimulation()">
+
+            ▶️ Start / Refresh Simulation
+
+        </button>
+
+    </div>
+
+
+    <div
+        class="simulation-status"
+        id="simulationStatus">
+
+        ℹ️ Execute a robot command to load the latest
+        robot task into the 3D simulation.
+
+    </div>
+
+
+    <iframe
+        id="simulationFrame"
+        class="simulation-frame"
+        src="/simulation"
+        title="3D Restaurant Robot Simulation">
+    </iframe>
+
+</section>
+
+
+<!-- =====================================================
+     ROBOT FEATURES
+====================================================== -->
+
+<section class="card">
+
+    <h2>
+        ⚙️ Robot Features
+    </h2>
+
+    <div class="feature-grid">
+
+
+        <div class="feature">
+            🧠
+            <strong>Gemini AI</strong>
+            Natural language understanding
+        </div>
+
+
+        <div class="feature">
+            📷
+            <strong>Camera Detection</strong>
+            Customer presence detection
+        </div>
+
+
+        <div class="feature">
+            🎤
+            <strong>Voice Interaction</strong>
+            Customer voice commands
+        </div>
+
+
+        <div class="feature">
+            👋
+            <strong>Customer Greeting</strong>
+            Automatic welcome interaction
+        </div>
+
+
+        <div class="feature">
+            🍽️
+            <strong>Order Management</strong>
+            Restaurant order processing
+        </div>
+
+
+
+        <div class="feature">
+            🏃‍♂️
+            <strong>Task Execution</strong>
+            Robot task automation
+        </div>
+
+
+        <div class="feature">
+            🚗
+            <strong>Navigation</strong>
+            Restaurant robot movement
+        </div>
+
+
+        <div class="feature">
+            🚧
+            <strong>Obstacle Detection</strong>
+            Safe robot movement
+        </div>
+
+
+        <div class="feature">
+            🔄
+            <strong>Failure Recovery</strong>
+            Retry failed actions
+        </div>
+
+
+        <div class="feature">
+            📍
+            <strong>Location Tracking</strong>
+            Robot position monitoring
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PIPELINE RESULT
+====================================================== -->
+
+<section id="result"></section>
+
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+
+let cameraStream = null;
+
+let recognition = null;
+
+let isListening = false;
+
+let voiceCommandMode = false;
+
+let voiceMuted = false;
+
+let detectionInProgress = false;
+
+
+/* =====================================================
+   SPEECH SYNTHESIS
+===================================================== */
+
+function speak(text) {
+
+    if (
+        !("speechSynthesis" in window) ||
+        typeof SpeechSynthesisUtterance === "undefined"
+    ) {
+        const status = document.getElementById("voiceStatus");
+
+        if (status) {
+            status.innerText =
+                "Voice output is not supported in this browser.";
+        }
+        return;
+    }
+
+    const synthesis = window.speechSynthesis;
+    synthesis.cancel();
+
+    if (voiceMuted) {
+        return;
+    }
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+    speech.lang = "en-IN";
+
+    const voices =
+        synthesis.getVoices();
+
+    const englishVoice =
+        voices.find(voice =>
+            /^en(-|_)?(IN|US|GB)\b/i.test(voice.lang)
+        ) ||
+        voices.find(voice =>
+            /^en\b/i.test(voice.lang)
+        );
+
+    if (englishVoice) {
+        speech.voice = englishVoice;
+        speech.lang = englishVoice.lang;
+    }
+
+    speech.rate = 0.95;
+
+    speech.pitch = 1;
+
+    const status = document.getElementById("voiceStatus");
+    speech.onstart = function() {
+        if (status) {
+            status.innerText = "Robot is speaking...";
+        }
+    };
+    speech.onend = function() {
+        if (status) {
+            status.innerText = voiceMuted
+                ? "Voice output muted."
+                : "Voice system ready.";
+        }
+    };
+    speech.onerror = function() {
+        if (status) {
+            status.innerText = "Voice output failed. Response is shown in the conversation.";
+        }
+    };
+
+    try {
+        synthesis.speak(speech);
+    }
+    catch(error) {
+        console.error("Speech synthesis error:", error);
+        if (status) {
+            status.innerText = "Voice output failed. Response is shown in the conversation.";
+        }
+    }
+}
+
+
+function toggleVoiceMute() {
+
+    voiceMuted = !voiceMuted;
+
+    if (voiceMuted && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+    }
+
+    document.getElementById(
+        "muteVoiceButton"
+    ).innerText =
+        voiceMuted
+            ? "🔊 Unmute Voice"
+            : "🔇 Mute Voice";
+
+    document.getElementById(
+        "voiceStatus"
+    ).innerText =
+        voiceMuted
+            ? "Voice output muted."
+            : "Voice system ready.";
+}
+
+
+function stopSpeaking() {
+
+    if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+    }
+
+    document.getElementById(
+        "voiceStatus"
+    ).innerText =
+        "Speech stopped.";
+}
+
+
+function robotReply(text) {
+
+    addMessage(
+        "Robot: " + text,
+        "robot-message"
+    );
+
+    speak(text);
+}
+
+
+/* =====================================================
+   ADD CONVERSATION MESSAGE
+===================================================== */
+
+function addMessage(text, type) {
+
+    const box =
+        document.getElementById(
+            "conversationBox"
+        );
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message " + type;
+
+    message.innerText = text;
+
+    box.appendChild(message);
+
+    box.scrollTop =
+        box.scrollHeight;
+}
+
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+async function startCamera() {
+
+    if (cameraStream) {
+        return;
+    }
+
+    try {
+
+        if (
+            !navigator.mediaDevices ||
+            typeof navigator.mediaDevices.getUserMedia !== "function"
+        ) {
+            throw new Error(
+                "Camera access is unavailable. Open this page on localhost or HTTPS in a supported browser."
+            );
+        }
+
+        cameraStream =
+            await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: false
+            });
+
+        const video =
+            document.getElementById("camera");
+
+        video.srcObject =
+            cameraStream;
+
+        await video.play();
+        await waitForCameraFrame(video);
+
+        document.getElementById(
+            "cameraStatus"
+        ).innerText =
+            "🟢 Camera Active";
+
+        document.getElementById(
+            "detectCustomerButton"
+        ).disabled = false;
+
+        document.getElementById(
+            "customerStatus"
+        ).innerText =
+            "Camera ready. Click Detect Customer to analyze a frame.";
+
+        addMessage(
+            "Camera activated. Click Detect Customer to analyze the current frame.",
+            "system-message"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
+        }
+
+        document.getElementById("camera").srcObject = null;
+
+        document.getElementById(
+            "cameraStatus"
+        ).innerText =
+            "❌ Camera unavailable";
+
+        document.getElementById(
+            "customerStatus"
+        ).innerText =
+            error.name === "NotAllowedError"
+                ? "Camera permission was denied. Allow camera access and try again."
+                : error.name === "NotFoundError"
+                    ? "No camera was found on this device."
+                    : error.message ||
+                      "Camera could not be started. Check browser permission and camera availability.";
+
+        addMessage(
+            document.getElementById("customerStatus").innerText,
+            "system-message"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   STOP CAMERA
+===================================================== */
+
+function stopCamera() {
+
+    document.getElementById(
+        "detectCustomerButton"
+    ).disabled = true;
+
+    if (cameraStream) {
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track => track.stop()
+            );
+
+        cameraStream = null;
+
+    }
+
+    document.getElementById(
+        "camera"
+    ).srcObject = null;
+
+    document.getElementById(
+        "cameraStatus"
+    ).innerText =
+        "🔴 Camera Off";
+
+    document.getElementById(
+        "customerStatus"
+    ).innerText =
+        "Camera stopped.";
+
+    clearDetectionOverlay();
+
+}
+
+
+/* =====================================================
+   CUSTOMER DETECTION
+===================================================== */
+
+function waitForCameraFrame(video) {
+
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA && video.videoWidth > 0) {
+        return Promise.resolve();
+    }
+
+    return new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+            cleanup();
+            reject(new Error("The camera started but no video frame is available."));
+        }, 5000);
+
+        function cleanup() {
+            clearTimeout(timeout);
+            video.removeEventListener("loadeddata", checkFrame);
+            video.removeEventListener("error", handleError);
+        }
+
+        function checkFrame() {
+            if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA && video.videoWidth > 0) {
+                cleanup();
+                resolve();
+            }
+        }
+
+        function handleError() {
+            cleanup();
+            reject(new Error("The browser could not read a frame from the camera."));
+        }
+
+        video.addEventListener("loadeddata", checkFrame);
+        video.addEventListener("error", handleError, { once: true });
+        checkFrame();
+    });
+}
+
+
+function clearDetectionOverlay() {
+
+    const canvas = document.getElementById("detectionOverlay");
+    const context = canvas.getContext("2d");
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+
+function drawDetectionOverlay(detections, frameWidth, frameHeight) {
+
+    const video = document.getElementById("camera");
+    const canvas = document.getElementById("detectionOverlay");
+    const bounds = video.getBoundingClientRect();
+    const pixelRatio = window.devicePixelRatio || 1;
+    const scale = Math.max(
+        bounds.width / frameWidth,
+        bounds.height / frameHeight
+    );
+    const cropX = (frameWidth * scale - bounds.width) / 2;
+    const cropY = (frameHeight * scale - bounds.height) / 2;
+
+    canvas.width = Math.round(bounds.width * pixelRatio);
+    canvas.height = Math.round(bounds.height * pixelRatio);
+
+    const context = canvas.getContext("2d");
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    context.lineWidth = 3;
+    context.font = "bold 14px Arial";
+    context.textBaseline = "top";
+
+    detections.forEach(detection => {
+        const x = detection.x * scale - cropX;
+        const y = detection.y * scale - cropY;
+        const width = detection.width * scale;
+        const height = detection.height * scale;
+        const label = `Person (${(detection.score * 100).toFixed(0)}%)`;
+
+        context.strokeStyle = "#22c55e";
+        context.strokeRect(x, y, width, height);
+        const labelWidth = context.measureText(label).width + 10;
+        context.fillStyle = "#166534";
+        context.fillRect(x, Math.max(0, y - 22), labelWidth, 22);
+        context.fillStyle = "#ffffff";
+        context.fillText(label, x + 5, Math.max(2, y - 20));
+    });
+}
+
+
+async function detectCustomer() {
+
+    if (detectionInProgress) {
+        return;
+    }
+
+    const video = document.getElementById("camera");
+    const button = document.getElementById("detectCustomerButton");
+    const status = document.getElementById("customerStatus");
+
+    if (
+        !cameraStream ||
+        video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA ||
+        video.videoWidth === 0 ||
+        video.videoHeight === 0
+    ) {
+        status.innerText = "Start the camera and wait for a video frame before detecting.";
+        addMessage(status.innerText, "system-message");
+        return;
+    }
+
+    detectionInProgress = true;
+    button.disabled = true;
+    status.innerText = "Analyzing camera frame...";
+    clearDetectionOverlay();
+
+    try {
+        const frameCanvas = document.createElement("canvas");
+        frameCanvas.width = video.videoWidth;
+        frameCanvas.height = video.videoHeight;
+        const context = frameCanvas.getContext("2d");
+
+        if (!context) {
+            throw new Error("Could not prepare a canvas to capture the camera frame.");
+        }
+
+        context.drawImage(video, 0, 0, frameCanvas.width, frameCanvas.height);
+
+        const frameBlob = await new Promise(resolve => {
+            frameCanvas.toBlob(resolve, "image/jpeg", 0.9);
+        });
+
+        if (!frameBlob) {
+            throw new Error("The current camera frame could not be encoded.");
+        }
+
+        const formData = new FormData();
+        formData.append("frame", frameBlob, "camera-frame.jpg");
+
+        const response = await fetch("/detect-customer", {
+            method: "POST",
+            body: formData
+        });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.error || "Customer detection failed.");
+        }
+
+        const detections = Array.isArray(data.detections)
+            ? data.detections
+            : [];
+        drawDetectionOverlay(
+            detections,
+            data.frame_width,
+            data.frame_height
+        );
+
+        const result = data.detected
+            ? `Customer Detected (${detections.length})`
+            : "No Customer Detected";
+        const scores = data.detected
+            ? ` Model confidence: ${detections.map(item => `${(item.score * 100).toFixed(0)}%`).join(", ")}.`
+            : "";
+        status.innerText = result + scores;
+        addMessage(
+            `System: ${result}.${scores}`,
+            "system-message"
+        );
+
+        if (data.detected) {
+            greetCustomer();
+        }
+    }
+    catch (error) {
+        console.error("Customer detection error:", error);
+        clearDetectionOverlay();
+        status.innerText = `Detection error: ${error.message}`;
+        addMessage(status.innerText, "system-message");
+    }
+    finally {
+        detectionInProgress = false;
+        button.disabled = !cameraStream;
+    }
+
+}
+
+
+/* =====================================================
+   GREETING
+===================================================== */
+
+function greetCustomer() {
+
+    const greeting =
+        "Welcome to our restaurant! How may I help you today?";
+
+    addMessage(
+        "Robot: " + greeting,
+        "robot-message"
+    );
+
+    document.getElementById(
+        "voiceStatus"
+    ).innerText =
+        "Robot is speaking...";
+
+    speak(greeting);
+
+    setTimeout(() => {
+
+        document.getElementById(
+            "voiceStatus"
+        ).innerText =
+            "Voice system ready.";
+
+    }, 2500);
+
+}
+
+
+/* =====================================================
+   SPEECH RECOGNITION
+===================================================== */
+
+function createRecognition() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+
+        alert(
+            "Speech Recognition is not supported in this browser. Use Google Chrome."
+        );
+
+        return null;
+
+    }
+
+    const rec =
+        new SpeechRecognition();
+
+    rec.lang = "en-IN";
+
+    rec.continuous = false;
+
+    rec.interimResults = false;
+
+    rec.onstart = function() {
+
+        isListening = true;
+
+        document.getElementById(
+            "voiceButton"
+        ).innerText =
+            "🔴 Listening...";
+
+        document.getElementById(
+            "voiceStatus"
+        ).innerText =
+            "Listening to customer...";
+
+    };
+
+
+    rec.onresult = function(event) {
+
+        const transcript =
+            event.results[0][0].transcript;
+
+        document.getElementById(
+            "instruction"
+        ).value =
+            transcript;
+
+        document.getElementById(
+            "voiceStatus"
+        ).innerText =
+            "Voice received.";
+
+        voiceCommandMode = false;
+        executeInstruction();
+
+    };
+
+
+    rec.onerror = function(event) {
+
+        console.error(
+            "Speech recognition error:",
+            event.error
+        );
+
+        document.getElementById(
+            "voiceStatus"
+        ).innerText =
+            "Voice error: " + event.error;
+
+    };
+
+
+    rec.onend = function() {
+
+        isListening = false;
+
+        document.getElementById(
+            "voiceButton"
+        ).innerText =
+            "🎤 Start Talking";
+
+    };
+
+    return rec;
+
+}
+
+
+/* =====================================================
+   START LISTENING
+===================================================== */
+
+function startListening(commandMode = false) {
+
+    voiceCommandMode =
+        commandMode;
+
+    if (!recognition) {
+
+        recognition =
+            createRecognition();
+
+    }
+
+    if (!recognition) {
+        return;
+    }
+
+    if (isListening) {
+
+        recognition.stop();
+
+        return;
+
+    }
+
+    try {
+
+        recognition.start();
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   LOCAL RESTAURANT ANSWER
+===================================================== */
+
+function restaurantAnswer(text) {
+
+    const msg =
+        text.toLowerCase();
+
+    if (
+        msg.includes("hello") ||
+        msg.includes("hi") ||
+        msg.includes("hey")
+    ) {
+
+        return "Hello! Welcome to our restaurant. How may I help you?";
+
+    }
+
+
+    if (
+        msg.includes("menu") ||
+        msg.includes("food")
+    ) {
+
+        return "We have pizza, burgers, pasta, snacks, drinks, tea, coffee and desserts. You can see the complete menu on the screen.";
+
+    }
+
+
+    if (
+        msg.includes("pizza")
+    ) {
+
+        return "We have Margherita Pizza, Cheese Pizza and Veggie Pizza.";
+
+    }
+
+
+    if (
+        msg.includes("burger")
+    ) {
+
+        return "We have Classic Burger, Cheese Burger and Veg Burger.";
+
+    }
+
+
+    if (
+        msg.includes("pasta")
+    ) {
+
+        return "We have White Sauce Pasta, Red Sauce Pasta and Masala Pasta.";
+
+    }
+
+
+    if (
+        msg.includes("water")
+    ) {
+
+        return "Mineral water is available for thirty rupees.";
+
+    }
+
+
+    if (
+        msg.includes("coffee")
+    ) {
+
+        return "Coffee is available for eighty rupees and cold coffee is one hundred ten rupees.";
+
+    }
+
+
+    if (
+        msg.includes("table")
+    ) {
+
+        return "I can help you with table assignment and guide you to your table.";
+
+    }
+
+
+    if (
+        msg.includes("thank")
+    ) {
+
+        return "You're welcome! Enjoy your meal.";
+
+    }
+
+
+    return "I understand your request. Please tell me your food order or ask me about the menu.";
+
+}
+
+
+/* =====================================================
+   CONVERSATION QUESTION
+===================================================== */
+
+function askRobot() {
+
+    const text =
+        document
+            .getElementById("instruction")
+            .value
+            .trim();
+
+    if (!text) {
+        return;
+    }
+
+    addMessage(
+        "Customer: " + text,
+        "user-message"
+    );
+
+    const answer =
+        restaurantAnswer(text);
+
+    setTimeout(() => {
+
+        addMessage(
+            "Robot: " + answer,
+            "robot-message"
+        );
+
+        speak(answer);
+
+    }, 400);
+
+}
+
+
+/* =====================================================
+   EXECUTE AI PIPELINE
+===================================================== */
+
+async function executeInstruction() {
+
+    const instruction =
+        document
+            .getElementById("instruction")
+            .value
+            .trim();
+
+    if (!instruction) {
+
+        robotReply(
+            "Please enter or speak a robot instruction."
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "executeBtn"
+        );
+
+    button.disabled = true;
+
+    button.innerText =
+        "⏳ Processing...";
+
+
+    document.getElementById(
+        "robotStatus"
+    ).innerText =
+        "PROCESSING";
+
+
+    addMessage(
+        "Customer Command: " + instruction,
+        "user-message"
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/process",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            instruction:
+                                instruction
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            const errorCode =
+                data.error_code || "PROCESSING_ERROR";
+
+            sessionStorage.removeItem("pipelineResult");
+            if (data.order_plan) {
+                renderOrderPlan(data.order_plan, true);
+            }
+
+            document.getElementById(
+                "robotStatus"
+            ).innerText =
+                errorCode === "INVALID_TABLE"
+                    ? "INVALID DESTINATION"
+                    : "ERROR";
+
+            document.getElementById(
+                "robotLocation"
+            ).innerText =
+                "COUNTER";
+
+            robotReply(
+                data.robot_response ||
+                "Sorry, I could not process your instruction. Please try again."
+            );
+
+            document.getElementById(
+                "result"
+            ).innerHTML = `
+                <div class="result-card">
+                    <div class="failure-box">
+                        ❌ Pipeline Error:
+                        ${escapeHTML(data.error || "Instruction failed.")}
+                    </div>
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        if (data.overall_status === "SUCCESS") {
+            sessionStorage.setItem(
+                "pipelineResult",
+                JSON.stringify(data)
+            );
+        }
+        else {
+            sessionStorage.removeItem("pipelineResult");
+        }
+
+
+        displayResult(data);
+
+
+        updateFromPipeline(data);
+
+        if (
+            data.overall_status === "SUCCESS" &&
+            (data.order_plan || []).length > 0
+        ) {
+            document.getElementById(
+                "simulationStatus"
+            ).innerText =
+                "🟢 Backend-confirmed delivery route loaded into the 3D simulation.";
+            reloadSimulation();
+        }
+        else {
+            document.getElementById(
+                "simulationStatus"
+            ).innerText =
+                "Delivery status is based on backend execution results.";
+        }
+
+
+        robotReply(
+            data.robot_response ||
+            "Your instruction was completed successfully."
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "robotStatus"
+        ).innerText =
+            error.code === "INVALID_TABLE"
+                ? "INVALID DESTINATION"
+                : "ERROR";
+
+
+        robotReply(
+            "Sorry, I could not process your instruction. Please try again."
+        );
+
+
+        document.getElementById(
+            "result"
+        ).innerHTML = `
+
+            <div class="result-card">
+                <div class="failure-box">
+                    ❌ Pipeline Error:
+                    ${escapeHTML(error.message)}
+                </div>
+            </div>
+
+        `;
+
+    }
+
+
+    finally {
+
+        button.disabled = false;
+
+        button.innerText =
+            "🧠 Execute AI Instruction";
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE STATUS FROM PIPELINE
+===================================================== */
+
+function updateFromPipeline(data) {
+
+    const parser =
+        data.parser || {};
+
+    const status =
+        data.overall_status ||
+        "UNKNOWN";
+
+
+    document.getElementById(
+        "robotStatus"
+    ).innerText =
+        status;
+
+
+    const target =
+        (data.order_plan || []).length > 1
+            ? "MULTI-TABLE"
+            : parser.target || "Counter";
+
+
+    document.getElementById(
+        "robotLocation"
+    ).innerText =
+        target;
+
+
+    if (data.order_plan) {
+        renderOrderPlan(data.order_plan, true);
+    }
+
+}
+
+
+/* =====================================================
+   ADD ORDER
+===================================================== */
+
+function renderOrderPlan(orderPlan, addConversationStatuses) {
+    const orders =
+        document.getElementById(
+            "orders"
+        );
+
+    if (!Array.isArray(orderPlan) || orderPlan.length === 0) {
+        return;
+    }
+
+    orders.innerHTML = orderPlan.map(order => {
+        const itemMarkup = (order.items || []).map(item =>
+            `<div>🍽️ ${escapeHTML(item.name)} × ${item.quantity}
+                <span class="order-status">${escapeHTML(item.delivery_status || item.status || "PENDING")}</span>
+            </div>`
+        ).join("");
+        const table = order.table
+            ? `Table ${order.table}`
+            : "Destination needed";
+        return `
+            <div class="order">
+                <strong>${escapeHTML(order.order_id)}</strong>
+                <br><br>
+                🪑 ${escapeHTML(table)}
+                <br><br>
+                ${itemMarkup}
+                <br>
+                <span class="order-status">${escapeHTML(order.status || "VALIDATED")}</span>
+            </div>
+        `;
+    }).join("");
+
+    document.getElementById(
+        "orderCount"
+    ).innerText =
+        String(orderPlan.length);
+
+    if (addConversationStatuses) {
+        orderPlan.forEach(order => {
+            const itemSummary = (order.items || []).map(item =>
+                `${item.quantity} ${item.name}`
+            ).join(", ");
+            const table = order.table
+                ? `Table ${order.table}`
+                : "destination unspecified";
+            addMessage(
+                `${order.order_id}: ${itemSummary || "Items unspecified"} → ${table} — ${order.status || "VALIDATED"} / ${order.delivery_status || "PENDING"}`,
+                "system-message"
+            );
+        });
+    }
+}
+
+
+/* =====================================================
+   DISPLAY PIPELINE RESULT
+===================================================== */
+
+function displayResult(data) {
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    const parser =
+        data.parser || {};
+
+
+    const steps =
+        data.task_decomposition || [];
+
+
+    const actions =
+        data.action_sequence || [];
+
+
+    const execution =
+        data.robot_execution || {};
+
+
+    const failure =
+        data.failure_analysis || {};
+
+
+    const success =
+        data.success === true;
+
+
+    result.innerHTML = `
+
+        <div class="result-card">
+
+            ${
+                success
+
+                ? `
+
+                <div class="success-box">
+
+                    ✅ ROBOT TASK SUCCESSFUL
+
+                </div>
+
+                `
+
+                :
+
+                `
+
+                <div class="failure-box">
+
+                    ❌ ROBOT TASK FAILED
+
+                </div>
+
+                `
+            }
+
+        </div>
+
+
+        <div class="result-card">
+
+            <h2>
+                🧠 AI Understanding
+            </h2>
+
+            <p>
+                <strong>Intent:</strong>
+                ${escapeHTML(
+                    parser.intent || ""
+                )}
+            </p>
+
+            <p>
+                <strong>Item:</strong>
+                ${escapeHTML(
+                    parser.item ||
+                    parser.object ||
+                    ""
+                )}
+            </p>
+
+            <p>
+                <strong>Target:</strong>
+                ${escapeHTML(
+                    parser.target || ""
+                )}
+            </p>
+
+            <p>
+                <strong>Quantity:</strong>
+                ${escapeHTML(
+                    String(
+                        parser.quantity || 1
+                    )
+                )}
+            </p>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <h2>
+                🔧 Task Decomposition
+            </h2>
+
+            <pre>
+${escapeHTML(
+    JSON.stringify(
+        steps,
+        null,
+        2
+    )
+)}
+            </pre>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <h2>
+                🤖 Robot Action Sequence
+            </h2>
+
+            <pre>
+${escapeHTML(
+    JSON.stringify(
+        actions,
+        null,
+        2
+    )
+)}
+            </pre>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <h2>
+                🚦 Failure Detection & Recovery
+            </h2>
+
+            <pre>
+${escapeHTML(
+    JSON.stringify(
+        failure,
+        null,
+        2
+    )
+)}
+            </pre>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <h2>
+                📊 Robot Execution
+            </h2>
+
+            <pre>
+${escapeHTML(
+    JSON.stringify(
+        execution,
+        null,
+        2
+    )
+)}
+            </pre>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   RELOAD 3D SIMULATION
+===================================================== */
+
+function reloadSimulation() {
+
+    const frame =
+        document.getElementById(
+            "simulationFrame"
+        );
+
+    frame.src =
+        "/simulation?time=" +
+        Date.now();
+
+    document.getElementById(
+        "simulationStatus"
+    ).innerText =
+        "🔄 3D Restaurant Simulation refreshed.";
+
+}
+
+
+/* =====================================================
+   CLEAR COMMAND
+===================================================== */
+
+function clearCommand() {
+
+    document.getElementById(
+        "instruction"
+    ).value = "";
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+/* =====================================================
+   INITIAL STATUS
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        document.getElementById(
+            "robotStatus"
+        ).innerText =
+            "READY";
+
+
+        document.getElementById(
+            "robotLocation"
+        ).innerText =
+            "Counter";
+
+
+        document.getElementById(
+            "battery"
+        ).innerText =
+            "87%";
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

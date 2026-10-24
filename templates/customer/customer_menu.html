@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#174c3b">
+    <title>Menu | Verdant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+    <script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
+</head>
+<body data-customer-page="menu" data-table-number="{{ table_number or '' }}">
+    <div class="demo-ribbon"><span></span> SMART QR ORDERING *LIVE ORDER TRACKING</div>
+    {% set customer_page = 'menu' %}{% include "customer/_customer_header.html" %}
+    <div class="customer-table-context page-width" id="customerTableContext" hidden>Ordering at <strong id="customerTableLabel"></strong><span>Table from QR URL · Demo only</span></div>
+
+    <main>
+        <section class="menu-hero page-width">
+            <div class="hero-copy">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> VERDANT KITCHEN · LIVE MENU</p>
+                <h1>A little garden<br>on your table.</h1>
+                <p>Seasonal favorites, made with care and kept in sync with the restaurant menu.</p>
+                <a class="button button-dark" href="#menu">Explore the menu <span aria-hidden="true">↓</span></a>
+                <div class="hero-meta"><span>Freshly prepared</span><i></i><span>Demo service · No order is sent</span></div>
+            </div>
+            <div class="hero-photo" role="img" aria-label="A freshly prepared seasonal restaurant meal">
+                <span class="photo-note"><span>01</span> Made for sharing</span>
+            </div>
+        </section>
+
+        <section class="menu-section page-width" id="menu">
+            <div class="section-heading">
+                <div><p class="eyebrow">FROM OUR KITCHEN</p><h2>Find your favorite</h2></div>
+                <label class="search-field">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4 4"/></svg>
+                    <span class="visually-hidden">Search the menu</span>
+                    <input id="menuSearch" type="search" placeholder="Search dishes..." autocomplete="off">
+                    <kbd>/</kbd>
+                </label>
+            </div>
+
+            <div class="category-row" role="group" aria-label="Filter menu by category">
+                <button class="category-chip is-selected" type="button" data-category-filter="All" aria-pressed="true">All <span id="menuAllCount">0</span></button>
+                <button class="category-chip" type="button" data-category-filter="Pizza" aria-pressed="false">Pizza</button>
+                <button class="category-chip" type="button" data-category-filter="Burgers" aria-pressed="false">Burgers</button>
+                <button class="category-chip" type="button" data-category-filter="Pasta" aria-pressed="false">Pasta</button>
+                <button class="category-chip" type="button" data-category-filter="Starters" aria-pressed="false">Starters</button>
+                <button class="category-chip" type="button" data-category-filter="Desserts" aria-pressed="false">Desserts</button>
+                <button class="category-chip" type="button" data-category-filter="Drinks" aria-pressed="false">Drinks</button>
+            </div>
+            <p class="menu-feedback" id="menuFeedback" role="status" aria-live="polite">Loading the latest menu…</p>
+            <div class="food-grid" id="menuGrid" aria-live="polite"></div>
+            <div class="empty-panel" id="menuEmpty" hidden>
+                <span class="empty-icon" aria-hidden="true">⌕</span><h3>No dishes found</h3>
+                <p>Try another search or choose a different category.</p>
+                <button class="button button-light" type="button" id="clearMenuFilters">Clear filters</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="customer-footer page-width"><span>verdant<span class="footer-leaf">.</span></span><span>Orders are saved in Firestore · Not sent to restaurant staff</span><a href="{{ url_for('customer_cart', table=table_number) }}">Review your cart <span aria-hidden="true">→</span></a></footer>
+    <div class="customer-toast" id="customerToast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+AI RESTAURANT SERVICE ROBOT
+MASTER DOCUMENTATION INDEX
+
+Purpose
+This folder documents the existing project from inspected source files, data files, and tests. It describes code as it exists and distinguishes automated evidence from demonstrations and missing integrations.
+
+Recommended reading order
+1. 01_PROJECT_OVERVIEW.txt - project purpose, goals, users, and scope.
+2. 02_TECHNOLOGY_STACK.txt - languages, frameworks, APIs, and dependencies.
+3. 03_PROJECT_STRUCTURE.txt - source tree and module connections.
+4. 04_FRONTEND_HTML.txt through 07_BACKEND_FLASK.txt - user interface and web request path.
+5. 08_INSTRUCTION_PARSER.txt through 11_TABLE_VALIDATION.txt - interpreting and validating commands.
+6. 12_VOICE_RECOGNITION.txt through 16_ROBOT_CONTROLLER_AND_HARDWARE.txt - voice, camera, simulation, and the hardware boundary.
+7. 17_DATABASE_AND_STORAGE.txt through 22_SECURITY_AND_SAFETY.txt - persistence, errors, tests, data, APIs, and safety.
+8. 23_SETUP_AND_INSTALLATION.txt and 24_USER_GUIDE.txt - run and use the demo.
+9. 25_CURRENT_PROJECT_STATUS.txt and 26_FUTURE_IMPROVEMENTS.txt - gaps and next steps.
+10. 27_PROJECT_REPORT_AND_VIVA.txt and 28_CHANGELOG.txt - presentation material and change-history evidence.
+
+File catalogue
+00_MASTER_DOCUMENTATION_INDEX.txt - this reading guide and catalogue.
+01_PROJECT_OVERVIEW.txt - purpose, goals, intended users, scope, and limitations.
+02_TECHNOLOGY_STACK.txt - declared packages, actual imports, browser APIs, and external services.
+03_PROJECT_STRUCTURE.txt - project tree, file responsibilities, connections, and inspection boundaries.
+04_FRONTEND_HTML.txt - pages, dashboard regions, controls, and Flask template routing.
+05_FRONTEND_CSS.txt - inline and standalone styles, themes, selectors, and layout behavior.
+06_FRONTEND_JAVASCRIPT.txt - browser-side command, conversation, status, simulation, voice, and camera code.
+07_BACKEND_FLASK.txt - Flask app, routes, request flow, response shapes, and error behavior.
+08_INSTRUCTION_PARSER.txt - local parser, Gemini fallback, extracted entities, supported language, and limitations.
+09_TASK_PLANNER.txt - task decomposition, action mapping, and per-unit delivery execution.
+10_MULTI_ORDER_MANAGEMENT.txt - order grouping, IDs, quantities, status tracking, and persistence limits.
+11_TABLE_VALIDATION.txt - configured table range and checks before execution.
+12_VOICE_RECOGNITION.txt - Web Speech API microphone input and browser limitations.
+13_TEXT_TO_SPEECH.txt - speech synthesis, voice choice, controls, and fallback display.
+14_CAMERA_AND_CUSTOMER_DETECTION.txt - live preview and simulated customer-detection behavior.
+15_ROBOT_SIMULATOR.txt - Three.js scene, routes, animation, and confirmed-order replay.
+16_ROBOT_CONTROLLER_AND_HARDWARE.txt - software controller and absent real hardware integration.
+17_DATABASE_AND_STORAGE.txt - database status and existing file/session storage.
+18_ERROR_HANDLING_AND_DEBUGGING.txt - observed error handling, known gaps, and debug commands.
+19_TESTING_AND_TEST_CASES.txt - automated test files, current test result, and manual checks.
+20_DATASET_AND_TRAINING.txt - available data, record counts, extraction utilities, and absence of model training.
+21_API_REFERENCE.txt - all Flask endpoints with examples and return status behavior.
+22_SECURITY_AND_SAFETY.txt - current validation, credentials, browser permissions, and safety gaps.
+23_SETUP_AND_INSTALLATION.txt - Windows prerequisites, dependencies, environment, start, and stop.
+24_USER_GUIDE.txt - dashboard, voice, multi-order, table-validation, and status usage.
+25_CURRENT_PROJECT_STATUS.txt - completed, partial, unverified, and prioritized work.
+26_FUTURE_IMPROVEMENTS.txt - practical engineering and research extensions.
+27_PROJECT_REPORT_AND_VIVA.txt - evidence-based abstract, architecture, results, limitations, and viva questions.
+28_CHANGELOG.txt - history evidence and explicit limits where Git history is absent.
+
+Evidence labels
+IMPLEMENTED: present in source code.
+TESTED: covered by an automated test or a stated browser/manual run.
+PARTIAL: a UI, stub, or software-only behavior exists, but not the complete real-world feature.
+UNVERIFIED: not established by inspected tests or a reproducible run.
+NOT IMPLEMENTED: the inspected project has no implementation for the stated capability.
+
+Paths are relative to the project root. The files are plain UTF-8 text; open them in VS Code, Notepad, or another text editor. Start with this index and follow the reading order.
+
+Inspection boundary
+Application-owned files and the main source/data directories were inventoried. Virtual-environment package contents and the full vendored CALVIN repository were not read file-by-file; their existence and selected top-level metadata were inspected. See 03_PROJECT_STRUCTURE.txt and 28_CHANGELOG.txt.

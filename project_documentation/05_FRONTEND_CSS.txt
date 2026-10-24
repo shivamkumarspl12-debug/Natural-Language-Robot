@@ -1,0 +1,43 @@
+05 - FRONTEND CSS
+
+Purpose
+Explain the page themes, layout, responsive behavior, and where styles actually live.
+
+Files
+- templates\index.html: embedded <style> section for the main dashboard.
+- templates\voice_camera.html: embedded <style> section for the voice/camera page.
+- templates\robot_3d.html: embedded presentation styling for the simulation controls and telemetry.
+- static\css\style.css: standalone light-theme styles for generic dashboard elements.
+- static\js\script.js is not a stylesheet.
+
+Important integration fact
+The inspected index.html does not link static\css\style.css; its page styles are declared inline. Do not assume edits to static\css\style.css change the running dashboard without adding a link or changing the template. The voice-camera and 3D pages also carry their own inline presentation styles.
+
+Theme and selectors
+Main dashboard:
+- Light gray page (#f3f4f6 / #f9fafb), white cards, dark text, navy-to-blue header.
+- .container, .status-grid, .interaction-grid, .card, .camera-container, #camera, .camera-overlay, .conversation-box, .voice-controls, .command-card, .menu-grid, .order-plan, .result-card.
+- Status classes include .status-ready, .status-success, and .status-failed; button variants include .button.primary, .green, .dark, .orange, and .red.
+- Responsive media rules rearrange status/interaction grids and menu layouts at narrower widths.
+
+Voice-camera page:
+- Dark navy background (#0b1020), charcoal cards, light text, dark video/conversation surfaces.
+- Selectors include .container, .card, video, .status, .conversation, .message, .robot, .customer, .system, .voice-controls, textarea, button, .menu, .menu-item, .pipeline, .full.
+- A max-width 850px media rule changes the two-column grid to one column.
+
+Standalone static/css/style.css:
+- Light background and centered max-width content; styles generic `.header`, `.container`, `.instruction-card`, `textarea`, `button`, `.result-card`, `pre`, `table`, `.status-success`, `.status-failed`.
+- Includes a max-width 700px rule.
+- Its connection to an active rendered template is not established; the index page duplicates relevant styles inline.
+
+Simulation styling
+templates\robot_3d.html uses a dark, viewport-oriented layout for a Three.js canvas, floating telemetry/status panels, route/activity log, and simulation controls. Scene geometry is rendered by Three.js rather than CSS.
+
+Purpose of CSS
+Styles create cards and contrast states; they do not validate orders, run the camera, or move the robot. JavaScript updates status text/classes/content.
+
+Dependencies and status
+No CSS build pipeline or preprocessor is configured in the inspected files. Styles are implemented inline plus one standalone stylesheet. Responsive browser rendering has not been verified across every screen size.
+
+Limitations and testing
+Duplicate inline and standalone CSS can drift. Test at desktop and narrow viewport widths and confirm the correct page stylesheet is active. The dashboard includes icon/emoji glyphs whose appearance depends on system fonts.

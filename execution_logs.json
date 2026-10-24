@@ -1,0 +1,362 @@
+[
+    {
+        "timestamp": "2026-09-07T13:57:20.577477",
+        "instruction": "Pick up the red block and put it in the box",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "MOVE_FAILED",
+        "retry_count": 1,
+        "execution_time_seconds": 5.21,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T13:59:21.168124",
+        "instruction": "Pick up the red block and put it in the box",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T13:59:24.084053",
+        "instruction": "Pick up the red block and put it in the box",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "MOVE_FAILED",
+        "retry_count": 1,
+        "execution_time_seconds": 2.91,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T13:59:26.993218",
+        "instruction": "Pick up the red block and put it in the box",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "OBJECT_NOT_DETECTED",
+        "retry_count": 1,
+        "execution_time_seconds": 2.91,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:02:59.048559",
+        "instruction": "Take the green ball to the bin",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:01.053991",
+        "instruction": "Grab the yellow cube and put it in the container",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:03.061597",
+        "instruction": "Lift the yellow cube and place it in the basket",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:05.068171",
+        "instruction": "Grab the yellow ball and put it in the basket",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:07.082270",
+        "instruction": "Pick up the yellow cube and place it in the container",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.01,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:09.106160",
+        "instruction": "Move the green cube into the bin",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.02,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:12.020575",
+        "instruction": "Grab the yellow ball and put it in the bin",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "MOVE_FAILED",
+        "retry_count": 1,
+        "execution_time_seconds": 2.91,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:14.026993",
+        "instruction": "Take the blue cube to the box",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:16.035620",
+        "instruction": "Take the blue block to the basket",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.01,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:18.045078",
+        "instruction": "Lift the red block and place it in the basket",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.01,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:20.058181",
+        "instruction": "Pick up the yellow ball and place it in the container",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.01,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:22.071939",
+        "instruction": "Move the blue block into the basket",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.01,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:24.079262",
+        "instruction": "Move the blue block into the box",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:26.087668",
+        "instruction": "Lift the blue cube and place it in the container",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:28.094957",
+        "instruction": "Pick up the red bottle and place it in the basket",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.01,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:31.011200",
+        "instruction": "Move the blue cube into the bin",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "MOVE_FAILED",
+        "retry_count": 1,
+        "execution_time_seconds": 2.91,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:33.026692",
+        "instruction": "Take the green bottle to the bin",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.01,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:35.033499",
+        "instruction": "Pick up the blue block and place it in the bin",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:37.044285",
+        "instruction": "Transfer the blue block to the bin",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.01,
+        "status": "SUCCESS"
+    },
+    {
+        "timestamp": "2026-09-07T14:03:39.051619",
+        "instruction": "Grab the blue block and put it in the basket",
+        "actions": [
+            "DETECT",
+            "MOVE_TO_OBJECT",
+            "GRAB",
+            "MOVE_TO_TARGET",
+            "RELEASE"
+        ],
+        "failure": "NONE",
+        "retry_count": 0,
+        "execution_time_seconds": 2.0,
+        "status": "SUCCESS"
+    }
+]

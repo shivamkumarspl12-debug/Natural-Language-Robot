@@ -1,0 +1,70 @@
+27 - PROJECT REPORT AND VIVA
+
+Purpose
+Provide a presentation-ready description and accurate answers based on the project as inspected.
+
+Abstract
+The AI Restaurant Service Robot is a Flask-based software demonstration that accepts English restaurant instructions, parses items, quantities, and table destinations, creates per-table order plans, validates destinations, and runs a simulated command pipeline. Browser pages provide conversation, voice/camera controls, status, and a Three.js restaurant visualization. Multi-order execution statuses are derived from a Python software controller; no physical robot is connected.
+
+Problem statement
+Natural-language requests must be translated into structured robot tasks while protecting against invalid destination tables and reporting execution failures honestly.
+
+Objectives and method
+1. Accept typed or browser-transcribed commands.
+2. Parse known delivery words/items/quantities with local rules; use Gemini as fallback for other parser requests.
+3. Group items by table and validate all destinations before multi-order execution.
+4. Decompose each item unit into ordered software commands.
+5. Retry simulated controller commands, compute per-item/per-order statuses, and return JSON.
+6. Render the answer, order plan, and a separate visual delivery route in the browser.
+
+Architecture
+Browser templates -> Flask routes (app.py) -> instruction parser -> task decomposer -> action generator -> software RobotController -> failure analysis -> JSON response. `integrated_pipeline.py` provides a CLI path. Data preparation/evaluation scripts are separate from live inference. The 3D simulator reads temporary successful response data from browser sessionStorage.
+
+Technologies
+Python 3.12.10, Flask 3.1.3, local regex parser, google-genai Gemini fallback, python-dotenv, HTML/CSS/JavaScript, Web Speech APIs, MediaDevices camera API, and Three.js r128. See 02_TECHNOLOGY_STACK.txt for declared-but-unused packages.
+
+Demonstrable results
+- Current automated suite: 18 tests passed using unittest discovery.
+- Tests verify multiple items/tables and quantities, table-specific controller arguments, invalid destination rejection, missing destination/items, partial and failed execution messaging, and integrated pipeline reuse.
+- A browser run during the preceding task showed sequential visual delivery to Table 3 then Table 4 with a return to counter between and after visits.
+- These results demonstrate software and visualization paths only. They are not an accuracy benchmark, physical delivery proof, or hardware safety certification.
+
+Limitations
+No physical robot, CV customer detector, persistent order database, trained local ML model, production security configuration, or all-browser voice certification. Gemini live access and audio hardware were not verified in the test suite. Parser vocabulary and table range are limited.
+
+Future scope
+Persistent orders/audit, formal parser schema and clarification, route optimization, verified hardware adapter and safety system, actual CV with privacy policy, browser automation, and secure production deployment.
+
+Likely viva questions and evidence-based answers
+Q: Is Gemini used for every command?
+A: No. Recognized deliveries use a local rule-based parser. Gemini gemini-3.6-flash is called as a fallback for instructions not accepted by the local parser.
+
+Q: How are multiple tables kept separate?
+A: Parser groups items by table; backend loops each order/item/quantity and passes that order's own table to the controller. Unit tests assert the destination-specific call counts.
+
+Q: What happens for Table 8?
+A: app.py rejects destinations outside Tables 1-4 before controller execution; a test verifies that the controller is not called.
+
+Q: Does the system use a database?
+A: No persistent order database was found. IDs and status are returned in memory; browser simulation transfer uses sessionStorage and utility scripts write JSON files.
+
+Q: Is camera-based customer detection real?
+A: No. The page can show a live camera stream, but the customer event is manual or timer-triggered. There is no CV detector in the inspected app.
+
+Q: Is this connected to Arduino or ROS 2?
+A: No. Those names appear in config\robot_config.json, but no firmware, ROS node, motor driver, sensor transport, or serial protocol was found.
+
+Q: What does DELIVERED mean?
+A: Every relevant unit received a SUCCESS result from the software RobotController. It does not prove a physical handoff.
+
+Q: What was tested?
+A: 18 Python unittest tests passed, covering parser, validation, mocked execution results, and multi-order behavior. Browser voice/camera hardware and real robot movement were not covered.
+
+Q: Has a machine-learning model been trained?
+A: No training loop or trained weights were found. Data preparation scripts exist; the app uses rules and optional remote Gemini inference.
+
+Q: Why is the simulator useful if there is no hardware?
+A: It illustrates table-specific routes and task order visually. It should be described as simulation and not as live robot control.
+
+Dependencies and presentation guidance
+Use project_documentation\ files as supporting material. Do not claim physical execution, automatic customer recognition, trained-model accuracy, or persistence unless those systems are later implemented and tested.

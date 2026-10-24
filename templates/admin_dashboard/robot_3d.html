@@ -1,0 +1,4511 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>AI Restaurant Humanoid Robot Simulation</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#061019;
+    color:#eaf6ff;
+}
+
+#app{
+    width:100%;
+    height:100%;
+    position:relative;
+}
+
+#canvas-container{
+    position:absolute;
+    inset:0;
+}
+
+canvas{
+    display:block;
+}
+
+/* ================= HEADER ================= */
+
+#topbar{
+    position:absolute;
+    top:16px;
+    left:18px;
+    right:18px;
+    height:70px;
+    z-index:20;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 20px;
+
+    background:rgba(5,15,23,.94);
+    border:1px solid rgba(90,180,255,.25);
+    border-radius:15px;
+
+    backdrop-filter:blur(12px);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.brand-icon{
+    width:44px;
+    height:44px;
+    border-radius:12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(145deg,#d8ecff,#438fff);
+
+    color:#061019;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.brand-title{
+    font-size:19px;
+    font-weight:700;
+}
+
+.brand-subtitle{
+    margin-top:4px;
+    color:#8da7ba;
+    font-size:11px;
+}
+
+.status-pill{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:10px 16px;
+
+    border-radius:25px;
+
+    background:rgba(0,210,150,.10);
+    border:1px solid rgba(0,220,160,.25);
+
+    color:#62e8b1;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.status-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#40e8a3;
+    box-shadow:0 0 12px #40e8a3;
+}
+
+/* ================= LEFT PANEL ================= */
+
+#control-panel{
+    position:absolute;
+    left:18px;
+    top:102px;
+    bottom:18px;
+
+    width:285px;
+
+    overflow-y:auto;
+
+    z-index:15;
+
+    padding:16px;
+
+    background:rgba(5,15,23,.95);
+    border:1px solid rgba(90,180,255,.23);
+    border-radius:15px;
+
+    backdrop-filter:blur(12px);
+}
+
+.panel-title{
+    font-size:15px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.button-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+button{
+    border:1px solid rgba(100,190,255,.16);
+    border-radius:9px;
+
+    padding:10px 7px;
+
+    background:#173249;
+    color:#eaf6ff;
+
+    cursor:pointer;
+
+    font-size:11px;
+    font-weight:bold;
+
+    transition:.2s;
+}
+
+button:hover{
+    background:#22516f;
+}
+
+button.primary{
+    background:#1876b8;
+}
+
+button.danger{
+    background:#713c43;
+}
+
+.section{
+    margin-top:15px;
+    padding-top:14px;
+
+    border-top:1px solid rgba(255,255,255,.07);
+}
+
+.label{
+    color:#8098ab;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+
+    margin-bottom:6px;
+}
+
+.value{
+    color:#eef8ff;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.mission-card{
+    padding:10px;
+    border:1px solid rgba(90,180,255,.18);
+    border-radius:9px;
+    background:rgba(14,39,56,.8);
+    color:#dcecf8;
+    font-size:11px;
+    line-height:1.5;
+    overflow-wrap:anywhere;
+}
+
+.mission-card strong{
+    color:#fff;
+}
+
+.mission-queue{
+    max-height:130px;
+    margin-top:8px;
+    overflow:auto;
+    color:#9db4c7;
+    font-size:10px;
+}
+
+.mission-queue-item{
+    padding:6px 0;
+    border-top:1px solid rgba(255,255,255,.07);
+}
+
+.mission-queue-item button{
+    width:100%;
+    padding:6px 0;
+    border:0;
+    color:inherit;
+    background:transparent;
+    text-align:left;
+    cursor:pointer;
+}
+
+.mission-queue-item button:hover,
+.mission-queue-item button:focus-visible{
+    color:#fff;
+}
+
+#mission-thanks{
+    position:absolute;
+    z-index:30;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    padding:18px 24px;
+    border:1px solid rgba(105,232,177,.5);
+    border-radius:14px;
+    color:#eafff4;
+    background:rgba(5,25,20,.94);
+    box-shadow:0 15px 55px rgba(0,0,0,.4);
+    font-size:clamp(18px,3vw,30px);
+    font-weight:700;
+    text-align:center;
+}
+
+/* ================= PIPELINE ================= */
+
+.pipeline{
+    margin-top:4px;
+}
+
+.pipeline-item{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    margin:9px 0;
+
+    color:#6d8496;
+
+    font-size:11px;
+}
+
+.pipeline-number{
+    width:21px;
+    height:21px;
+    min-width:21px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    border:1px solid #314a5c;
+
+    font-size:9px;
+}
+
+.pipeline-item.active{
+    color:#61c6ff;
+}
+
+.pipeline-item.active .pipeline-number{
+    border-color:#45b7ff;
+    background:rgba(55,170,255,.14);
+    color:#6dcaff;
+}
+
+.pipeline-item.done{
+    color:#66e5aa;
+}
+
+.pipeline-item.done .pipeline-number{
+    border-color:#42d99a;
+    background:rgba(42,210,145,.13);
+    color:#6be9b0;
+}
+
+/* ================= RIGHT PANEL ================= */
+
+#telemetry{
+    position:absolute;
+    right:18px;
+    top:102px;
+
+    width:310px;
+
+    z-index:15;
+
+    padding:16px;
+
+    background:rgba(5,15,23,.95);
+    border:1px solid rgba(90,180,255,.23);
+    border-radius:15px;
+
+    backdrop-filter:blur(12px);
+}
+
+.telemetry-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.telemetry-card{
+    padding:10px;
+
+    border-radius:9px;
+
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.telemetry-label{
+    color:#71899b;
+    font-size:9px;
+    text-transform:uppercase;
+}
+
+.telemetry-value{
+    margin-top:4px;
+
+    font-size:13px;
+    font-weight:bold;
+}
+
+.battery{
+    margin-top:6px;
+
+    width:100%;
+    height:7px;
+
+    background:#142530;
+
+    border-radius:10px;
+
+    overflow:hidden;
+}
+
+#battery-fill{
+    height:100%;
+    width:96%;
+
+    background:#42e4a3;
+
+    transition:.3s;
+}
+
+/* ================= EVENT LOG ================= */
+
+#event-log{
+    height:165px;
+
+    margin-top:8px;
+
+    padding:9px;
+
+    overflow-y:auto;
+
+    background:#03090e;
+
+    border-radius:9px;
+
+    font-family:Consolas,monospace;
+    font-size:10px;
+
+    color:#86a7bc;
+}
+
+.log{
+    margin-bottom:6px;
+}
+
+.success{
+    color:#61e6aa;
+}
+
+.warning{
+    color:#ffd369;
+}
+
+.error{
+    color:#ff7e7e;
+}
+
+/* ================= BOTTOM ================= */
+
+#bottom-info{
+    position:absolute;
+
+    left:50%;
+    bottom:18px;
+
+    transform:translateX(-50%);
+
+    z-index:20;
+
+    padding:10px 17px;
+
+    border-radius:22px;
+
+    background:rgba(4,13,20,.90);
+    border:1px solid rgba(100,190,255,.18);
+
+    color:#829aab;
+
+    font-size:10px;
+}
+
+/* ================= LOADING ================= */
+
+#loading{
+    position:absolute;
+    inset:0;
+
+    z-index:100;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#061019;
+
+    transition:.5s;
+}
+
+.loader{
+    width:45px;
+    height:45px;
+
+    border:3px solid #17364c;
+    border-top-color:#4dbbff;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+    margin:auto auto 15px;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@media(max-width:900px){
+
+    #control-panel{
+        width:230px;
+    }
+
+    #telemetry{
+        width:260px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<div id="loading">
+    <div style="text-align:center">
+        <div class="loader"></div>
+        <div>Loading AI Restaurant Robot...</div>
+    </div>
+</div>
+
+<div id="canvas-container"></div>
+
+
+<!-- ================= HEADER ================= -->
+
+<div id="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            AI
+        </div>
+
+        <div>
+            <div class="brand-title">
+                AI Restaurant Humanoid Robot
+            </div>
+
+            <div class="brand-subtitle">
+                SIMULATION ONLY · No live robot connection or control
+            </div>
+        </div>
+
+    </div>
+
+    <div class="status-pill">
+
+        <div class="status-dot"></div>
+
+        <span id="system-status">
+            SIMULATION READY
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- ================= LEFT PANEL ================= -->
+
+<div id="control-panel">
+
+    <div class="panel-title">
+        Simulation Controls
+    </div>
+
+    <div class="button-grid">
+
+        <button
+            class="primary"
+            onclick="startSimulation()">
+            ▶ START
+        </button>
+
+        <button
+            onclick="togglePause()">
+            ⏸ PAUSE
+        </button>
+
+        <button
+            onclick="resetSimulation()">
+            ↻ RESET
+        </button>
+
+        <button
+            onclick="toggleFollow()">
+            🎥 FOLLOW
+        </button>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="label">
+            Current Task
+        </div>
+
+        <div class="value">
+            Food Delivery
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="label">
+            Delivery Item
+        </div>
+
+        <div
+            class="value"
+            id="delivery-item">
+            Waiting for a ready Firestore order
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="label">
+            Destination
+        </div>
+
+        <div
+            class="value"
+            id="destination">
+            Not assigned
+        </div>
+
+    </div>
+
+    <div class="section">
+        <div class="label">Active Firestore Order · Simulation Only</div>
+        <div class="mission-card" id="mission-order">
+            <strong id="mission-order-id">No order selected</strong>
+            <div id="mission-customer">Customer: —</div>
+            <div id="mission-items">Items: —</div>
+            <div id="mission-total">Total: —</div>
+            <div id="mission-created">Placed: —</div>
+            <div id="mission-status">Connecting to the authorized Firestore order service…</div>
+        </div>
+        <div class="mission-queue" id="mission-queue"></div>
+    </div>
+
+
+    <div class="section">
+
+        <div class="label">
+            Robot State
+        </div>
+
+        <div
+            class="value"
+            id="robot-state">
+            IDLE
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="label">
+            AI Execution Pipeline
+        </div>
+
+        <div class="pipeline">
+
+            <div class="pipeline-item" id="p1">
+                <div class="pipeline-number">1</div>
+                Natural Language Input
+            </div>
+
+            <div class="pipeline-item" id="p2">
+                <div class="pipeline-number">2</div>
+                AI Instruction Parser
+            </div>
+
+            <div class="pipeline-item" id="p3">
+                <div class="pipeline-number">3</div>
+                Task Decomposition
+            </div>
+
+            <div class="pipeline-item" id="p4">
+                <div class="pipeline-number">4</div>
+                Action Generation
+            </div>
+
+            <div class="pipeline-item" id="p5">
+                <div class="pipeline-number">5</div>
+                Robot Navigation
+            </div>
+
+            <div class="pipeline-item" id="p6">
+                <div class="pipeline-number">6</div>
+                Safe Route Navigation
+            </div>
+
+            <div class="pipeline-item" id="p7">
+                <div class="pipeline-number">7</div>
+                Food Delivery
+            </div>
+
+            <div class="pipeline-item" id="p8">
+                <div class="pipeline-number">8</div>
+                Return to Counter
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= RIGHT PANEL ================= -->
+
+<div id="telemetry">
+
+    <div class="panel-title">
+        Simulated Telemetry · Not Live
+    </div>
+
+
+    <div class="telemetry-grid">
+
+        <div class="telemetry-card">
+            <div class="telemetry-label">
+                State
+            </div>
+            <div
+                class="telemetry-value"
+                id="telemetry-state">
+                IDLE
+            </div>
+        </div>
+
+
+        <div class="telemetry-card">
+            <div class="telemetry-label">
+                Location
+            </div>
+            <div
+                class="telemetry-value"
+                id="telemetry-location">
+                COUNTER
+            </div>
+        </div>
+
+
+        <div class="telemetry-card">
+            <div class="telemetry-label">
+                Battery
+            </div>
+            <div
+                class="telemetry-value"
+                id="telemetry-battery">
+                96%
+            </div>
+        </div>
+
+
+        <div class="telemetry-card">
+            <div class="telemetry-label">
+                Speed
+            </div>
+            <div
+                class="telemetry-value"
+                id="telemetry-speed">
+                0.00 m/s
+            </div>
+        </div>
+
+
+        <div class="telemetry-card">
+            <div class="telemetry-label">
+                Sensor
+            </div>
+            <div
+                class="telemetry-value"
+                id="telemetry-sensor">
+                READY
+            </div>
+        </div>
+
+
+        <div class="telemetry-card">
+            <div class="telemetry-label">
+                Retry
+            </div>
+            <div
+                class="telemetry-value"
+                id="telemetry-retry">
+                0
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="label">
+            Battery
+        </div>
+
+        <div class="battery">
+            <div id="battery-fill"></div>
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="label">
+            System Event Log
+        </div>
+
+        <div id="event-log"></div>
+
+    </div>
+
+</div>
+
+<div id="mission-thanks" role="status" aria-live="polite" hidden>Thank you for your order!</div>
+
+<div id="bottom-info">
+    Mouse: <b>Drag</b> rotate &nbsp;|&nbsp;
+    <b>Wheel</b> zoom &nbsp;|&nbsp;
+    <b>Right Drag</b> pan
+</div>
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<script src="{{ url_for('static', filename='js/restaurant_navigation.js') }}"></script>
+
+<script>
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+let scene;
+let camera;
+let renderer;
+let controls;
+
+let robot;
+let robotParts = {};
+
+let food;
+
+let routeLine;
+
+let running = false;
+let paused = false;
+let followCamera = false;
+
+let battery = 96;
+
+let retryCount = 0;
+
+let state = "IDLE";
+
+let route = [];
+
+let routeIndex = 0;
+let destinationApproach = null;
+
+let deliveryComplete = false;
+let tableArrivalPending = false;
+
+let returnStarted = false;
+let deliveryQueue = [];
+let pendingSimulationOrders = [];
+let selectedSimulationOrderId = null;
+let activeDeliveryOrder = null;
+let activeMissionId = null;
+let simulationQueueError = null;
+let simulationQueueLoaded = false;
+let simulationQueuePollPromise = null;
+let simulationQueuePollTimer = null;
+let simulationResetting = false;
+let simulationStartPending = false;
+let missionTransitionInProgress = false;
+let completedDeliveryCount = 0;
+let lastTrackingPositionPublishedAt = 0;
+let trackingPositionPublishPromise = null;
+let trackingPositionPublishWarningShown = false;
+
+let lastTime = performance.now();
+
+let destinationTable = null;
+
+let deliveryItem = "No order selected";
+
+
+/* =========================================================
+   COORDINATES
+========================================================= */
+
+const COUNTER =
+    new THREE.Vector3(
+        -11,
+        0,
+        -7
+    );
+
+const TABLE_POSITIONS = {
+    1: new THREE.Vector3(-7, 0, 7),
+    2: new THREE.Vector3(0, 0, 7),
+    3: new THREE.Vector3(8, 0, 5),
+    4: new THREE.Vector3(-1, 0, -1),
+    5: new THREE.Vector3(15, 0, 7),
+    6: new THREE.Vector3(15, 0, -7)
+};
+
+const NAVIGATOR = RestaurantNavigation.createNavigator(
+    Object.fromEntries(
+        Object.entries(TABLE_POSITIONS).map(([number, position]) => [
+            number,
+            { x: position.x, z: position.z },
+        ]),
+    ),
+    {
+        bounds: { minX: -21.9, maxX: 21.9, minZ: -16.9, maxZ: 16.9 },
+        cellSize: 0.25,
+        robotRadius: 0.75,
+        safetyMargin: 0.2,
+        tableRadius: 2.75,
+        rectangles: [
+            { minX: -19.5, maxX: -12.5, minZ: -4.35, maxZ: -2.85 },
+        ],
+    },
+);
+
+function createDeliveryRoute(tableNumber, startPosition = COUNTER) {
+    const plan = NAVIGATOR.planToTable(
+        { x: startPosition.x, z: startPosition.z },
+        Number(tableNumber),
+    );
+    if (!plan) return null;
+    destinationApproach = new THREE.Vector3(plan.goal.x, 0, plan.goal.z);
+    return plan.points.map(point => new THREE.Vector3(point.x, 0, point.z));
+}
+
+function createReturnRoute(startPosition = robot.position) {
+    const plan = NAVIGATOR.planToPoint(
+        { x: startPosition.x, z: startPosition.z },
+        { x: COUNTER.x, z: COUNTER.z },
+    );
+    if (!plan) return null;
+    return plan.points.map(point => new THREE.Vector3(point.x, 0, point.z));
+}
+
+function stopForNavigationError(message) {
+    running = false;
+    paused = false;
+    document.getElementById("telemetry-speed").textContent = "0.00 m/s";
+    setState("NAVIGATION ERROR");
+    document.getElementById("mission-status").textContent =
+        `Navigation error: ${message}`;
+    addLog("SAFETY", message, "error");
+    if (activeMissionId) {
+        void failActiveSimulationOrder().catch(error => {
+            addLog("SAFETY", `Could not save failed simulation: ${error.message}`, "error");
+        });
+    }
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+function init(){
+
+    createScene();
+
+    createLights();
+
+    createRestaurant();
+
+    createRobot();
+
+    createFood();
+
+    loadPipelineData();
+
+    route = createDeliveryRoute(
+        TABLE_POSITIONS[destinationTable] ? destinationTable : 3,
+        robot.position,
+    );
+    if (route) createRouteLine(route);
+
+    hideLoading();
+
+    addLog(
+        "SYSTEM",
+        "Humanoid restaurant robot initialized.",
+        "success"
+    );
+
+    addLog(
+        "SENSOR",
+        "RGB camera, proximity sensors and LiDAR online.",
+        "success"
+    );
+
+    animate();
+}
+
+
+/* =========================================================
+   SCENE
+========================================================= */
+
+function createScene(){
+
+    scene =
+        new THREE.Scene();
+
+    scene.background =
+        new THREE.Color(
+            0x061019
+        );
+
+    scene.fog =
+        new THREE.Fog(
+            0x061019,
+            25,
+            80
+        );
+
+
+    camera =
+        new THREE.PerspectiveCamera(
+            45,
+            window.innerWidth /
+            window.innerHeight,
+            0.1,
+            200
+        );
+
+
+    camera.position.set(
+        25,
+        19,
+        27
+    );
+
+
+    renderer =
+        new THREE.WebGLRenderer({
+            antialias:true
+        });
+
+
+    renderer.setPixelRatio(
+        Math.min(
+            window.devicePixelRatio,
+            2
+        )
+    );
+
+
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
+
+
+    renderer.shadowMap.enabled =
+        true;
+
+    renderer.shadowMap.type =
+        THREE.PCFSoftShadowMap;
+
+
+    document
+        .getElementById(
+            "canvas-container"
+        )
+        .appendChild(
+            renderer.domElement
+        );
+
+
+    controls =
+        new THREE.OrbitControls(
+            camera,
+            renderer.domElement
+        );
+
+
+    controls.enableDamping =
+        true;
+
+    controls.dampingFactor =
+        0.07;
+
+    controls.minDistance =
+        10;
+
+    controls.maxDistance =
+        55;
+
+    controls.target.set(
+        0,
+        3,
+        0
+    );
+
+
+    window.addEventListener(
+        "resize",
+        resize
+    );
+}
+
+
+/* =========================================================
+   LIGHTS
+========================================================= */
+
+function createLights(){
+
+    scene.add(
+        new THREE.AmbientLight(
+            0x9bbbd0,
+            1.3
+        )
+    );
+
+
+    const main =
+        new THREE.DirectionalLight(
+            0xffffff,
+            2.2
+        );
+
+    main.position.set(
+        10,
+        25,
+        10
+    );
+
+    main.castShadow =
+        true;
+
+    main.shadow.mapSize.width =
+        2048;
+
+    main.shadow.mapSize.height =
+        2048;
+
+    scene.add(
+        main
+    );
+
+
+    const blue =
+        new THREE.PointLight(
+            0x178cff,
+            1.8,
+            30
+        );
+
+    blue.position.set(
+        0,
+        8,
+        0
+    );
+
+    scene.add(
+        blue
+    );
+
+
+    const warm =
+        new THREE.PointLight(
+            0xffb55f,
+            1.2,
+            30
+        );
+
+    warm.position.set(
+        -12,
+        6,
+        -10
+    );
+
+    scene.add(
+        warm
+    );
+}
+
+
+/* =========================================================
+   MATERIALS
+========================================================= */
+
+const WHITE =
+    new THREE.MeshStandardMaterial({
+        color:0xe8edf0,
+        metalness:.65,
+        roughness:.25
+    });
+
+const WHITE2 =
+    new THREE.MeshStandardMaterial({
+        color:0xcbd4d9,
+        metalness:.45,
+        roughness:.3
+    });
+
+const BLUE =
+    new THREE.MeshStandardMaterial({
+        color:0x075ca9,
+        metalness:.75,
+        roughness:.2
+    });
+
+const DARK =
+    new THREE.MeshStandardMaterial({
+        color:0x17212a,
+        metalness:.7,
+        roughness:.22
+    });
+
+const FLOOR =
+    new THREE.MeshStandardMaterial({
+        color:0x1a2933,
+        roughness:.75
+    });
+
+const TABLEMAT =
+    new THREE.MeshStandardMaterial({
+        color:0x7893a2,
+        metalness:.35,
+        roughness:.35
+    });
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function box(
+    parent,
+    x,
+    y,
+    z,
+    px,
+    py,
+    pz,
+    mat
+){
+
+    const mesh =
+        new THREE.Mesh(
+            new THREE.BoxGeometry(
+                x,
+                y,
+                z
+            ),
+            mat
+        );
+
+    mesh.position.set(
+        px,
+        py,
+        pz
+    );
+
+    mesh.castShadow =
+        true;
+
+    mesh.receiveShadow =
+        true;
+
+    parent.add(
+        mesh
+    );
+
+    return mesh;
+}
+
+
+function cylinder(
+    parent,
+    radius,
+    height,
+    px,
+    py,
+    pz,
+    mat
+){
+
+    const mesh =
+        new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                radius,
+                radius,
+                height,
+                32
+            ),
+            mat
+        );
+
+    mesh.position.set(
+        px,
+        py,
+        pz
+    );
+
+    mesh.castShadow =
+        true;
+
+    mesh.receiveShadow =
+        true;
+
+    parent.add(
+        mesh
+    );
+
+    return mesh;
+}
+
+
+function sphere(
+    parent,
+    radius,
+    px,
+    py,
+    pz,
+    mat
+){
+
+    const mesh =
+        new THREE.Mesh(
+            new THREE.SphereGeometry(
+                radius,
+                32,
+                24
+            ),
+            mat
+        );
+
+    mesh.position.set(
+        px,
+        py,
+        pz
+    );
+
+    mesh.castShadow =
+        true;
+
+    mesh.receiveShadow =
+        true;
+
+    parent.add(
+        mesh
+    );
+
+    return mesh;
+}
+
+
+/* =========================================================
+   RESTAURANT
+========================================================= */
+
+function createRestaurant(){
+
+    const floor =
+        new THREE.Mesh(
+            new THREE.PlaneGeometry(
+                46,
+                36
+            ),
+            FLOOR
+        );
+
+    floor.rotation.x =
+        -Math.PI / 2;
+
+    floor.receiveShadow =
+        true;
+
+    scene.add(
+        floor
+    );
+
+
+    const grid =
+        new THREE.GridHelper(
+            46,
+            46,
+            0x31546c,
+            0x1c303d
+        );
+
+    grid.position.y =
+        .02;
+
+    scene.add(
+        grid
+    );
+
+
+    createKitchen();
+
+    createTables();
+
+    createWalls();
+
+    createEntrance();
+
+    createLightsDecor();
+}
+
+
+/* =========================================================
+   KITCHEN
+========================================================= */
+
+function createKitchen(){
+
+    const kitchen =
+        new THREE.Group();
+
+    kitchen.position.set(
+        -16,
+        0,
+        -7
+    );
+
+    scene.add(
+        kitchen
+    );
+
+
+    box(
+        kitchen,
+        7,
+        .15,
+        12,
+        0,
+        .08,
+        0,
+        new THREE.MeshStandardMaterial({
+            color:0x293c47
+        })
+    );
+
+
+    box(
+        kitchen,
+        7,
+        1.2,
+        1.5,
+        0,
+        .6,
+        3.4,
+        new THREE.MeshStandardMaterial({
+            color:0x536875,
+            metalness:.4
+        })
+    );
+
+
+    box(
+        kitchen,
+        7.2,
+        .18,
+        1.8,
+        0,
+        1.25,
+        3.4,
+        WHITE2
+    );
+
+
+    box(
+        kitchen,
+        5.5,
+        1.0,
+        .15,
+        0,
+        3.1,
+        2.3,
+        BLUE
+    );
+}
+
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+function createTables(){
+
+    Object.entries(
+        TABLE_POSITIONS
+    ).forEach(
+        ([number, position])=>{
+
+            createTable(
+                Number(number),
+                position.x,
+                position.z
+            );
+
+        }
+    );
+}
+
+
+function createTable(
+    number,
+    x,
+    z
+){
+
+    const group =
+        new THREE.Group();
+
+    group.position.set(
+        x,
+        0,
+        z
+    );
+
+    scene.add(
+        group
+    );
+
+
+    cylinder(
+        group,
+        1.65,
+        .22,
+        0,
+        1.25,
+        0,
+        TABLEMAT
+    );
+
+
+    cylinder(
+        group,
+        .25,
+        1.15,
+        0,
+        .62,
+        0,
+        DARK
+    );
+
+
+    createChair(
+        group,
+        0,
+        1.9
+    );
+
+    createChair(
+        group,
+        0,
+        -1.9
+    );
+
+    createChair(
+        group,
+        1.9,
+        0,
+        Math.PI/2
+    );
+
+    createChair(
+        group,
+        -1.9,
+        0,
+        -Math.PI/2
+    );
+
+
+    addLabel(
+        "TABLE " + number,
+        new THREE.Vector3(
+            x,
+            2.7,
+            z
+        )
+    );
+}
+
+
+/* =========================================================
+   CHAIR
+========================================================= */
+
+function createChair(
+    parent,
+    x,
+    z,
+    rotation=0
+){
+
+    const chair =
+        new THREE.Group();
+
+    chair.position.set(
+        x,
+        0,
+        z
+    );
+
+    chair.rotation.y =
+        rotation;
+
+    parent.add(
+        chair
+    );
+
+
+    box(
+        chair,
+        .9,
+        .18,
+        .9,
+        0,
+        .55,
+        0,
+        DARK
+    );
+
+
+    box(
+        chair,
+        .85,
+        1.05,
+        .15,
+        0,
+        1.05,
+        -.38,
+        DARK
+    );
+}
+
+
+/* =========================================================
+   WALLS
+========================================================= */
+
+function createWalls(){
+
+    const wall =
+        new THREE.MeshStandardMaterial({
+            color:0x273943,
+            roughness:.75
+        });
+
+
+    box(
+        scene,
+        46,
+        3.5,
+        .25,
+        0,
+        1.75,
+        -18,
+        wall
+    );
+
+
+    box(
+        scene,
+        46,
+        3.5,
+        .25,
+        0,
+        1.75,
+        18,
+        wall
+    );
+
+
+    box(
+        scene,
+        .25,
+        3.5,
+        36,
+        -23,
+        1.75,
+        0,
+        wall
+    );
+
+
+    box(
+        scene,
+        .25,
+        3.5,
+        36,
+        23,
+        1.75,
+        0,
+        wall
+    );
+}
+
+
+/* =========================================================
+   ENTRANCE
+========================================================= */
+
+function createEntrance(){
+
+    const glass =
+        new THREE.MeshPhysicalMaterial({
+            color:0x4db9ff,
+            transparent:true,
+            opacity:.3,
+            roughness:.05
+        });
+
+
+    box(
+        scene,
+        5,
+        3.8,
+        .15,
+        0,
+        1.9,
+        17.8,
+        glass
+    );
+}
+
+
+/* =========================================================
+   DECOR
+========================================================= */
+
+function createLightsDecor(){
+
+    for(
+        let x=-18;
+        x<=18;
+        x+=6
+    ){
+
+        cylinder(
+            scene,
+            .1,
+            2,
+            x,
+            4,
+            -14,
+            DARK
+        );
+
+
+        sphere(
+            scene,
+            .34,
+            x,
+            2.9,
+            -14,
+            new THREE.MeshStandardMaterial({
+                color:0xffc76a,
+                emissive:0xff8a20,
+                emissiveIntensity:2
+            })
+        );
+    }
+}
+
+
+/* =========================================================
+   HUMANOID ROBOT
+========================================================= */
+
+function createRobot(){
+
+    robot =
+        new THREE.Group();
+
+    robot.position.copy(
+        COUNTER
+    );
+
+    scene.add(
+        robot
+    );
+
+
+    createLeg(
+        -.42
+    );
+
+    createLeg(
+        .42
+    );
+
+
+    /* hips */
+
+    box(
+        robot,
+        1.45,
+        .65,
+        .85,
+        0,
+        3.55,
+        0,
+        WHITE
+    );
+
+
+    /* torso */
+
+    box(
+        robot,
+        2.25,
+        2.65,
+        1.05,
+        0,
+        5.25,
+        0,
+        WHITE
+    );
+
+
+    /* chest blue panel */
+
+    box(
+        robot,
+        1.45,
+        1.25,
+        .10,
+        0,
+        5.5,
+        -.58,
+        BLUE
+    );
+
+
+    /* chest display */
+
+    const chest =
+        sphere(
+            robot,
+            .18,
+            0,
+            5.5,
+            -.68,
+            new THREE.MeshStandardMaterial({
+                color:0x4ddcff,
+                emissive:0x159eff,
+                emissiveIntensity:2
+            })
+        );
+
+    robotParts.chest =
+        chest;
+
+
+    /* shoulders */
+
+    sphere(
+        robot,
+        .55,
+        -1.45,
+        6.25,
+        0,
+        BLUE
+    );
+
+    sphere(
+        robot,
+        .55,
+        1.45,
+        6.25,
+        0,
+        BLUE
+    );
+
+
+    createArm(
+        -1.55
+    );
+
+    createArm(
+        1.55
+    );
+
+
+    /* neck */
+
+    cylinder(
+        robot,
+        .34,
+        .55,
+        0,
+        7.0,
+        0,
+        DARK
+    );
+
+
+    createHead();
+
+
+    createTray();
+
+
+    createSensors();
+}
+
+
+/* =========================================================
+   LEG
+========================================================= */
+
+function createLeg(
+    x
+){
+
+    const leg =
+        new THREE.Group();
+
+    leg.position.set(
+        x,
+        2,
+        0
+    );
+
+    robot.add(
+        leg
+    );
+
+
+    box(
+        leg,
+        .68,
+        1.35,
+        .68,
+        0,
+        -.6,
+        0,
+        WHITE
+    );
+
+
+    sphere(
+        leg,
+        .32,
+        0,
+        -1.35,
+        0,
+        DARK
+    );
+
+
+    box(
+        leg,
+        .65,
+        1.55,
+        .65,
+        0,
+        -2.15,
+        0,
+        WHITE2
+    );
+
+
+    box(
+        leg,
+        1.0,
+        .38,
+        1.65,
+        0,
+        -3.05,
+        -.35,
+        WHITE
+    );
+
+
+    box(
+        leg,
+        .7,
+        .08,
+        .65,
+        0,
+        -3.0,
+        -.95,
+        BLUE
+    );
+
+
+    if(
+        x < 0
+    ){
+
+        robotParts.leftLeg =
+            leg;
+
+    }
+    else{
+
+        robotParts.rightLeg =
+            leg;
+
+    }
+}
+
+
+/* =========================================================
+   ARM
+========================================================= */
+
+function createArm(
+    x
+){
+
+    const arm =
+        new THREE.Group();
+
+    arm.position.set(
+        x,
+        6.25,
+        0
+    );
+
+    robot.add(
+        arm
+    );
+
+
+    box(
+        arm,
+        .58,
+        1.35,
+        .58,
+        0,
+        -.65,
+        0,
+        WHITE
+    );
+
+
+    sphere(
+        arm,
+        .30,
+        0,
+        -1.38,
+        0,
+        DARK
+    );
+
+
+    box(
+        arm,
+        .62,
+        1.25,
+        .62,
+        0,
+        -2,
+        0,
+        WHITE2
+    );
+
+
+    sphere(
+        arm,
+        .38,
+        0,
+        -2.75,
+        0,
+        WHITE
+    );
+
+
+    sphere(
+        arm,
+        .24,
+        0,
+        -2.78,
+        -.24,
+        BLUE
+    );
+
+
+    if(
+        x < 0
+    ){
+
+        robotParts.leftArm =
+            arm;
+
+    }
+    else{
+
+        robotParts.rightArm =
+            arm;
+
+    }
+}
+
+
+/* =========================================================
+   HEAD
+========================================================= */
+
+function createHead(){
+
+    const head =
+        new THREE.Group();
+
+    head.position.y =
+        8.25;
+
+    robot.add(
+        head
+    );
+
+
+    box(
+        head,
+        2.25,
+        1.75,
+        1.35,
+        0,
+        0,
+        0,
+        WHITE
+    );
+
+
+    /* blue top */
+
+    const cap =
+        new THREE.Mesh(
+            new THREE.SphereGeometry(
+                1.05,
+                32,
+                16,
+                0,
+                Math.PI*2,
+                0,
+                Math.PI/2
+            ),
+            BLUE
+        );
+
+    cap.position.y =
+        .82;
+
+    cap.scale.set(
+        1.05,
+        .48,
+        .72
+    );
+
+    head.add(
+        cap
+    );
+
+
+    /* eyes */
+
+    createEye(
+        head,
+        -.48
+    );
+
+    createEye(
+        head,
+        .48
+    );
+
+
+    /* mouth */
+
+    box(
+        head,
+        .18,
+        .08,
+        .05,
+        0,
+        -.52,
+        -.76,
+        DARK
+    );
+
+
+    /* forehead sensor */
+
+    sphere(
+        head,
+        .11,
+        0,
+        .52,
+        -.73,
+        new THREE.MeshStandardMaterial({
+            color:0x42ddff,
+            emissive:0x0aa7ff,
+            emissiveIntensity:2
+        })
+    );
+
+
+    robotParts.head =
+        head;
+}
+
+
+/* =========================================================
+   EYE
+========================================================= */
+
+function createEye(
+    parent,
+    x
+){
+
+    const outer =
+        cylinder(
+            parent,
+            .22,
+            .12,
+            x,
+            .10,
+            -.75,
+            BLUE
+        );
+
+    outer.rotation.x =
+        Math.PI/2;
+
+
+    sphere(
+        parent,
+        .1,
+        x,
+        .1,
+        -.83,
+        new THREE.MeshStandardMaterial({
+            color:0x75eaff,
+            emissive:0x009dff,
+            emissiveIntensity:3
+        })
+    );
+}
+
+
+/* =========================================================
+   SERVING TRAY
+========================================================= */
+
+function createTray(){
+
+    const tray =
+        new THREE.Group();
+
+    tray.position.set(
+        0,
+        4.85,
+        -.95
+    );
+
+    robot.add(
+        tray
+    );
+
+
+    box(
+        tray,
+        2.9,
+        .18,
+        1.45,
+        0,
+        0,
+        0,
+        new THREE.MeshStandardMaterial({
+            color:0x354b58,
+            metalness:.65,
+            roughness:.25
+        })
+    );
+
+
+    box(
+        tray,
+        3,
+        .22,
+        .08,
+        0,
+        .15,
+        -.68,
+        BLUE
+    );
+
+
+    box(
+        tray,
+        3,
+        .22,
+        .08,
+        0,
+        .15,
+        .68,
+        BLUE
+    );
+}
+
+
+/* =========================================================
+   ROBOT SENSOR
+========================================================= */
+
+function createSensors(){
+
+    const sensor =
+        new THREE.Group();
+
+    sensor.position.y =
+        6.8;
+
+    robot.add(
+        sensor
+    );
+
+
+    const ring =
+        new THREE.Mesh(
+            new THREE.RingGeometry(
+                .8,
+                .87,
+                64
+            ),
+            new THREE.MeshBasicMaterial({
+                color:0x24c2ff,
+                transparent:true,
+                opacity:.32,
+                side:THREE.DoubleSide
+            })
+        );
+
+    ring.rotation.x =
+        Math.PI/2;
+
+    sensor.add(
+        ring
+    );
+
+
+    for(
+        let i=0;
+        i<24;
+        i++
+    ){
+
+        const angle =
+            i *
+            Math.PI*2 /
+            24;
+
+
+        const points = [
+
+            new THREE.Vector3(
+                0,
+                0,
+                0
+            ),
+
+            new THREE.Vector3(
+                Math.cos(angle)*4,
+                0,
+                Math.sin(angle)*4
+            )
+
+        ];
+
+
+        const line =
+            new THREE.Line(
+                new THREE.BufferGeometry()
+                    .setFromPoints(
+                        points
+                    ),
+
+                new THREE.LineBasicMaterial({
+                    color:0x20bfff,
+                    transparent:true,
+                    opacity:.14
+                })
+            );
+
+
+        sensor.add(
+            line
+        );
+    }
+
+
+    robotParts.sensor =
+        sensor;
+}
+
+
+/* =========================================================
+   FOOD
+========================================================= */
+
+function createFood(){
+
+    food =
+        new THREE.Group();
+
+    scene.add(
+        food
+    );
+
+
+    cylinder(
+        food,
+        .25,
+        .9,
+        0,
+        .55,
+        0,
+        new THREE.MeshStandardMaterial({
+            color:0x78cfff,
+            transparent:true,
+            opacity:.9
+        })
+    );
+
+
+    cylinder(
+        food,
+        .13,
+        .15,
+        0,
+        1.07,
+        0,
+        BLUE
+    );
+
+
+    food.visible =
+        false;
+}
+
+
+/* =========================================================
+   ROUTE LINE
+========================================================= */
+
+function createRouteLine(
+    points
+){
+
+    if(
+        routeLine
+    ){
+
+        scene.remove(
+            routeLine
+        );
+
+    }
+
+
+    if (!Array.isArray(points) || points.length < 2) {
+        routeLine = null;
+        return;
+    }
+
+    const geometry =
+        new THREE.BufferGeometry()
+            .setFromPoints(
+                points.map(
+                    p =>
+                        new THREE.Vector3(
+                            p.x,
+                            .08,
+                            p.z
+                        )
+                )
+            );
+
+
+    routeLine =
+        new THREE.Line(
+            geometry,
+            new THREE.LineDashedMaterial({
+                color:0x32b8ff,
+                dashSize:.45,
+                gapSize:.25,
+                transparent:true,
+                opacity:.75
+            })
+        );
+
+
+    routeLine.computeLineDistances();
+
+    scene.add(
+        routeLine
+    );
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+function addLabel(
+    text,
+    position
+){
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+    canvas.width =
+        512;
+
+    canvas.height =
+        80;
+
+
+    const ctx =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    ctx.fillStyle =
+        "rgba(3,10,16,.85)";
+
+    ctx.fillRect(
+        0,
+        0,
+        512,
+        80
+    );
+
+
+    ctx.fillStyle =
+        "#c4eaff";
+
+    ctx.font =
+        "bold 28px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.fillText(
+        text,
+        256,
+        51
+    );
+
+
+    const texture =
+        new THREE.CanvasTexture(
+            canvas
+        );
+
+
+    const sprite =
+        new THREE.Sprite(
+            new THREE.SpriteMaterial({
+                map:texture,
+                transparent:true
+            })
+        );
+
+
+    sprite.position.copy(
+        position
+    );
+
+
+    sprite.scale.set(
+        3.7,
+        .58,
+        1
+    );
+
+
+    scene.add(
+        sprite
+    );
+}
+
+
+/* =========================================================
+   PIPELINE DATA
+========================================================= */
+
+function loadPipelineData(){
+    document.getElementById("mission-status").textContent =
+        "Loading current orders from Firestore…";
+    void pollSimulationOrders();
+    if (simulationQueuePollTimer === null) {
+        simulationQueuePollTimer = window.setInterval(
+            () => void pollSimulationOrders(),
+            5000
+        );
+    }
+}
+
+function renderOrderDetails(order) {
+    document.getElementById("mission-thanks").hidden = true;
+    const itemSummary = order.items.map(item =>
+        `${item.name} × ${item.quantity}`
+    ).join(", ");
+    document.getElementById("delivery-item").textContent = itemSummary;
+    document.getElementById("destination").textContent = `Table ${order.table_number}`;
+    document.getElementById("mission-order-id").textContent = order.id;
+    document.getElementById("mission-customer").textContent = `Customer: ${order.customer_name}`;
+    document.getElementById("mission-items").textContent = `Items: ${itemSummary}`;
+    document.getElementById("mission-total").textContent =
+        `Total: ${new Intl.NumberFormat("en-US", {style:"currency", currency:"USD"}).format(order.total)}`;
+    document.getElementById("mission-created").textContent = `Placed: ${
+        order.created_at ? new Date(order.created_at).toLocaleString() : "Unavailable"
+    }`;
+    deliveryItem = itemSummary;
+}
+
+function setCurrentDelivery(order) {
+    activeDeliveryOrder = order;
+    selectedSimulationOrderId = order.id;
+    destinationTable = Number(order.table_number);
+    renderOrderDetails(order);
+    document.getElementById("mission-status").textContent =
+        `Status: ${order.status} · simulated delivery mission active`;
+}
+
+function previewSimulationOrder(order) {
+    if (activeMissionId || running) return;
+    activeDeliveryOrder = null;
+    selectedSimulationOrderId = order.id;
+    destinationTable = Number(order.table_number);
+    renderOrderDetails(order);
+    route = createDeliveryRoute(destinationTable, robot.position);
+    if (route) {
+        routeIndex = 1;
+        createRouteLine(route);
+    } else {
+        createRouteLine([]);
+        document.getElementById("mission-status").textContent =
+            `Navigation error: no safe route to Table ${destinationTable}.`;
+        return;
+    }
+    if (order.delivery_eligible) {
+        document.getElementById("mission-status").textContent =
+            `Status: Ready · delivery eligible · start simulation when ready`;
+    } else {
+        document.getElementById("mission-status").textContent =
+            `Status: ${order.status} · waiting for staff; delivery starts only when status is Ready`;
+    }
+}
+
+function renderMissionQueue() {
+    const queueNode = document.getElementById("mission-queue");
+    queueNode.replaceChildren();
+    if (simulationQueueError) {
+        if (!activeMissionId) {
+            document.getElementById("mission-status").textContent =
+                `Order service error: ${simulationQueueError}`;
+        }
+        return;
+    }
+    if (!simulationQueueLoaded) {
+        document.getElementById("mission-status").textContent =
+            "Loading current orders from Firestore…";
+        return;
+    }
+    const visibleOrders = [...deliveryQueue, ...pendingSimulationOrders];
+    if (activeMissionId || (running && activeDeliveryOrder)) return;
+    if (!visibleOrders.length) {
+        if (
+            activeDeliveryOrder &&
+            ["Delivered", "Failed"].includes(activeDeliveryOrder.status)
+        ) {
+            renderOrderDetails(activeDeliveryOrder);
+            document.getElementById("mission-status").textContent =
+                activeDeliveryOrder.status === "Delivered"
+                    ? "Status: Delivered · simulation only; no physical delivery was confirmed"
+                    : "Status: Failed · simulation stopped before completion";
+            return;
+        }
+        selectedSimulationOrderId = null;
+        activeDeliveryOrder = null;
+        document.getElementById("mission-order-id").textContent = "No active order";
+        document.getElementById("mission-customer").textContent = "Customer: —";
+        document.getElementById("mission-items").textContent = "Items: —";
+        document.getElementById("mission-total").textContent = "Total: —";
+        document.getElementById("mission-created").textContent = "Placed: —";
+        document.getElementById("delivery-item").textContent =
+            "No open Firestore demo orders";
+        document.getElementById("destination").textContent = "Not assigned";
+        document.getElementById("mission-status").textContent =
+            "No active demo orders found in customer_orders.";
+        return;
+    }
+
+    visibleOrders.forEach(order => {
+        const item = document.createElement("div");
+        item.className = "mission-queue-item";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent =
+            `${order.id} · Table ${order.table_number} · ${order.status}` +
+            (order.delivery_eligible ? " · ready to simulate" : " · awaiting Ready");
+        button.addEventListener("click", () => previewSimulationOrder(order));
+        item.append(button);
+        queueNode.append(item);
+    });
+
+    if (!visibleOrders.some(order => order.id === selectedSimulationOrderId)) {
+        const initialSelection = deliveryQueue[0] || pendingSimulationOrders[0];
+        previewSimulationOrder(initialSelection);
+    }
+    const selectedOrder = visibleOrders.find(
+        order => order.id === selectedSimulationOrderId
+    );
+    if (selectedOrder) {
+        destinationTable = Number(selectedOrder.table_number);
+        renderOrderDetails(selectedOrder);
+    }
+    const readySummary =
+        `${deliveryQueue.length} Ready order${deliveryQueue.length === 1 ? "" : "s"} eligible`;
+    const pendingSummary =
+        `${pendingSimulationOrders.length} other active order${pendingSimulationOrders.length === 1 ? "" : "s"} visible`;
+    document.getElementById("mission-status").textContent = selectedOrder
+        ? selectedOrder.delivery_eligible
+            ? `Selected order ${selectedOrder.id} is Ready. ${readySummary}; ${pendingSummary}.`
+            : `Order ${selectedOrder.id} is ${selectedOrder.status}; waiting for staff. ${readySummary}; mission starts only at Ready.`
+        : `No active demo orders found in customer_orders.`;
+}
+
+function pollSimulationOrders() {
+    if (simulationQueuePollPromise) return simulationQueuePollPromise;
+    simulationQueuePollPromise = (async () => {
+        try {
+            const response = await fetch("/api/admin/simulation/orders", {
+                headers: {Accept:"application/json"},
+                cache: "no-store"
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || (response.status === 401
+                    ? "Admin sign-in is required to access the order queue."
+                    : "Could not load simulation orders."));
+            }
+            simulationQueueError = null;
+            simulationQueueLoaded = true;
+            deliveryQueue = Array.isArray(result.orders) ? result.orders : [];
+            pendingSimulationOrders = Array.isArray(result.pending_orders)
+                ? result.pending_orders
+                : [];
+            if (activeMissionId || (running && activeDeliveryOrder)) return;
+            renderMissionQueue();
+        } catch (error) {
+            simulationQueueError = error.message;
+            simulationQueueLoaded = true;
+            renderMissionQueue();
+        } finally {
+            simulationQueuePollPromise = null;
+        }
+    })();
+    return simulationQueuePollPromise;
+}
+
+function createMissionId() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const value = Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
+    return `${value.slice(0,8)}-${value.slice(8,12)}-${value.slice(12,16)}-${value.slice(16,20)}-${value.slice(20)}`;
+}
+
+async function claimSimulationOrder(order) {
+    const missionId = createMissionId();
+    const response = await fetch(
+        `/api/admin/simulation/orders/${encodeURIComponent(order.id)}/claim`,
+        {
+            method:"POST",
+            headers:{"Content-Type":"application/json", Accept:"application/json"},
+            body:JSON.stringify({mission_id:missionId, revision:order.revision})
+        }
+    );
+    const result = await response.json();
+    if (!response.ok || !result.success) {
+        const error = new Error(result.error || "This order could not be claimed.");
+        error.status = response.status;
+        throw error;
+    }
+    activeMissionId = missionId;
+    setCurrentDelivery(result.order);
+    document.getElementById("mission-status").textContent =
+        `Status: ${result.order.status} · demo simulation`;
+    return result.order;
+}
+
+function publishSimulationPosition(now) {
+    if (
+        !activeDeliveryOrder ||
+        !activeMissionId ||
+        !robot ||
+        (!running && activeDeliveryOrder.status !== "Robot Delivery") ||
+        trackingPositionPublishPromise ||
+        now - lastTrackingPositionPublishedAt < 4000
+    ) {
+        return;
+    }
+
+    lastTrackingPositionPublishedAt = now;
+    const position = {
+        mission_id: activeMissionId,
+        x: robot.position.x,
+        z: robot.position.z,
+        moving: running && !paused,
+    };
+    trackingPositionPublishPromise = fetch(
+        `/api/admin/simulation/orders/${encodeURIComponent(activeDeliveryOrder.id)}/position`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(position),
+        },
+    )
+        .then(async response => {
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || "Could not update customer tracking.");
+            }
+            trackingPositionPublishWarningShown = false;
+        })
+        .catch(error => {
+            if (!trackingPositionPublishWarningShown) {
+                addLog("TRACKING", error.message, "warning");
+                trackingPositionPublishWarningShown = true;
+            }
+        })
+        .finally(() => {
+            trackingPositionPublishPromise = null;
+        });
+}
+
+async function claimNextSimulationOrder() {
+    for (let attempt = 0; attempt < 5; attempt++) {
+        await pollSimulationOrders();
+        if (!deliveryQueue.length) return null;
+        const order = deliveryQueue.find(
+            queuedOrder => queuedOrder.id === selectedSimulationOrderId
+        ) || deliveryQueue[0];
+        try {
+            await claimSimulationOrder(order);
+            deliveryQueue = deliveryQueue.filter(item => item.id !== order.id);
+            renderMissionQueue();
+            return activeDeliveryOrder;
+        } catch (error) {
+            if (error.status !== 409) throw error;
+        }
+    }
+    throw new Error("Ready orders kept changing. Refresh the queue and try again.");
+}
+
+async function completeActiveSimulationOrder() {
+    if (!activeDeliveryOrder || !activeMissionId) {
+        throw new Error("There is no active simulated order to complete.");
+    }
+    const response = await fetch(
+        `/api/admin/simulation/orders/${encodeURIComponent(activeDeliveryOrder.id)}/complete`,
+        {
+            method:"POST",
+            headers:{"Content-Type":"application/json", Accept:"application/json"},
+            body:JSON.stringify({mission_id:activeMissionId})
+        }
+    );
+    const result = await response.json();
+    if (!response.ok || !result.success) {
+        throw new Error(result.error || "Could not persist the simulated delivery result.");
+    }
+    activeDeliveryOrder = result.order;
+    activeMissionId = null;
+    document.getElementById("mission-status").textContent =
+        "Status: Delivered · simulation only; no physical delivery was confirmed";
+    document.getElementById("mission-thanks").hidden = false;
+    if ("speechSynthesis" in window && "SpeechSynthesisUtterance" in window) {
+        try {
+            const utterance = new SpeechSynthesisUtterance("Thank you for your order!");
+            window.speechSynthesis.speak(utterance);
+        } catch (error) {
+            addLog("VOICE", "Speech is unavailable; the thank-you message remains visible.", "warning");
+        }
+    }
+    addLog(
+        "DELIVERY",
+        `Firestore marked ${activeDeliveryOrder.id} Delivered after its simulation animation.`,
+        "success"
+    );
+}
+
+async function failActiveSimulationOrder() {
+    if (!activeDeliveryOrder || !activeMissionId) return;
+    const response = await fetch(
+        `/api/admin/simulation/orders/${encodeURIComponent(activeDeliveryOrder.id)}/fail`,
+        {
+            method:"POST",
+            headers:{"Content-Type":"application/json", Accept:"application/json"},
+            body:JSON.stringify({mission_id:activeMissionId})
+        }
+    );
+    const result = await response.json();
+    if (!response.ok || !result.success) {
+        throw new Error(result.error || "Could not persist the failed simulation.");
+    }
+    activeDeliveryOrder = result.order;
+    activeMissionId = null;
+    document.getElementById("mission-status").textContent =
+        "Status: Failed · simulation stopped before completion";
+}
+
+
+/* =========================================================
+   START SIMULATION
+========================================================= */
+
+async function startSimulation(){
+    if (running || simulationStartPending) return;
+    simulationStartPending = true;
+    try {
+        await startSimulationMission();
+    } finally {
+        simulationStartPending = false;
+    }
+}
+
+async function startSimulationMission(){
+    await pollSimulationOrders();
+    if (simulationQueueError) {
+        setState("ORDER SERVICE ERROR");
+        addLog("SAFETY", simulationQueueError, "error");
+        return;
+    }
+    const selectedOrder = [...deliveryQueue, ...pendingSimulationOrders].find(
+        order => order.id === selectedSimulationOrderId
+    );
+    if (selectedOrder && !selectedOrder.delivery_eligible) {
+        const message =
+            `Order ${selectedOrder.id} is ${selectedOrder.status}. ` +
+            "The simulation can start only after an administrator advances it to Ready.";
+        setState("ORDER NOT READY");
+        document.getElementById("mission-status").textContent = message;
+        addLog("SYSTEM", message, "warning");
+        return;
+    }
+    if (!deliveryQueue.length) {
+        const message = pendingSimulationOrders.length
+            ? `No order is Ready. Visible order status: ${pendingSimulationOrders.map(order => `${order.id} (${order.status})`).join(", ")}.`
+            : "No open demo orders are available in the Firestore order service.";
+        setState("NO READY ORDERS");
+        document.getElementById("mission-status").textContent = message;
+        addLog("SYSTEM", message, "warning");
+        return;
+    }
+
+    try {
+        const claimedOrder = await claimNextSimulationOrder();
+        if (!claimedOrder || !activeMissionId) {
+            setState("NO ORDER CLAIMED");
+            addLog("SAFETY", "The ready order is no longer available; no mission was started.", "warning");
+            return;
+        }
+    } catch (error) {
+        setState("ORDER CLAIM FAILED");
+        addLog("SAFETY", error.message, "error");
+        await pollSimulationOrders();
+        return;
+    }
+
+    if (!TABLE_POSITIONS[destinationTable]) {
+        setState("INVALID DESTINATION");
+        addLog("SAFETY", `Table ${destinationTable} is not available in the simulation.`, "error");
+        try {
+            await failActiveSimulationOrder();
+        } catch (error) {
+            addLog("SAFETY", error.message, "error");
+        }
+        return;
+    }
+
+    running =
+        true;
+
+    paused =
+        false;
+
+
+    battery =
+        96;
+
+    retryCount =
+        0;
+
+    deliveryComplete =
+        false;
+    tableArrivalPending = false;
+
+    returnStarted =
+        false;
+
+
+    route = createDeliveryRoute(destinationTable, robot.position);
+    if (!route) {
+        stopForNavigationError(
+            `No safe route from the robot's current position to Table ${destinationTable}.`,
+        );
+        return;
+    }
+
+
+    routeIndex =
+        route.length > 1 ? 1 : route.length;
+
+
+    food.visible =
+        false;
+    document.getElementById("mission-thanks").hidden = true;
+
+
+    createRouteLine(
+        route
+    );
+
+
+    setState(
+        "PLANNING"
+    );
+
+    if (activeDeliveryOrder) {
+        addLog(
+            "SYSTEM",
+            `${deliveryQueue.length + 1} ready Firestore demo orders will be handled in queue order.`,
+            "success"
+        );
+        addLog(
+            "DELIVERY",
+            `Starting order ${activeDeliveryOrder.id} for Table ${destinationTable}.`,
+            "success"
+        );
+    }
+
+
+    setPipeline(
+        1
+    );
+
+
+    addLog(
+        "DELIVERY",
+        "Firestore demo order mission accepted.",
+        "success"
+    );
+
+
+    setTimeout(
+        ()=>{
+
+            if(
+                !running
+            ){
+
+                return;
+
+            }
+
+
+            setPipeline(
+                2
+            );
+
+            setState(
+                "PARSING"
+            );
+
+
+            addLog(
+                "AI",
+                "Instruction parser completed.",
+                "success"
+            );
+
+        },
+        800
+    );
+
+
+    setTimeout(
+        ()=>{
+
+            if(
+                !running
+            ){
+
+                return;
+
+            }
+
+
+            setPipeline(
+                3
+            );
+
+            setState(
+                "TASK DECOMPOSITION"
+            );
+
+
+            addLog(
+                "AI",
+                "Task decomposed into navigation and delivery actions.",
+                "success"
+            );
+
+        },
+        1600
+    );
+
+
+    setTimeout(
+        ()=>{
+
+            if(
+                !running
+            ){
+
+                return;
+
+            }
+
+
+            setPipeline(
+                4
+            );
+
+            setState(
+                "ACTION GENERATION"
+            );
+
+
+            addLog(
+                "AI",
+                "Robot action sequence generated.",
+                "success"
+            );
+
+        },
+        2400
+    );
+
+
+    setTimeout(
+        ()=>{
+
+            if(
+                !running
+            ){
+
+                return;
+
+            }
+
+
+            setPipeline(
+                5
+            );
+
+            setState(
+                "NAVIGATING"
+            );
+
+
+            addLog(
+                "NAVIGATION",
+                "Robot started moving from counter.",
+                "success"
+            );
+
+        },
+        3200
+    );
+}
+
+
+/* =========================================================
+   PAUSE
+========================================================= */
+
+function togglePause(){
+
+    if(
+        !running
+    ){
+
+        return;
+
+    }
+
+
+    paused =
+        !paused;
+
+
+    if(
+        paused
+    ){
+
+        setState(
+            "PAUSED"
+        );
+
+
+        addLog(
+            "SYSTEM",
+            "Simulation paused.",
+            "warning"
+        );
+
+    }
+    else{
+
+        setState(
+            "NAVIGATING"
+        );
+
+
+        addLog(
+            "SYSTEM",
+            "Simulation resumed.",
+            "success"
+        );
+
+    }
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+async function resetSimulation(){
+    if (simulationResetting) return;
+    if (simulationStartPending) {
+        addLog("SYSTEM", "Wait for the order claim to finish before resetting.", "warning");
+        return;
+    }
+    simulationResetting = true;
+    if (activeMissionId) {
+        running = false;
+        try {
+            await failActiveSimulationOrder();
+        } catch (error) {
+            addLog("SAFETY", error.message, "error");
+            setState("RESET BLOCKED · DELIVERY STATUS NOT SAVED");
+            simulationResetting = false;
+            return;
+        }
+    }
+
+    running =
+        false;
+
+    paused =
+        false;
+
+
+    battery =
+        96;
+
+    retryCount =
+        0;
+    completedDeliveryCount = 0;
+
+    routeIndex =
+        0;
+    destinationApproach = null;
+
+    deliveryComplete =
+        false;
+    tableArrivalPending = false;
+
+    returnStarted =
+        false;
+
+    robot.position.copy(
+        COUNTER
+    );
+
+    robot.position.y =
+        0;
+
+
+    robot.rotation.y =
+        0;
+
+
+    food.visible =
+        false;
+
+
+    setState(
+        "IDLE"
+    );
+
+
+    setPipeline(
+        0
+    );
+
+
+    document.getElementById(
+        "telemetry-speed"
+    ).textContent =
+        "0.00 m/s";
+
+
+    document.getElementById(
+        "telemetry-location"
+    ).textContent =
+        "COUNTER";
+
+
+    document.getElementById(
+        "telemetry-retry"
+    ).textContent =
+        "0";
+
+
+    document.getElementById(
+        "telemetry-sensor"
+    ).textContent =
+        "READY";
+
+
+    clearLog();
+
+
+    addLog(
+        "SYSTEM",
+        "Simulation reset.",
+        "success"
+    );
+    simulationResetting = false;
+    void pollSimulationOrders();
+}
+
+
+/* =========================================================
+   REAL WAYPOINT NAVIGATION
+========================================================= */
+
+function updateNavigation(
+    delta
+){
+
+    if(
+        !running ||
+        paused
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        routeIndex >= route.length
+    ){
+
+        return;
+
+    }
+
+
+    const target =
+        route[
+            routeIndex
+        ];
+
+    const currentPosition = {
+        x: robot.position.x,
+        z: robot.position.z,
+    };
+    if (!NAVIGATOR.segmentIsClear(currentPosition, target)) {
+        const replacement = returnStarted
+            ? createReturnRoute(robot.position)
+            : createDeliveryRoute(destinationTable, robot.position);
+        if (!replacement) {
+            stopForNavigationError(
+                "The remaining path is blocked and no safe replacement route exists.",
+            );
+            return;
+        }
+        route = replacement;
+        routeIndex = route.length > 1 ? 1 : route.length;
+        createRouteLine(route);
+        addLog("NAVIGATION", "Path blocked; a safe replacement route was planned.", "warning");
+        return;
+    }
+
+    const current =
+        robot.position.clone();
+
+
+    current.y =
+        0;
+
+
+    const direction =
+        new THREE.Vector3()
+            .subVectors(
+                target,
+                current
+            );
+
+
+    direction.y =
+        0;
+
+
+    const distance =
+        direction.length();
+
+
+    /*
+        IMPORTANT:
+        This is the actual movement.
+
+        Every frame the robot moves
+        toward the next waypoint.
+    */
+
+
+    if(
+        distance > .12
+    ){
+
+        direction.normalize();
+
+
+        /*
+            Smooth rotation.
+        */
+
+        const angle =
+            Math.atan2(
+                -direction.x,
+                -direction.z
+            );
+
+
+        robot.rotation.y =
+            smoothAngle(
+                robot.rotation.y,
+                angle,
+                delta * 5
+            );
+
+
+        /*
+            Real movement speed.
+        */
+
+        const speed =
+            2.4;
+
+
+        const movement =
+            Math.min(
+                speed * delta,
+                distance
+            );
+
+
+        robot.position.x +=
+            direction.x *
+            movement;
+
+
+        robot.position.z +=
+            direction.z *
+            movement;
+
+
+        /*
+            Battery.
+        */
+
+        battery -=
+            movement *
+            .018;
+
+
+        if(
+            battery < 0
+        ){
+
+            battery =
+                0;
+
+        }
+
+
+        /*
+            Telemetry.
+        */
+
+        document.getElementById(
+            "telemetry-speed"
+        ).textContent =
+            speed.toFixed(2) +
+            " m/s";
+
+
+        updateLocation();
+
+        animateWalking();
+
+    }
+    else{
+
+        /*
+            Waypoint reached.
+        */
+
+        robot.position.copy(
+            target
+        );
+
+
+        robot.position.y =
+            0;
+
+
+        routeIndex++;
+
+
+        addLog(
+            "NAVIGATION",
+            "Waypoint " +
+            routeIndex +
+            " reached.",
+            "success"
+        );
+
+
+        /*
+            Destination reached.
+        */
+
+        if(
+            routeIndex >= route.length
+        ){
+
+            if(
+                returnStarted
+            ){
+
+                finishMission();
+
+            }
+            else{
+
+                arriveAtTable();
+
+            }
+
+        }
+
+    }
+
+
+}
+
+
+/* =========================================================
+   ARRIVE TABLE
+========================================================= */
+
+function arriveAtTable(){
+    if (!running || tableArrivalPending || deliveryComplete) return;
+    if (!destinationApproach) {
+        stopForNavigationError("No safe approach point is assigned for this table.");
+        return;
+    }
+    tableArrivalPending = true;
+
+
+    setState(
+        "AT TABLE " +
+        destinationTable
+    );
+
+
+    setPipeline(
+        7
+    );
+
+
+    document.getElementById(
+        "telemetry-location"
+    ).textContent =
+        "TABLE " +
+        destinationTable;
+
+
+    document.getElementById(
+        "telemetry-speed"
+    ).textContent =
+        "0.00 m/s";
+
+
+    addLog(
+        "NAVIGATION",
+        "Destination reached: Table " +
+        destinationTable,
+        "success"
+    );
+
+
+    setTimeout(
+        deliverFood,
+        1200
+    );
+}
+
+
+/* =========================================================
+   DELIVERY
+========================================================= */
+
+function deliverFood(){
+
+    if (!running) return;
+
+    if(
+        deliveryComplete
+    ){
+
+        return;
+
+    }
+
+    if (!activeDeliveryOrder || !activeMissionId) {
+        running = false;
+        setState("NO CLAIMED ORDER");
+        addLog("SAFETY", "Delivery animation requires a claimed Firestore order.", "error");
+        return;
+    }
+
+
+    deliveryComplete =
+        true;
+
+
+    setState(
+        "DELIVERING"
+    );
+
+
+    addLog(
+        "DELIVERY",
+        `Serving order ${activeDeliveryOrder.id}: ` +
+        deliveryItem +
+        " to Table " +
+        destinationTable +
+        ".",
+        "success"
+    );
+
+
+    food.visible =
+        true;
+
+
+    food.position.set(
+        robot.position.x,
+        6.0,
+        robot.position.z
+    );
+
+
+    const target =
+        destinationApproach.clone();
+
+
+    target.y =
+        2.2;
+
+
+    const start =
+        food.position.clone();
+
+
+    const startTime =
+        performance.now();
+
+
+    const duration =
+        1000;
+
+
+    function animateFood(){
+
+        if(
+            !running
+        ){
+
+            return;
+
+        }
+
+
+        const elapsed =
+            performance.now() -
+            startTime;
+
+
+        const progress =
+            Math.min(
+                elapsed /
+                duration,
+                1
+            );
+
+
+        food.position.lerpVectors(
+            start,
+            target,
+            progress
+        );
+
+
+        if(
+            progress < 1
+        ){
+
+            requestAnimationFrame(
+                animateFood
+            );
+
+        }
+        else{
+            void completeActiveSimulationOrder()
+                .then(() => {
+                    completedDeliveryCount++;
+                    setTimeout(startReturn, 1000);
+                })
+                .catch(error => {
+                    running = false;
+                    setState("DELIVERY STATUS UPDATE FAILED");
+                    addLog("SAFETY", error.message, "error");
+                });
+
+        }
+
+    }
+
+
+    animateFood();
+}
+
+
+/* =========================================================
+   RETURN
+========================================================= */
+
+function startReturn(){
+
+    if(
+        returnStarted
+    ){
+
+        return;
+
+    }
+
+    returnStarted =
+        true;
+    tableArrivalPending = false;
+
+
+    setPipeline(
+        8
+    );
+
+
+    setState(
+        "RETURNING"
+    );
+
+
+    addLog(
+        "NAVIGATION",
+        "Robot returning to counter.",
+        "success"
+    );
+
+
+    const returnRoute = createReturnRoute(robot.position);
+    if (!returnRoute) {
+        stopForNavigationError("No safe return route from the table approach to the counter.");
+        return;
+    }
+
+    route =
+        returnRoute;
+
+
+    routeIndex =
+        route.length > 1 ? 1 : route.length;
+
+
+    createRouteLine(
+        route
+    );
+
+
+    food.visible =
+        false;
+
+
+}
+
+
+/* =========================================================
+   FINISH
+========================================================= */
+
+async function finishMission(){
+    if (missionTransitionInProgress) return;
+    missionTransitionInProgress = true;
+    try {
+        let nextOrder;
+        try {
+            nextOrder = await claimNextSimulationOrder();
+        } catch (error) {
+            running = false;
+            setState("NEXT ORDER CLAIM FAILED");
+            addLog("SAFETY", error.message, "error");
+            return;
+        }
+
+        if (!running || simulationResetting) {
+            if (activeMissionId) {
+                try {
+                    await failActiveSimulationOrder();
+                } catch (error) {
+                    addLog("SAFETY", error.message, "error");
+                }
+            }
+            return;
+        }
+
+        if (nextOrder) {
+            deliveryComplete = false;
+            tableArrivalPending = false;
+            returnStarted = false;
+            if (!TABLE_POSITIONS[destinationTable]) {
+                running = false;
+                setState("INVALID DESTINATION");
+                addLog("SAFETY", `Table ${destinationTable} is not available in the simulation.`, "error");
+                try {
+                    await failActiveSimulationOrder();
+                } catch (error) {
+                    addLog("SAFETY", error.message, "error");
+                }
+                return;
+            }
+            route = createDeliveryRoute(destinationTable, robot.position);
+            if (!route) {
+                stopForNavigationError(
+                    `No safe route from the counter to Table ${destinationTable}.`,
+                );
+                return;
+            }
+            routeIndex = route.length > 1 ? 1 : route.length;
+            createRouteLine(route);
+            setPipeline(1);
+            setState(`DELIVERING TO TABLE ${destinationTable}`);
+            document.getElementById("telemetry-location").textContent = "COUNTER";
+            document.getElementById("telemetry-speed").textContent = "0.00 m/s";
+            addLog(
+                "SYSTEM",
+                `Returned to counter. Starting order ${nextOrder.id} for Table ${destinationTable}.`,
+                "success"
+            );
+            return;
+        }
+
+        running = false;
+        setState("MISSION COMPLETE");
+        document.getElementById("telemetry-speed").textContent = "0.00 m/s";
+        document.getElementById("telemetry-location").textContent = "COUNTER";
+        addLog(
+            "SYSTEM",
+            "Robot returned to counter.",
+            "success"
+        );
+        addLog(
+            "SYSTEM",
+            `${completedDeliveryCount} Firestore demo order${completedDeliveryCount === 1 ? "" : "s"} simulated and persisted as Delivered.`,
+            "success"
+        );
+        await pollSimulationOrders();
+    } finally {
+        missionTransitionInProgress = false;
+    }
+}
+
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+function updateLocation(){
+
+    const x =
+        robot.position.x;
+
+    const z =
+        robot.position.z;
+
+    const nearbyTable =
+        Object.keys(
+            TABLE_POSITIONS
+        ).find(
+            tableNumber =>{
+
+                const table =
+                    TABLE_POSITIONS[tableNumber];
+
+                return Math.hypot(
+                    x - table.x,
+                    z - table.z
+                ) < 2;
+
+            }
+        );
+
+
+    if(
+        Math.abs(
+            x - COUNTER.x
+        ) < 2 &&
+        Math.abs(
+            z - COUNTER.z
+        ) < 2
+    ){
+
+        document.getElementById(
+            "telemetry-location"
+        ).textContent =
+            "COUNTER";
+
+    }
+    else if(nearbyTable){
+
+        document.getElementById(
+            "telemetry-location"
+        ).textContent =
+            "TABLE " +
+            nearbyTable;
+
+    }
+    else{
+
+        document.getElementById(
+            "telemetry-location"
+        ).textContent =
+            "NAVIGATION";
+
+    }
+}
+
+
+/* =========================================================
+   WALKING ANIMATION
+========================================================= */
+
+let walkTime = 0;
+
+function animateWalking(){
+
+    walkTime +=
+        .12;
+
+
+    const swing =
+        Math.sin(
+            walkTime
+        ) *
+        .25;
+
+
+    if(
+        robotParts.leftLeg
+    ){
+
+        robotParts.leftLeg.rotation.x =
+            swing;
+
+    }
+
+
+    if(
+        robotParts.rightLeg
+    ){
+
+        robotParts.rightLeg.rotation.x =
+            -swing;
+
+    }
+
+
+    if(
+        robotParts.leftArm
+    ){
+
+        robotParts.leftArm.rotation.x =
+            -swing * .8;
+
+    }
+
+
+    if(
+        robotParts.rightArm
+    ){
+
+        robotParts.rightArm.rotation.x =
+            swing * .8;
+
+    }
+}
+
+
+/* =========================================================
+   SMOOTH ROTATION
+========================================================= */
+
+function smoothAngle(
+    current,
+    target,
+    amount
+){
+
+    let difference =
+        target -
+        current;
+
+
+    while(
+        difference > Math.PI
+    ){
+
+        difference -=
+            Math.PI * 2;
+
+    }
+
+
+    while(
+        difference < -Math.PI
+    ){
+
+        difference +=
+            Math.PI * 2;
+
+    }
+
+
+    return current +
+        difference *
+        Math.min(
+            amount,
+            1
+        );
+}
+
+
+/* =========================================================
+   PIPELINE UI
+========================================================= */
+
+function setPipeline(
+    number
+){
+
+    for(
+        let i=1;
+        i<=8;
+        i++
+    ){
+
+        const item =
+            document.getElementById(
+                "p" + i
+            );
+
+
+        item.classList.remove(
+            "active"
+        );
+
+        item.classList.remove(
+            "done"
+        );
+
+
+        if(
+            i < number
+        ){
+
+            item.classList.add(
+                "done"
+            );
+
+        }
+        else if(
+            i === number
+        ){
+
+            item.classList.add(
+                "active"
+            );
+
+        }
+
+    }
+}
+
+
+/* =========================================================
+   STATE UI
+========================================================= */
+
+function setState(
+    newState
+){
+
+    state =
+        newState;
+
+
+    document.getElementById(
+        "robot-state"
+    ).textContent =
+        newState;
+
+
+    document.getElementById(
+        "telemetry-state"
+    ).textContent =
+        newState;
+
+
+    document.getElementById(
+        "system-status"
+    ).textContent =
+        newState;
+}
+
+
+/* =========================================================
+   BATTERY
+========================================================= */
+
+function updateBattery(){
+
+    const value =
+        Math.max(
+            0,
+            Math.round(
+                battery
+            )
+        );
+
+
+    document.getElementById(
+        "telemetry-battery"
+    ).textContent =
+        value +
+        "%";
+
+
+    document.getElementById(
+        "battery-fill"
+    ).style.width =
+        value +
+        "%";
+}
+
+
+/* =========================================================
+   CAMERA FOLLOW
+========================================================= */
+
+function toggleFollow(){
+
+    followCamera =
+        !followCamera;
+
+
+    addLog(
+        "CAMERA",
+        followCamera
+            ? "Robot follow camera enabled."
+            : "Robot follow camera disabled.",
+        "success"
+    );
+}
+
+
+function updateCamera(
+    delta
+){
+
+    if(
+        !followCamera
+    ){
+
+        return;
+
+    }
+
+
+    const desired =
+        new THREE.Vector3(
+            robot.position.x + 8,
+            robot.position.y + 8,
+            robot.position.z + 10
+        );
+
+
+    camera.position.lerp(
+        desired,
+        delta * 2
+    );
+
+
+    const target =
+        new THREE.Vector3(
+            robot.position.x,
+            4,
+            robot.position.z
+        );
+
+
+    controls.target.lerp(
+        target,
+        delta * 3
+    );
+}
+
+
+/* =========================================================
+   EVENT LOG
+========================================================= */
+
+function addLog(
+    category,
+    message,
+    type=""
+){
+
+    const log =
+        document.getElementById(
+            "event-log"
+        );
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.className =
+        "log " +
+        type;
+
+
+    const time =
+        new Date()
+            .toLocaleTimeString(
+                [],
+                {
+                    hour:"2-digit",
+                    minute:"2-digit",
+                    second:"2-digit"
+                }
+            );
+
+
+    div.innerHTML =
+        "[" +
+        time +
+        "] <b>" +
+        category +
+        "</b> " +
+        message;
+
+
+    log.appendChild(
+        div
+    );
+
+
+    log.scrollTop =
+        log.scrollHeight;
+}
+
+
+function clearLog(){
+
+    document.getElementById(
+        "event-log"
+    ).innerHTML =
+        "";
+}
+
+
+/* =========================================================
+   ANIMATION LOOP
+========================================================= */
+
+function animate(
+    now=performance.now()
+){
+
+    requestAnimationFrame(
+        animate
+    );
+
+
+    const delta =
+        Math.min(
+            (now-lastTime)/1000,
+            .05
+        );
+
+
+    lastTime =
+        now;
+
+
+    /*
+        ACTUAL NAVIGATION
+    */
+
+    updateNavigation(
+        delta
+    );
+
+    publishSimulationPosition(now);
+
+
+    /*
+        Battery.
+    */
+
+    updateBattery();
+
+
+    /*
+        Sensor rotation.
+    */
+
+    if(
+        robotParts.sensor
+    ){
+
+        robotParts.sensor.rotation.y +=
+            delta * 2.5;
+
+    }
+
+
+    /*
+        Chest light.
+    */
+
+    if(
+        robotParts.chest
+    ){
+
+        robotParts.chest.material
+            .emissiveIntensity =
+            2 +
+            Math.sin(
+                now*.005
+            )*.7;
+
+    }
+
+
+    /*
+        Camera.
+    */
+
+    updateCamera(
+        delta
+    );
+
+
+    controls.update();
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+}
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+function resize(){
+
+    camera.aspect =
+        window.innerWidth /
+        window.innerHeight;
+
+
+    camera.updateProjectionMatrix();
+
+
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function hideLoading(){
+
+    const loader =
+        document.getElementById(
+            "loading"
+        );
+
+
+    setTimeout(
+        ()=>{
+
+            loader.style.opacity =
+                "0";
+
+
+            setTimeout(
+                ()=>{
+
+                    loader.style.display =
+                        "none";
+
+                },
+                500
+            );
+
+        },
+        700
+    );
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+init();
+
+</script>
+
+</body>
+</html>

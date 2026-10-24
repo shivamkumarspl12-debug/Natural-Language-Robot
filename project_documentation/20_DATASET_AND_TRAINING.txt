@@ -1,0 +1,44 @@
+20 - DATASET AND TRAINING
+
+Purpose
+Inventory the available instruction and CALVIN-derived data, explain preparation scripts, and distinguish datasets from trained models.
+
+CSV files in data\
+- instruction_actions.csv: 100 data rows; id, instruction, object, color, target, actions.
+- train.csv: 80 data rows; same basic pick/place labels.
+- test.csv: 20 data rows; same basic labels.
+- gold_evaluation.csv: 20 data rows; adds expected_decomposition to expected object/color/target/actions.
+Counts were checked from file line counts with headers excluded.
+
+Restaurant instruction data
+- restaurant_train.csv: 80 synthetic restaurant delivery instructions.
+- restaurant_test.csv: 20 synthetic held-out instructions; the split is deterministic and stratified across valid, invalid-table, and missing-destination cases.
+- restaurant_gold_evaluation.csv: 20 separately authored examples with expected parsed orders and per-unit delivery task steps.
+- These files label delivery intent, validation outcome, table destinations, item names, and quantities. They cover the local parser's restaurant vocabulary, single- and multi-table requests, and destination validation. They are intended for parser evaluation and future development, not model-training claims; the live app does not train on or load these CSVs.
+- Regenerate them from the project root with `.\.venv\Scripts\python.exe restaurant_dataset_generator.py`. The generator uses a fixed seed for the train/test split.
+
+Root JSON datasets
+- robot_dataset.json: 100 records generated synthetically by dataset_generator.py. Records include natural-language pick/place prompt, object/color/target positions, action list, gripper states, and simulated execution/failure fields.
+- train.json: 80 records; test.json: 20 records, split from robot_dataset.json by split_dataset.py with random seed 42 and fixed 80/20 sizes.
+- datasets\combined\calvin_training_9.json: 9 language records created by extract_calvin_training.py.
+- combined_robot_dataset.json, standardized_robot_dataset.json, unified_robot_dataset.json, unified_robot_dataset_116.json, and unified_robot_dataset_117.json are intermediate/final data products. Observed record counts were 107, 107, 107, 116, and 116 respectively. The file named unified_robot_dataset_117.json contains 116 records; its name and verification script's expected count of 117 do not match actual content.
+- dataset_verification.txt records 116 total entries (100 CUSTOM and 16 CALVIN in that snapshot). This is a saved report, not a new training/evaluation run.
+
+Data preparation/evaluation code
+- dataset_generator.py creates randomized synthetic robotic pick/place data.
+- split_dataset.py and src\dataset_split.py split CSV/JSON datasets.
+- merge_datasets.py, standardize_dataset.py, merge_117_dataset.py, fix_dataset_ids.py combine or normalize JSON datasets.
+- extract_calvin_100.py and extract_calvin_training.py read CALVIN language annotation data using NumPy and emit JSON.
+- dataset_analysis.py, quick_verify.py, verify_final_dataset.py, parser_dataset_test.py, batch_evaluation.py, src\evaluate_parser.py, and src\evaluate_decomposition.py inspect or score data/pipeline outputs.
+
+Training and model status
+NOT IMPLEMENTED: no training loop, trained weights/checkpoint, model-serving endpoint, or scikit-learn estimator use was found in the running app. The runtime primarily uses handwritten rules and optional Gemini API inference. Data files alone do not mean the parser was trained on them.
+
+External dataset and licensing
+datasets\calvin\calvin is a vendored CALVIN project checkout with README.md and LICENSE; its README advertises MIT licensing and describes a language-conditioned robot manipulation benchmark. The locally present debug archive and extracted annotations are not evidence that all full CALVIN splits are present. Confirm dataset-specific redistribution terms and attribution from the included upstream license/readme before publishing data. No licensing statement for the locally generated custom data was found.
+
+Dependencies and limitations
+CSV/JSON use Python standard library; CALVIN .npy parsing uses NumPy. Some utilities assume the working directory is the project root and use hard-coded filenames/record counts. The "117" file count mismatch is a known consistency issue. No end-to-end model training is connected to Flask.
+
+Testing
+Dataset utilities can overwrite their named output files; back up files before running. For parser/test suite evidence, run `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`. Do not cite stored dataset evaluation files as fresh live robot accuracy measurements.

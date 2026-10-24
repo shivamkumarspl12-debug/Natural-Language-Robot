@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#174c3b">
+    <title>Demo order | Verdant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customer.css') }}">
+    <script src="{{ url_for('static', filename='js/customer.js') }}" defer></script>
+</head>
+<body data-customer-page="status" data-table-number="{{ table_number or '' }}">
+    <div class="demo-ribbon"><span></span> SMART QR ORDERING *LIVE ORDER TRACKING</div>
+    {% set customer_page = 'status' %}{% include "customer/_customer_header.html" %}
+    <div class="customer-table-context page-width" id="customerTableContext" hidden>Ordering at <strong id="customerTableLabel"></strong><span>Table from QR URL · Demo only</span></div>
+    <main class="page-width customer-page status-page">
+        <section class="confirmation-hero" id="orderConfirmation" hidden>
+            <div class="confirmation-mark" aria-hidden="true">✓</div>
+            <p class="eyebrow">ORDER SAVED SUCCESSFULLY</p>
+            <h1>Thanks, <span id="confirmationName">friend</span><span class="heading-period">.</span></h1>
+            <p class="confirmation-copy">Your demo order is saved in Firestore. It has not been sent to restaurant staff or a physical robot.</p>
+            <span class="order-id-label">Your ORDER ID:</span><strong class="order-id" id="orderId">VER-DEMO</strong>
+        </section>
+        <section class="status-content" id="orderStatusContent" hidden>
+            <div class="status-topline"><div><p class="eyebrow">LIVE ORDER TRACKING</p><h2>Track Your Order</h2></div><span class="demo-status-pill"><i></i><span id="statusCurrent">Loading…</span></span></div>
+            <ol class="status-timeline" id="statusTimeline" aria-label="Demo order status timeline"></ol>
+            <p class="order-terminal-status" id="statusTerminal" role="status" hidden></p>
+            <p class="order-terminal-status" id="statusDelivered" role="status" hidden>Thank you for your order!</p>
+            <section class="customer-robot-tracking" id="customerRobotTracking" aria-labelledby="customerRobotTitle" hidden>
+                <div class="customer-robot-heading">
+                    <div><p class="eyebrow">SIMULATED DELIVERY</p><h2 id="customerRobotTitle">Your delivery robot</h2></div>
+                    <span class="robot-simulation-badge">SOFTWARE SIMULATION</span>
+                </div>
+                <p class="customer-robot-message" id="customerRobotMessage" role="status" aria-live="polite">Waiting for delivery updates…</p>
+                <div class="customer-robot-map" id="customerRobotMap" role="img" aria-label="Schematic robot route to your table">
+                    <span class="customer-robot-counter">KITCHEN</span>
+                    <span class="customer-robot-table" id="customerRobotTable"></span>
+                    <svg class="customer-robot-route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M12 50 H88"></path></svg>
+                    <span class="customer-robot-marker" id="customerRobotMarker" hidden aria-hidden="true">
+                        <svg viewBox="0 0 40 48" fill="none"><rect x="7" y="7" width="26" height="27" rx="10" fill="#205743"/><circle cx="15" cy="19" r="2" fill="#D9ED9D"/><circle cx="25" cy="19" r="2" fill="#D9ED9D"/><path d="M15 27h10M20 2v5M12 39l-3 7m19-7 3 7M7 29l-5 4m31-4 5 4" stroke="#205743" stroke-width="3" stroke-linecap="round"/></svg>
+                    </span>
+                    <span class="customer-robot-map-caption">Positions update from the admin simulation.</span>
+                </div>
+                <p class="customer-robot-updated" id="customerRobotUpdated">Waiting for a robot mission.</p>
+                <p class="customer-robot-error" id="customerRobotError" role="status" hidden></p>
+            </section>
+            <a class="button button-light" id="openRobotTracking" href="{{ url_for('customer_robot_tracking', table=table_number) }}">Open 3D robot tracking <span aria-hidden="true">→</span></a>
+            <div class="status-grid">
+                <section class="status-card"><p class="eyebrow">ORDER SUMMARY</p><div class="detail-line"><span>Customer Name</span><strong id="statusCustomer"></strong></div><div class="detail-line"><span>Table Number</span><strong id="statusTable">Not assigned</strong></div><div class="detail-line"><span>Order Status</span><strong class="text-forest" id="statusValue"></strong></div><div class="detail-line"><span>Order Time</span><strong id="statusCreated"></strong></div></section>
+                <section class="status-card"><p class="eyebrow">YOUR ORDER ITEMS</p><div id="statusItems"></div><div class="summary-divider"></div><div class="summary-total"><span>Total Amount</span><strong id="statusTotal"></strong></div></section>
+            </div>
+            <p class="demo-warning status-warning"><strong>Firestore-backed demo order</strong><span>Admin status updates appear here. Robot movement is a software simulation, not a physical robot or confirmed staff delivery.</span></p>
+            <div class="order-actions" id="orderActions" hidden><button class="button button-light" id="editOrderButton" type="button">Edit order</button><button class="button button-light" id="cancelOrderButton" type="button">Cancel order</button></div>
+            <section class="status-card order-edit-panel" id="orderEditPanel" hidden><p class="eyebrow">EDIT ORDER ITEMS</p><p class="field-hint">Set an item's quantity to 0 to remove it. Menu prices are recalculated by the server.</p><div id="editOrderItems"></div><button class="button button-dark" id="saveOrderChanges" type="button">Save changes</button></section>
+            <a class="button button-dark" href="{{ url_for('customer_menu', table=table_number) }}">Explore Our Menu <span aria-hidden="true">→</span></a>
+        </section>
+        <section class="empty-panel cart-empty" id="statusEmpty" hidden>
+            <span class="empty-icon" aria-hidden="true">⌁</span><p class="eyebrow">NOTHING TO TRACK</p><h2>No order found</h2><p>Open a saved order from My Orders, or place a QR order first.</p><a class="button button-dark" href="{{ url_for('customer_menu', table=table_number) }}">Browse the menu <span aria-hidden="true">→</span></a>
+        </section>
+    </main>
+    <footer class="customer-footer page-width"><span>verdant<span class="footer-leaf">.</span></span><span>Orders are saved in Firestore · Not sent to restaurant staff</span><a href="{{ url_for('customer_my_orders', table=table_number) }}">My Orders <span aria-hidden="true">→</span></a></footer>
+    <div class="customer-toast" id="customerToast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

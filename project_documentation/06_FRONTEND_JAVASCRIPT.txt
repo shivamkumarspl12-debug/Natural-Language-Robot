@@ -1,0 +1,41 @@
+06 - FRONTEND JAVASCRIPT
+
+Purpose
+Map browser logic for instruction submission, conversation updates, order status, speech, camera, and 3D simulation.
+
+Files
+- templates\index.html: primary dashboard logic is inline in a <script>.
+- templates\voice_camera.html: alternate page logic is inline in a <script>.
+- templates\robot_3d.html: inline scene construction, navigation, animations, logs, and pipeline-result loading.
+- static\js\script.js: a separate DOMContentLoaded/fetch implementation; it is not referenced by the inspected index.html and should be treated as legacy/unwired unless loaded elsewhere.
+
+Main dashboard request path
+1. executeInstruction() reads #instruction and posts JSON { "instruction": "..." } to /process with fetch.
+2. It disables the execute button while processing, reads JSON, updates the conversation/result/status, and calls robotReply().
+3. On success it stores the complete response as sessionStorage["pipelineResult"] only if overall_status is SUCCESS; otherwise it removes the old value.
+4. Successful non-empty order_plan causes the 3D iframe to refresh. Error responses render their returned robot_response and order plan where present.
+5. renderOrderPlan() formats table/item statuses for conversation/dashboard output.
+
+Voice-camera request path
+processUserMessage() classifies greeting/menu/price/thanks locally; order and command categories call sendToBackend(), which fetches /process and renders returned statuses. A catch displays a failure response. Typed input and recognized speech enter the same function, so backend robot responses are spoken once on that path.
+
+Browser APIs
+- Speech recognition: window.SpeechRecognition or window.webkitSpeechRecognition. Locale is en-IN, continuous=false, interimResults=false.
+- Speech output: window.speechSynthesis and SpeechSynthesisUtterance. Previous speech is cancelled before the next utterance; mute and stop controls call cancel().
+- Camera: navigator.mediaDevices.getUserMedia({video:true,audio:false}); stopCamera() stops all media tracks.
+- Simulation session data uses browser sessionStorage; it is not backend persistence.
+
+Security and UI behavior
+Conversation messages generally use textContent/innerText. Some formatted result cards build HTML and use escapeHTML() in the main dashboard. Keep untrusted content escaped if modifying rendering.
+
+Dependencies and status
+No frontend package manager/build setup was found. External Three.js scripts are included in robot_3d.html. Backend responses drive multi-order statuses; browser UI is not an execution authority.
+
+Limitations
+- Static js/script.js duplicates older request/result handling and can differ from the inline dashboard code.
+- Camera/customer detection has no image inference; see 14.
+- Browser API availability and autoplay/user-gesture policies vary.
+- The multi-order 3D scene is a visual replay of backend-confirmed response data, not robot telemetry.
+
+Testing
+Use browser developer tools and the manual procedure in 19_TESTING_AND_TEST_CASES.txt. Unit tests verify backend behavior, not JavaScript speech or microphone devices.

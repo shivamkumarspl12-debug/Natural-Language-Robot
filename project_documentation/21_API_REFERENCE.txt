@@ -1,0 +1,71 @@
+21 - API REFERENCE
+
+Purpose
+List every Flask route registered in app.py and document their inputs/outputs.
+
+1. GET /
+Purpose: render the main dashboard.
+Input: none.
+Output: HTML from templates\index.html.
+Success: HTTP 200 when the template is available.
+
+2. GET /simulation
+Purpose: render the Three.js simulation.
+Input: none.
+Output: HTML from templates\robot_3d.html.
+Success: HTTP 200 when the template is available. The page's Three.js scripts are loaded from external CDNs by the browser.
+
+3. GET /voice-camera
+Purpose: render the camera/voice page.
+Input: none.
+Output: HTML from templates\voice_camera.html.
+Success: HTTP 200 when the template is available.
+
+4. GET /health
+Purpose: return a simple application health response.
+Example shape:
+{"status":"healthy","project":"AI-Powered Natural Language Restaurant Service Robot","modules":{"instruction_parser":true,"task_decomposer":true,"action_generator":true,"robot_controller":true,"failure_detector":true,"camera":true,"voice":true,"3d_simulation":true}}
+Status: HTTP 200 from the route. The module flags are constants; they do not check actual readiness or browser/hardware availability.
+
+5. POST /process
+Content-Type: application/json
+Request body:
+{"instruction":"Deliver 2 water bottles to Table 1 and 3 burgers to Table 2."}
+
+Successful multi-order response has fields including:
+success, robot_response, instruction, parser, order_plan, orders, task_decomposition, action_sequence, robot_commands, robot_execution, checked_execution, failure_analysis, overall_status, and simulation.
+Each order includes order_id, table, items, status, and delivery_status. Each item includes name, quantity, delivered_quantity, status, and delivery_status.
+
+Validation examples
+Valid:
+POST /process {"instruction":"Deliver the water bottle to Table 4."}
+The software controller must return success before the response describes delivery as complete.
+
+Invalid:
+POST /process {"instruction":"Deliver water to Table 8."}
+HTTP 400 with error_code INVALID_TABLE, a message naming Table 8 and Tables 1-4, plus parser/order-plan data where available. Controller execution is prevented.
+
+Missing destination:
+POST /process {"instruction":"Deliver 2 water bottles."}
+HTTP 400 with error_code MISSING_DESTINATION and robot_response "Please specify a destination table number."
+
+Missing request/instruction:
+The route returns JSON with success=false and error/error_code/robot_response. A JSON object with no instruction produces MISSING_INSTRUCTION. No JSON body produces an error response. Malformed or wrong media-type requests can reach Flask's exception handling; exact framework response behavior should be verified for the installed version.
+
+Execution status nuance
+Validation failures normally return HTTP 400. Unexpected exceptions return HTTP 500. Multi-order robot failures/partial failures can return HTTP 200 with overall_status FAILED or PARTIAL_FAILURE; check `success`, `overall_status`, `order_plan`, and per-item delivery_status. A 200 alone is not proof of successful delivery.
+
+6. POST /detect-customer
+Content-Type: multipart/form-data
+Required file field: frame (JPEG camera frame, maximum 5 MB; dimensions at most 4096 by 4096).
+Purpose: decode a browser-captured camera frame and run OpenCV Zoo's pretrained MediaPipe person detector using OpenCV DNN.
+Successful response:
+{"success":true,"detected":false,"result":"No Customer Detected","detector":"MediaPipe person detector","detections":[],"frame_width":640,"frame_height":480}
+When people are detected, result is "Customer Detected" and detections contains pixel bounding boxes plus a 0-1 model confidence score. The score is not a guarantee of correctness.
+Errors return JSON with success=false and error; missing/invalid frames return HTTP 400, oversized uploads return HTTP 413, missing OpenCV/model files return HTTP 503, and inference errors return HTTP 500.
+
+Dependencies and limits
+Routes are defined in app.py. Browser clients use fetch POST /process and multipart POST /detect-customer. No auth, API versioning, rate limiting, CORS policy, persistent order endpoint, or physical robot endpoint was found.
+
+Testing
+Flask test-client behavior is checked in tests\test_parser.py, test_robot_responses.py, and test_multi_orders.py. Start server with `.\.venv\Scripts\python.exe app.py`; examples are also in 18_ERROR_HANDLING_AND_DEBUGGING.txt.

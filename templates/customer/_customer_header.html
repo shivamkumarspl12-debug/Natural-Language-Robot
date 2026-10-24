@@ -1,0 +1,20 @@
+<header class="customer-header">
+    <a class="brand" href="{{ url_for('customer_menu', table=table_number) }}" aria-label="Verdant menu">
+        <span class="brand-mark" aria-hidden="true">V</span>
+        <span class="brand-name">verdant<small>FRESH FOOD, HAPPY MOMENTS</small></span>
+    </a>
+    <button class="customer-menu-toggle" id="customerMenuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="customerNav">
+        <span></span><span></span><span></span>
+    </button>
+    <nav class="customer-nav" id="customerNav" aria-label="Customer navigation">
+        <a class="{% if customer_page == 'menu' %}nav-current{% endif %}" href="{{ url_for('customer_menu', table=table_number) }}"{% if customer_page == 'menu' %} aria-current="page"{% endif %}>Restaurant Menu</a>
+        <a class="{% if customer_page == 'cart' %}nav-current{% endif %}" href="{{ url_for('customer_cart', table=table_number) }}"{% if customer_page == 'cart' %} aria-current="page"{% endif %}>My Cart</a>
+        <a class="{% if customer_page == 'orders' %}nav-current{% endif %}" href="{{ url_for('customer_my_orders', table=table_number) }}"{% if customer_page == 'orders' %} aria-current="page"{% endif %}>My Orders</a>
+        <a class="{% if customer_page == 'status' %}nav-current{% endif %}" href="{{ url_for('customer_order_status', table=table_number) }}"{% if customer_page == 'status' %} aria-current="page"{% endif %}>Order Status</a>
+        <a href="{{ url_for('customer_robot_tracking', table=table_number) }}">3D Robot Tracking</a>
+    </nav>
+    <a class="header-cart" href="{{ url_for('customer_cart', table=table_number) }}" aria-label="View cart, 0 items">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l2 11h10l2-8H7M10 20h.01M17 20h.01"/></svg>
+        <span>Cart</span><strong data-cart-count>0</strong>
+    </a>
+</header>

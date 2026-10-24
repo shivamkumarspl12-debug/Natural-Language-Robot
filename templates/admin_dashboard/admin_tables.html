@@ -1,0 +1,38 @@
+{% extends "admin_dashboard/admin_base.html" %}
+
+{% block heading_actions %}<button class="button-secondary" type="button" data-toast="Table layout is a frontend preview.">＋ Add table</button>{% endblock %}
+
+{% block content %}
+<div class="table-summary">
+    <div class="panel table-summary-card"><span class="summary-icon summary-icon--green">▦</span><span><small>Supported tables</small><strong>{{ customer_tables|length }}</strong></span></div>
+    <div class="panel table-summary-card"><span class="summary-icon summary-icon--lime">▦</span><span><small>Working QR codes</small><strong>{{ customer_qrs|length }}</strong></span></div>
+    <div class="panel table-summary-card"><span class="summary-icon summary-icon--blue">⌂</span><span><small>Customer route</small><strong>/customer/menu</strong></span></div>
+    <div class="panel table-summary-card"><span class="summary-icon summary-icon--amber">●</span><span><small>QR destination</small><strong>{{ "Temporary public" if customer_qr_public_demo else "Local only" if customer_qr_local_demo else "Ready" if customer_qr_base_url else "Configure URL" }}</strong></span></div>
+</div>
+<div class="section-subheading"><div><h2>Customer ordering tables</h2><p>Each real QR code opens the menu for its assigned table.</p></div></div>
+{% if customer_qr_public_demo %}
+<div class="customer-qr-unavailable"><strong>Temporary public demo QR codes.</strong><span>Anyone with the current tunnel URL can open the customer menu while both demo processes are running. Customer order submissions can be saved in Firestore. Stop the tunnel and Flask when the demonstration ends.</span></div>
+{% elif customer_qr_local_demo %}
+<div class="customer-qr-unavailable"><strong>Local demo QR codes only.</strong><span>These codes point to 127.0.0.1 on this computer. They are visible and printable for a local demo, but will not open on a phone or another network. Do not use them for customers.</span></div>
+{% endif %}
+{% if not customer_qrs %}
+<div class="customer-qr-unavailable"><strong>Phone-ready QR codes are not configured.</strong><span>For a phone-ready code, configure a reachable HTTPS base URL and open this page over HTTPS. Local demo QR codes only work on this computer.</span></div>
+{% endif %}
+<div class="table-card-grid">
+    {% for table_number in customer_tables %}
+    {% set qr = customer_qr_by_table.get(table_number) %}
+    <article class="panel table-card" data-table-card data-qr-url="{{ qr.url if qr else '' }}" data-qr-image="{{ qr.image_data if qr else '' }}">
+        <div class="table-card__top"><span class="table-number">{{ "%02d"|format(table_number) }}</span>{% if qr %}<span class="status-chip status-available">QR ready</span>{% else %}<span class="status-chip status-pending">Setup required</span>{% endif %}</div>
+        {% if qr %}
+        <img class="table-qr-image" src="{{ qr.image_data }}" alt="Real customer menu QR code for Table {{ table_number }}" width="132" height="132">
+        <p class="table-order"><code>{{ qr.url }}</code></p>
+        {% else %}
+        <div class="table-qr-missing">No QR generated<br><small>Configure a reachable base URL</small></div>
+        <p class="table-order">Table {{ table_number }} customer menu</p>
+        {% endif %}
+        <div class="table-card__actions"><button class="button-secondary" type="button" data-view-qr="{{ table_number }}" {% if not qr %}disabled{% endif %}>View QR</button><button class="button-tertiary" type="button" data-print-qr="{{ table_number }}" {% if not qr %}disabled{% endif %}>Print QR</button></div>
+    </article>
+    {% endfor %}
+</div>
+<p class="customer-qr-note">{% if customer_qr_public_demo %}Temporary public demo only; these routes use the existing Firestore-backed checkout. Stop both demo processes afterward.{% elif customer_qr_local_demo %}Local-only demo codes point back to this computer and are not phone-ready.{% else %}Connect a phone to the same trusted Wi-Fi, scan its table's QR, and confirm the customer menu loads before printing codes for guests.{% endif %} These routes use the existing Flask checkout.</p>
+{% endblock %}
